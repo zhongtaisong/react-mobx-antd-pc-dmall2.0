@@ -1,0 +1,81 @@
+@import '~@com/index.less';
+
+.dm_SearchArea, .dm_SearchInput {
+    width: 100%;
+    background: #fff;
+}
+.dm_SearchArea {
+    height: 82px;
+    line-height: 82px;
+    border-bottom: 1px solid #e6e6e6;
+    .ant-row {
+        display: flex;
+        align-items: center;
+        .ant-col-16 {
+            display: flex;
+            padding-left: 30px;
+            >a {
+                display: block;
+                min-width: 90px;
+                text-align: center;
+                height: 100%;
+                padding: 0 15px;
+                font-size: 14px;
+                color: @font-color-555;
+                font-weight: bold;
+                transition: all .3s;
+                &:hover {
+                    color: @font-color-white;
+                    background-color: @main-color;
+                }
+                &.active {
+                    color: @font-color-white;
+                    background-color: @main-color;
+                }
+            }
+        }
+        .ant-col-4 {
+            display: flex;
+            justify-content: space-between;
+            &.logo {
+                cursor: pointer;
+            }
+            button {
+                i {                        
+                    font-size: 15px;
+                }
+            }
+            .search {
+                width: 46px;
+            }
+            .cart {
+                width: 120px;
+                display: flex;
+                align-items: center;
+                span {
+                    margin-left: 4px;
+                }
+            }
+            .ant-badge-count {
+                line-height: 19px;
+            }
+        }
+    }
+}
+.dm_SearchInput {
+    height: 74px;
+    .ant-row {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        .ant-input-search {
+            max-width: 500px;
+            button {
+                i {                        
+                    font-size: 15px;
+                }
+            }
+        }
+    }
+}

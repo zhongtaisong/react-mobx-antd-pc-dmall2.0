@@ -1,0 +1,80 @@
+@import '~@com/index.less';
+
+.dm_recommend {
+    // display: flex;
+    margin: 20px 0 30px;
+    // width: 100%;
+    // overflow: hidden;
+    // justify-content: space-between;
+    .slick-slider {
+        .slick-arrow {
+            width: 36px;
+            height: 36px;
+            &::before {
+                font-size: 36px;
+                color: #d6d6d6;
+            }
+            &.slick-prev {
+                left: -46px;
+            }
+            &.slick-next {
+                right: -46px;
+            }
+        }
+        .slick-list {
+            width: 99%;
+            margin: 0 auto;
+            .ant-col-8 {
+                height: 126px;
+                max-height: 126px;
+                box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+                border: solid 1px #e6e6e6;
+                background-position: center;
+                position: relative;
+                background: #fff;
+                cursor: pointer;
+                overflow: hidden;
+                text-align: center;
+                display: flex !important;
+                justify-content: center;
+                &:hover {
+                    .description {
+                        color: @font-color-blue;
+                    }
+                }
+                >img {
+                    height: 120px;
+                    opacity: 0.2;
+                }
+                >div {
+                    width: 100%;
+                    position: absolute;
+                    left: 50%;
+                    top: 8%;
+                    transform: translateX(-50%);
+                    span {
+                        display: block;
+                        margin: 0 auto;
+                        overflow: hidden;
+                    }
+                    .title {
+                        width: 80%;
+                        font-size: 20px;
+                        color: @font-color-blue;
+                        padding: 14px 0;
+                        white-space: nowrap;
+                    }
+                    .description {
+                        width: 90%;
+                        line-height: 1.6rem;
+                        max-height: 38px;
+                        overflow: hidden;
+                        &:hover {
+                            color: @font-color-blue;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

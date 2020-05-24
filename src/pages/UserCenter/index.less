@@ -1,0 +1,70 @@
+@import '~@com/index.less';
+
+.dm_UserCenter {
+    height: 100%;
+    background: #fff;
+    margin-bottom: 30px !important;
+    border: solid 1px #e6e6e6;
+    padding: 10px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+    .dm_PersonalInformation, .dm_LoginPassword {
+        .ant-row {
+            .ant-col-12 {
+                padding: 4px 0;
+                .ant-form-item {
+                    display: flex;
+                    &.ant-form-item-with-help {
+                        margin-bottom: 0;
+                    }
+                    .ant-form-item-label {
+                        width: 90px;
+                        label {
+                            font-size: 12px;
+                        }
+                    }
+                    .ant-form-item-control-wrapper {
+                        flex: 1;
+                        .ant-form-item-children {
+                            display: block;
+                            .ant-input {
+                                font-size: 12px;
+                            }
+                            .ant-radio-group.ant-radio-group-outline {
+                                margin-top: -5px;
+                            }
+                        }
+                    }
+                }
+            }
+            &.submit {
+                .ant-col-24 {
+                    text-align: center;
+                    padding: 10px 0;
+                    .ant-btn {
+                        width: 104px;
+                    }
+                }
+            }
+        }
+    }
+    .operation_btn {
+        a {
+            padding: 0 4px;
+            &:hover {
+                color: @font-color-blue;
+            }
+        }
+    }
+    .table_title {
+        display: flex;
+        padding: 0px 0 6px 10px;
+        border-bottom: 1px solid #f0f0f0;
+        h4 {
+            margin-bottom: 0;
+        }
+        >.ant-select {
+            min-width: 12%;
+            margin-left: 20px;
+        }
+    }
+}

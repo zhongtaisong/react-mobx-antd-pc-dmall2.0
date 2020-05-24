@@ -1,0 +1,60 @@
+.dm_OrderDetails {
+    .table_title {
+        display: flex;
+        align-items: center;
+        padding: 0px 0 6px 10px;
+        h4 {
+            margin-bottom: 0;
+        }
+        div {
+            display: flex;
+            padding: 10px 0;
+            i {
+                font-style: normal;
+                font-weight: bold;
+                padding: 0 4px;
+            }
+        }
+    }
+    .imgs_style {
+        width: 100%;
+        cursor: pointer;
+    }
+    .title_style {
+        >p {
+            margin: 0;
+            cursor: pointer;
+            &:hover {
+                color: #40A9FF;
+                text-decoration: underline;
+            }
+        }
+        >span {
+            font-size: 12px;
+            color: #999;
+        }
+    }
+    .orider_details {
+        .ant-col-12 {
+            padding: 10px 30px;
+            dl {
+                dt {
+                    font-size: 14px;
+                    padding: 10px 0;
+                    font-weight: bold;
+                }
+                dd {
+                    display: flex;
+                    justify-content: flex-start;
+                    line-height: 24px;
+                    div {
+                        width: 72px;
+                    }
+                    p {
+                        flex: 1;
+                    }
+                }
+            }
+        }
+    }
+}

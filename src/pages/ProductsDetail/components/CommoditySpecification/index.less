@@ -1,0 +1,105 @@
+.CommoditySpecification {
+    min-height: 434px;
+    background: #fff;
+    margin-bottom: 20px;
+    border: solid 1px #e6e6e6;
+    padding: 16px 20px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+    >.ant-row {
+        .ant-col-8 {
+            height: 100%;
+            dl {
+                dt {
+                    cursor: pointer;
+                    text-align: center;
+                    img {
+                        width: 90%;
+                    }
+                }
+                dd {
+                    display: flex;
+                    width: 100%;
+                    >div {
+                        width: 20%;
+                        border: 1px solid #fff;
+                        cursor: pointer;
+                        background: #fff;
+                        padding: 6px;
+                        img {
+                            width: 100%;
+                        }
+                        &:hover {
+                            border-color: #e8e8e8;
+                        }
+                        &.active {
+                            border-color: #e8e8e8;
+                        }
+                    }
+                }
+            }
+        }
+        .ant-col-16 {
+            height: 100%;
+            padding: 12px 20px 0;
+            >.ant-typography {
+                margin-bottom: 4px;
+            }
+            >h4 {
+                max-height: 56px;
+                overflow: hidden;
+            }
+            >h3 {
+                line-height: 1.4rem;
+            }
+            .price {
+                display: flex;
+                align-items: center;
+                padding: 10px 0;
+                >h3 {
+                    display: inline-block;
+                    color: #1890ff;
+                    margin-bottom: 0;
+                }
+            }
+            .Number {
+                display: flex;
+                align-items: center;
+            }
+            .Specifications {
+                .ant-col-2 {
+                    padding: 10px 0;
+                }
+                .ant-col-22 {
+                    .ant-col-11 {
+                        border: 1px solid #dadada;
+                        cursor: pointer;
+                        margin-bottom: 10px;
+                        .ant-typography {
+                            font-size: 12px;
+                            margin-bottom: 0;
+                            padding: 10px;
+                        }
+                        &:hover {
+                            border-color: #1890ff;
+                            .ant-typography {
+                                color: #1890ff;
+                            }
+                        }
+                        &.active {
+                            border-color: #1890ff;
+                            .ant-typography {
+                                color: #1890ff;
+                            }
+                        }
+                    }
+                }
+            }
+            .handleButton {
+                padding: 28px 0;
+                .ant-btn {
+                    margin-right: 10px;
+                }
+            }
+        }
+    }
+}

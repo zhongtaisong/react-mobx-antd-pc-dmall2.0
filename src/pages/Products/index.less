@@ -1,0 +1,114 @@
+@import '~@com/index.less';
+
+.dm_Products {
+    padding-bottom: 30px;
+    background: #fff;
+    .filter_title {
+        width: 100%;
+        border-bottom: 1px dashed #eee;
+        display: flex;
+        padding: 10px;
+        h1 {
+            font-size: 14px;
+            font-weight: bold;
+            color: inherit;
+        }
+        span {
+            padding-left: 20px;
+        }
+    }
+    .filter_current {
+        border-bottom: 1px dashed #eee;
+        padding: 6px 10px;
+        span, p {
+            cursor: pointer;
+            margin-top: 3px;
+            margin-bottom: 3px;
+        }
+        p {
+            display: inline-block;
+            &:hover {
+                color: @font-color-blue;
+            }
+        }
+    }
+    .filter_condition {
+        padding: 0 10px;
+        >.ant-row {
+            border-bottom: 1px dashed #eee;
+            padding: 6px 0;
+            .ant-col-2 {
+                color: #999;
+                line-height: 1.6rem;
+            }
+            .ant-col-22 {
+                span {
+                    display: inline-block;
+                    margin-right: 30px;
+                    line-height: 1.6rem;
+                    &:hover {
+                        cursor: pointer;
+                        color: @font-color-blue;
+                    }
+                }
+            }
+        }
+    }
+    .ant-row.all_products {
+        width: 100%;
+        min-height: 712px;
+        .ant-col-6 {
+            width: calc(100% / 5);
+            padding: 1%;
+            border: 1px solid #fff;
+            &:hover {
+                box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+                border-color: rgba(0, 0, 0, 0.1);
+            }
+            .ant-card {
+                .ant-card-cover {
+                    width: 100%;
+                    margin: 0 auto;
+                    cursor: pointer;
+                }
+                .ant-card-body {
+                    padding: 10px;
+                    .ant-card-meta-title {
+                        margin-bottom: 0;
+                        .ant-typography {
+                            margin-bottom: 0;
+                            color: #1890ff;
+                        }
+                    }
+                    .ant-card-meta-description {
+                        >a {
+                            display: inline-block;
+                            color: #808080;
+                            font-size: 12px;
+                            height: 40px;
+                            max-height: 40px;
+                            overflow: hidden;
+                        }
+                        &:hover {
+                            >a {
+                                color: #1890ff;
+                                // text-decoration: underline;
+                            }
+                        }
+                    }
+                }
+                .ant-card-actions {
+                    background: none;
+                    border: 0;
+                    >li {
+                        border: 0;
+                    }
+                }
+            }
+        }
+    }
+    .ant-pagination {
+        text-align: right;
+        padding: 10px 0;
+    }
+}
