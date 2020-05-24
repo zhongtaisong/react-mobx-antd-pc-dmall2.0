@@ -8,6 +8,8 @@
 
 >  如果对您对此项目有兴趣，可以点 "Star" 支持一下 谢谢！ ^_^
 
+>  或者您可以 "follow" 一下，我会不断开源更多的有趣的项目
+
 >  有问题请直接提 Issues，或者您发现问题并有非常好的解决方案，欢迎 PR 👍
 
 >  传送门：[h5](https://github.com/zhong-tsong/react-h5-dmall)  、 [微信小程序](https://github.com/zhong-tsong/taro-wx-dmall)
@@ -49,4 +51,19 @@ npm run start (需运行express-server-dmall服务)
 - [x] 购物车 -- 完成
 - [x] 商品详情 -- 完成
 - [x] 商城后台 -- 完成
+
+
+# 部分截图
+
+
+<img src="https://github.com/zhong-tsong/react-pc-dmall/blob/master/preview/home.png"/>
+
+<img src="https://github.com/zhong-tsong/react-pc-dmall/blob/master/preview/products.png"/>
+
+<img src="https://github.com/zhong-tsong/react-pc-dmall/blob/master/preview/login.png"/>
+
+
+# License
+
+[MIT](https://github.com/zhong-tsong/react-pc-dmall/blob/master/LICENSE)
 
