@@ -131,7 +131,7 @@ class MyShoppingCart extends React.Component {
                     footer={ this.footer }
                     bordered
                     rowSelection={ this.rowSelection } 
-                    rowKey={ (record) => record.pid }
+                    rowKey={ (record) => record.id }
                 />
             </div>
         );
