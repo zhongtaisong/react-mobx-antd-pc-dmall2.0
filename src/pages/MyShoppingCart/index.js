@@ -18,7 +18,8 @@ class MyShoppingCart extends React.Component {
         this.state = {
             selectedRowKeys: [],
             selectedRows: [],
-            cartId: []
+            cartId: [],
+            pidArr: []
         };
     }
 
@@ -40,12 +41,13 @@ class MyShoppingCart extends React.Component {
             });
             state.setPriceList01( sRows );
             let data = selectedRows.map(item => {
-                if( selectedRowKeys.includes(item.pid) ){
+                if( selectedRowKeys.includes(item.id) ){
                     return item.id;
                 }
             });
             this.setState({
-                cartId: data
+                cartId: data,
+                pidArr: selectedRows.map(item => item.pid)
             });
         }
     };
@@ -77,12 +79,12 @@ class MyShoppingCart extends React.Component {
 
     // 结算
     handleGoPay = () => {
-        const { selectedRows, selectedRowKeys } = this.state;
+        const { selectedRows, pidArr } = this.state;
         if( selectedRows.length ){
             this.props.history.push({
                 pathname: '/views/products/cart/settlement',
                 state: {
-                    id: selectedRowKeys,
+                    id: pidArr,
                     type: 'cart'
                 }
             });

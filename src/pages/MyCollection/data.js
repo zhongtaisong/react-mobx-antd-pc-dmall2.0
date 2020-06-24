@@ -31,7 +31,7 @@ export const columns = [
         width: '44%',
         render: (text, record, index) => {
             return (
-                <Link className='title_style' to={'/views/products/detail/' + record.id} title={ text }>{ text }</Link>
+                <Link className='title_style' to={'/views/products/detail/' + record.pid} title={ text }>{ text }</Link>
             );
         }
     },

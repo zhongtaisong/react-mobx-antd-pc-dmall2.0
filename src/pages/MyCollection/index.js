@@ -36,7 +36,7 @@ class MyCollection extends React.Component {
                 selectedRows
             }));
             let data = selectedRows.map(item => {
-                if( selectedRowKeys.includes(item.pid) ){
+                if( selectedRowKeys.includes(item.id) ){
                     return item.id;
                 }
             });
