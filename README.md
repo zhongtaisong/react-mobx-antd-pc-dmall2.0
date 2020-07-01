@@ -12,7 +12,7 @@
 
 >  有问题请直接提 Issues，或者您发现问题并有非常好的解决方案，欢迎 PR 👍
 
->  传送门：[react-h5](https://github.com/zhong-tsong/react-mobx-antd-mobile-pc-dmall2.0)  、 [taro-微信小程序](https://github.com/zhong-tsong/taro2-mobx-taro-ui-wx-dmall2.0)  、 [vue-pc](https://github.com/zhong-tsong/vue3-vuex-element-ui-pc-dmall2.0)  、 [web服务](https://github.com/zhong-tsong/nodejs-express-server-dmall2.0)
+>  传送门：[react-h5](https://github.com/zhong-tsong/react-mobx-antd-mobile-h5-dmall2.0)  、 [taro-微信小程序](https://github.com/zhong-tsong/taro2-mobx-taro-ui-wx-dmall2.0)  、 [vue-pc](https://github.com/zhong-tsong/vue3-vuex-element-ui-pc-dmall2.0)  、 [web服务](https://github.com/zhong-tsong/nodejs-express-server-dmall2.0)
 
 
 
