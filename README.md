@@ -1,7 +1,7 @@
 
 # 关于
 
-此项目是 react + antd 构建的拥有前台产品展示页、后台管理系统的pc电商平台，所有的数据都是从[web服务器](https://github.com/zhong-tsong/express-server-dmall) 实时获取的真实数据，具有真实的登录注册、商品搜索/筛选、购物车、后台管理系统等功能。
+此项目是 react + antd 构建的拥有前台产品展示页、后台管理系统的pc电商平台，所有的数据都是从[web服务器](https://github.com/zhong-tsong/nodejs-express-server-dmall2.0) 实时获取的真实数据，具有真实的登录注册、商品搜索/筛选、购物车、后台管理系统等功能。
 
 
 # 说明
@@ -12,7 +12,7 @@
 
 >  有问题请直接提 Issues，或者您发现问题并有非常好的解决方案，欢迎 PR 👍
 
->  传送门：[h5](https://github.com/zhong-tsong/react-h5-dmall)  、 [微信小程序](https://github.com/zhong-tsong/taro-wx-dmall)
+>  传送门：[react-h5](https://github.com/zhong-tsong/react-mobx-antd-mobile-pc-dmall2.0)  、 [taro-微信小程序](https://github.com/zhong-tsong/taro2-mobx-taro-ui-wx-dmall2.0)  、 [vue-pc](https://github.com/zhong-tsong/vue3-vuex-element-ui-pc-dmall2.0)  、 [web服务](https://github.com/zhong-tsong/nodejs-express-server-dmall2.0)
 
 
 
@@ -25,9 +25,9 @@ react + mobx + react-router + less + axios + antd
 
 
 ```
-git clone https://github.com/zhong-tsong/react-pc-dmall  
+git clone https://github.com/zhong-tsong/react-mobx-antd-pc-dmall2.0  
 
-cd react-pc-dmall  
+cd react-mobx-antd-pc-dmall2.0  
 
 npm install 或 yarn
 
@@ -56,14 +56,14 @@ npm run start (需运行express-server-dmall服务)
 # 部分截图
 
 
-<img src="https://github.com/zhong-tsong/react-pc-dmall/blob/master/preview/home.png"/>
+<img src="https://github.com/zhong-tsong/react-mobx-antd-pc-dmall2.0/blob/master/preview/home.png"/>
 
-<img src="https://github.com/zhong-tsong/react-pc-dmall/blob/master/preview/products.png"/>
+<img src="https://github.com/zhong-tsong/react-mobx-antd-pc-dmall2.0/blob/master/preview/products.png"/>
 
-<img src="https://github.com/zhong-tsong/react-pc-dmall/blob/master/preview/login.png"/>
+<img src="https://github.com/zhong-tsong/react-mobx-antd-pc-dmall2.0/blob/master/preview/login.png"/>
 
 
 # License
 
-[MIT](https://github.com/zhong-tsong/react-pc-dmall/blob/master/LICENSE)
+[MIT](https://github.com/zhong-tsong/react-mobx-antd-pc-dmall2.0/blob/master/LICENSE)
 
