@@ -83,7 +83,7 @@
   },
   "scripts": {
     "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
+    "build": "react-app-rewired build -max_old_space_size=4090",
     "test": "react-app-rewired test"
   },
   "eslintConfig": {
@@ -153,5 +153,7 @@
     "presets": [
       "react-app"
     ]
+  },
+  "devDependencies": {
   }
 }

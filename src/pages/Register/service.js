@@ -10,7 +10,7 @@ class Service {
             }).catch(err => {
                 console.log(err);
             });
-        })
+        });
     }
 }
 

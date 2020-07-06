@@ -21,7 +21,7 @@
         "no-const-assign": "error",
         "no-var": "off",
         "no-spaced-func": "error",
-        "semi": ["error", "always"],
+        "semi": "warn",
         "eqeqeq": "off"
     }
 }
