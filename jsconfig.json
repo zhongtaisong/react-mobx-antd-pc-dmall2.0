@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "experimentalDecorators": true,
+        "paths": {
+            "@utils": ["./src/utils"],
+            "@utils/*": ["./src/utils/*"],
+            "@config": ["./src/config"],
+            "@config/*": ["./src/config/*"],
+            "@pages": ["./src/pages"],
+            "@pages/*": ["./src/pages/*"],
+            "@router": ["./src/router"],
+            "@router/*": ["./src/router/*"],
+            "@com": ["./src/components"],
+            "@com/*": ["./src/components/*"],
+            "@img": ["./src/img"],
+            "@img/*": ["./src/img/*"],
+            "@axios": ["./src/axios"],
+            "@axios/*": ["./src/axios/*"],
+            "@store": ["./src/store"],
+            "@store/*": ["./src/store/*"]
+        }
+    },
+    "exclude": ["node_modules"]
+}

@@ -1,5 +1,11 @@
-const { override, fixBabelImports, addLessLoader, addWebpackAlias, addDecoratorsLegacy, useEslintRc } = require('customize-cra');
+const { 
+    override, fixBabelImports, addLessLoader,
+    addWebpackAlias, addDecoratorsLegacy, addWebpackPlugin 
+} = require('customize-cra');
 const path = require('path');
+const webpack = require('webpack');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
 module.exports = override(
     fixBabelImports('import', {
         libraryName: 'antd',
@@ -7,10 +13,8 @@ module.exports = override(
         style: true
     }),
     addLessLoader({
-        lessOptions: {
-            javascriptEnabled: true,
-            modifyVars: { '@primary-color': '#1890ff' }
-        }
+        javascriptEnabled: true,
+        modifyVars: { '@primary-color': '#1890ff' }
     }),
     addWebpackAlias({
         '@utils': path.resolve(__dirname, 'src/utils'),
@@ -22,5 +26,10 @@ module.exports = override(
         '@axios': path.resolve(__dirname, 'src/axios'),
         '@store': path.resolve(__dirname, 'src/store')
     }),
-    addDecoratorsLegacy()
+    addDecoratorsLegacy(),
+    addWebpackPlugin(new webpack.ProgressPlugin()),
+    addWebpackPlugin(new MiniCssExtractPlugin({
+        filename: 'static/css/[name].[contenthash:8].css',
+        chunkFilename: 'static/css/[name].[contenthash:8].chunk.css',
+    })),
 );
