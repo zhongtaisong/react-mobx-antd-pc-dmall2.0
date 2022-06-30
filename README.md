@@ -1,70 +1,69 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# 关于
 
-## Available Scripts
+此项目是 react + antd 构建的拥有前台产品展示页、后台管理系统的pc电商平台，所有的数据都是从[web服务器](https://github.com/zhong-tsong/nodejs-express-server-dmall2.0) 实时获取的真实数据，具有真实的登录注册、商品搜索/筛选、购物车、后台管理系统等功能。
 
-In the project directory, you can run:
 
-### `npm start`
+# 说明
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+>  如果对您对此项目有兴趣，可以点 "Star" 支持一下 谢谢！ ^_^
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+>  或者您可以 "follow" 一下，我会不断开源更多的有趣的项目
 
-### `npm test`
+>  有问题请直接提 Issues，或者您发现问题并有非常好的解决方案，欢迎 PR 👍
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+>  传送门：[react-h5](https://github.com/zhong-tsong/react-mobx-antd-mobile-h5-dmall2.0)  、 [taro-微信小程序](https://github.com/zhong-tsong/taro2-mobx-taro-ui-wx-dmall2.0)  、 [vue-pc](https://github.com/zhong-tsong/vue3-vuex-element-ui-pc-dmall2.0)  、 [web服务](https://github.com/zhong-tsong/nodejs-express-server-dmall2.0)
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 技术栈
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+react + mobx + react-router + less + axios + antd
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## 项目运行
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```
+git clone https://github.com/zhong-tsong/react-mobx-antd-pc-dmall2.0  
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+cd react-mobx-antd-pc-dmall2.0  
 
-## Learn More
+npm install 或 yarn
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+npm run start (需运行express-server-dmall服务)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
+访问: http://localhost:3000
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```
 
-### Analyzing the Bundle Size
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+# 功能列表
 
-### Making a Progressive Web App
+- [x] 登录注册 -- 完成
+- [x] 商品搜索 -- 完成
+- [x] 商品筛选 -- 完成
+- [x] 网站留言 -- 完成
+- [x] 我的订单 -- 完成
+- [x] 商品收藏 -- 完成
+- [x] 用户中心 -- 完成
+- [x] 购物车 -- 完成
+- [x] 商品详情 -- 完成
+- [x] 商城后台 -- 完成
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-### Advanced Configuration
+# 部分截图
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-### Deployment
+<img src="https://github.com/zhong-tsong/react-mobx-antd-pc-dmall2.0/blob/master/preview/home.png"/>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+<img src="https://github.com/zhong-tsong/react-mobx-antd-pc-dmall2.0/blob/master/preview/products.png"/>
 
-### `npm run build` fails to minify
+<img src="https://github.com/zhong-tsong/react-mobx-antd-pc-dmall2.0/blob/master/preview/login.png"/>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+# License
+
+[MIT](https://github.com/zhong-tsong/react-mobx-antd-pc-dmall2.0/blob/master/LICENSE)
+

@@ -1,0 +1,52 @@
+@import '~@com/index.less';
+
+.dm_MyEvaluation {
+    height: 100%;
+    background: #fff;
+    margin-bottom: 30px !important;
+    border: solid 1px #e6e6e6;
+    padding: 20px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+    .table_title {
+        h4 {
+            margin-bottom: 0;
+        }
+        div {
+            width: 100%;
+            height: 1px;
+            background: @body-color;
+            margin: 6px 0;
+        }
+    }
+    .main_content {
+        min-height: 248px;
+        .ant-col-8 {
+            padding: 0 20px;
+            text-align: center;
+            border-right: 1px solid #f0f0f0;
+            >a {
+                width: 100%;
+                display: block;
+                padding-bottom: 10px;
+                >img {
+                    width: 60%;
+                    display: block;
+                    margin: 0 auto;
+                }
+                >span {
+                    line-height: 1.6rem;
+                }
+            }
+            >p {
+                font-weight: bold;
+                font-size: 14px;
+            }
+        }
+        .ant-col-16 {
+            padding: 0 26px;
+        }
+    }
+    .sbumit {
+        text-align: right;
+    }
+}

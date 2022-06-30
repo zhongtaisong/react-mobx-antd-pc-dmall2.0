@@ -1,0 +1,53 @@
+@import '~@com/index.less';
+
+.dm_SettlementPage {
+    height: 100%;
+    background: #fff;
+    margin-bottom: 30px !important;
+    border: solid 1px #e6e6e6;
+    padding: 20px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+    .table_title {
+        h4 {
+            margin-bottom: 0;
+        }
+        div {
+            width: 100%;
+            height: 1px;
+            background: #E8E8E8;
+            margin: 10px 0;
+        }
+    }
+    .imgs_style {
+        width: 100%;
+        cursor: pointer;
+    }
+    .pay_info {
+        width: 86%;
+        margin: 10px auto;
+        .ant-col-12 {
+            padding: 0 20px;
+            >div {
+                line-height: 2rem;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+                .pay_info_select {
+                    width: 100px;
+                    padding: 6px 0;
+                }
+            }
+            &.pay_money {
+                >div {
+                    display: flex;
+                    justify-content: flex-end;
+                    align-items: center;
+                    span {
+                        color: @font-color-blue;
+                        padding: 0 2px;
+                    }
+                }
+            }
+        }
+    }
+}

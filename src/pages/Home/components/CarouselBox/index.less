@@ -1,0 +1,45 @@
+@import '~@com/index.less';
+
+.dm_CarouselBox {
+    min-height: 440px;
+    border: solid 1px #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    .ant-carousel {
+        .slick-list {
+            .slick-slide {
+                img {
+                    width: 100%;
+                }
+            }
+        }
+        .slick-dots {
+            height: 28px;
+            display: flex !important;
+            align-items: center;
+            justify-content: flex-end;
+            text-align: right;
+            padding-right: 20px;
+            >li {
+                padding: 6px;
+                button {
+                    width: 12px;
+                    height: 12px;
+                    border-radius: 50%;
+                    background: #D6D6D6;
+                    opacity: 1;
+                    &:hover {
+                        background: #869791;
+                    }
+                    &:before {
+                        content: '' !important;
+                    }
+                }
+                &.slick-active {
+                    button {
+                        background: @bg-color-blue;
+                    }
+                }
+            }
+        }
+    }
+}

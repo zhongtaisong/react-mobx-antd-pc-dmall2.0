@@ -1,0 +1,43 @@
+.dm_ReceivingAddress {
+    .operation {
+        >a {
+            cursor: pointer;
+            padding: 0 4px;
+            &:hover {
+                color: #40A9FF;
+            }
+        }
+    }
+}
+.dm_ReceivingAddress_modal {
+    .ant-modal-body {
+        .ant-form {
+            .ant-col-12 {
+                .ant-form-item {
+                    display: flex;
+                    * {
+                        font-size: 12px;
+                    }
+                    .ant-form-item-label {
+                        width: 100px;
+                    }
+                    .ant-form-item-control-wrapper {
+                        flex: 1;
+                    }
+                }
+                &.radio {
+                    .ant-form-item-children {
+                        display: inline-block !important;
+                        .ant-radio-group.ant-radio-group-outline {
+                            display: flex;
+                            .ant-radio-wrapper {
+                                display: flex;
+                                align-items: center;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

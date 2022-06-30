@@ -1,0 +1,117 @@
+@import '~@com/index.less';
+
+.dm_HotThisWeek {
+    .title {
+        width: 100%;
+        height: 92px;
+        line-height: 92px;
+        background: #fff;
+        text-align: center;
+        font-size: 26px;
+        color: @font-color-blue;
+        border: solid 1px #e6e6e6;
+        border-left: 0 none;
+        border-right: 0 none;
+        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+    }
+    .hot_content {
+        margin: 30px 0 60px;
+        .slick-slider {
+            .slick-arrow {
+                width: 50px;
+                height: 50px;
+                &::before {
+                    font-size: 50px;
+                    color: #d6d6d6;
+                }
+                &.slick-prev {
+                    left: -50px;
+                }
+                &.slick-next {
+                    right: -50px;
+                }
+            }
+            .slick-dots {
+                bottom: -30px;
+                li {
+                    button {
+                        &:before {
+                            color: #D6D6D6;
+                            opacity: 1;
+                        }
+                    }
+                    &.slick-active {
+                        button {
+                            &:before {
+                                color: @font-color-blue;
+                            }
+                        }
+                    }
+                }
+            }
+            .slick-list {
+                width: 100%;
+                height: 100%;
+                .slick-track {
+                    height: 100%;
+                    display: flex;
+                    .slick-slide {
+                        margin: 0 10px;
+                        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+                        border-color: rgba(0, 0, 0, 0.1);
+                        >div {
+                            .ant-card {
+                                padding: 10px 16px;
+                                .ant-card-cover {
+                                    width: 100%;
+                                    margin: 0 auto;
+                                    cursor: pointer;
+                                }
+                                .ant-card-body {
+                                    padding: 10px 0;
+                                    .ant-card-meta-title {
+                                        margin-bottom: 0;
+                                        .ant-typography {
+                                            margin-bottom: 0;
+                                            color: #1890ff;
+                                        }
+                                    }
+                                    .ant-card-meta-description {
+                                        >a {
+                                            display: inline-block;
+                                            color: #808080;
+                                            font-size: 12px;
+                                            height: 56px;
+                                            max-height: 56px;
+                                            overflow: hidden;
+                                        }
+                                    }
+                                }
+                                .ant-card-actions {
+                                    background: none;
+                                    border: 0;
+                                    >li {
+                                        border: 0;
+                                    }
+                                }
+                            }
+                        }
+                        &:hover {
+                            >div {
+                                .ant-card {
+                                    .ant-card-body {
+                                        .ant-card-meta-description {
+                                            >a {
+                                                color: @font-color-blue;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

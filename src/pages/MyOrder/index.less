@@ -1,0 +1,68 @@
+.dm_MyOrder {
+    height: 100%;
+    background: #fff;
+    margin-bottom: 30px !important;
+    border: solid 1px #e6e6e6;
+    padding: 10px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+    .table_header {
+        .ant-table-placeholder {
+            display: none;
+        }
+        padding-bottom: 10px;
+    }
+    .t_header {
+        font-weight: bold;
+        .ant-col-12 {
+            text-align: right;
+            span {                
+                cursor: pointer;
+            }
+            &:hover {
+                color: #40A9FF;
+            }
+        }
+    }
+    .table_title {
+        display: flex;
+        align-items: center;
+        padding: 0px 0 6px 10px;
+        h4 {
+            margin-bottom: 0;
+        }
+        div {
+            display: flex;
+            padding: 10px 0;
+            i {
+                font-style: normal;
+                font-weight: bold;
+                padding: 0 4px;
+            }
+        }
+    }
+    .operation {
+        >a {
+            cursor: pointer;
+            padding: 0 4px;
+            &:hover {
+                color: #40A9FF;
+            }
+        }
+    }
+    .imgs_style {
+        width: 100%;
+    }
+    .title_style {
+        text-align: left;
+        >span {
+            display: block;
+            &:first-child {
+                max-height: 36px;
+                overflow: hidden;
+            }
+            &:last-child {
+                color: #999;
+            }
+        }
+    }
+}
