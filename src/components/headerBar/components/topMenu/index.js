@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
-import { Row, Col, Icon, message } from 'antd';
+import { Row, Col, message } from 'antd';
 import { observer } from 'mobx-react';
+import { EnvironmentOutlined } from '@ant-design/icons';
 // 数据
 import state from './state';
 // 全局数据
@@ -46,7 +47,7 @@ class TopMenu extends React.Component {
             <div className='dm_topMenu'>
                 <Row className='common_width'>
                     <Col span={ 6 }>
-                        <Icon type="environment" style={{ paddingRight: '4px' }} />
+                        <EnvironmentOutlined style={{ paddingRight: '4px' }} />
                         上海
                     </Col>
                     <Col span={ 18 }>

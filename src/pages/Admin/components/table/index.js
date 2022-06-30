@@ -1,5 +1,6 @@
 import React from 'react';
-import { Table, Button, Row, Col, Pagination, Icon } from 'antd';
+import { Table, Button, Row, Col, Pagination } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
 import { observer } from 'mobx-react';
 // less样式
 import './index.less';
@@ -28,7 +29,10 @@ class CustomTable extends React.Component {
                     <Col span={ 4 }>
                         {
                             isAdd ? (
-                                <Button type='primary' disabled={ isDisabledBtn } onClick={ addClick }><Icon type="plus" />添加{ addTitle }</Button>
+                                <Button type='primary' disabled={ isDisabledBtn } onClick={ addClick }>
+                                    <PlusOutlined />
+                                    添加{ addTitle }
+                                </Button>
                             ) : ''
                         }
                     </Col>

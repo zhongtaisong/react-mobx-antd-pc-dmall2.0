@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
-import { Comment, Avatar, Empty, Icon, Button, Input, message, Row, Col } from 'antd';
+import { Comment, Avatar, Empty, Button, Input, message, Row, Col } from 'antd';
+import { LikeOutlined, DislikeOutlined } from '@ant-design/icons';
 import { observer } from 'mobx-react';
 import { toJS } from 'mobx';
 // 全局设置
@@ -117,16 +118,14 @@ class Index extends React.Component {
                                             key={ item.id }
                                             actions={ oauthCode && oauthCode != 401 ? [
                                                 <span key="comment-basic-agree">
-                                                    <Icon
-                                                        type="like"
+                                                    <LikeOutlined 
                                                         theme={ this.state[`action${index}`] === 'agree' ? 'filled' : 'outlined' }
                                                         onClick={ this.handleLike.bind(this, 'agree', index, item) }
                                                     />
                                                     <span style={{ paddingLeft: 8, cursor: 'auto' }}>{ nums[index] && nums[index]['agree'] ? nums[index]['agree'] : 0 }</span>
                                                 </span>,
                                                 <span key="comment-basic-disagree">
-                                                    <Icon
-                                                        type="dislike"
+                                                    <DislikeOutlined 
                                                         theme={ this.state[`action${index}`] === 'disagree' ? 'filled' : 'outlined'}
                                                         onClick={ this.handleLike.bind(this, 'disagree', index, item) }
                                                     />

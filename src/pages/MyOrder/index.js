@@ -1,6 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { Table, Typography, Row, Col, Popconfirm, Icon } from 'antd';
+import { Table, Typography, Row, Col, Popconfirm } from 'antd';
+import { QuestionCircleOutlined } from '@ant-design/icons';
 
 // 各种表头
 import { columns } from './data';
@@ -29,7 +30,7 @@ class MyOrder extends React.Component {
                 <Col span={ 12 }>
                     <Popconfirm
                         title="你确定要删除这条数据？"
-                        icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
+                        icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
                         onConfirm={() => {
                             state.deleteOrderData({
                                 id: orderId

@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
-import { Upload, Icon, Modal, message } from 'antd';
+import { Upload, Modal, message } from 'antd';
 import { observer } from 'mobx-react';
+import { PlusOutlined } from '@ant-design/icons';
 // 全局设置
 import { PUBLIC_URL } from '@config';
 // 图片格式
@@ -200,7 +201,7 @@ class UploadImg extends React.Component {
                     {
                         fileListArr.length >= fileNum || disabled ? null : (
                             <div>
-                                <Icon type="plus" style={{ fontSize: '20px' }} />
+                                <PlusOutlined style={{ fontSize: '20px' }} />
                                 {
                                     uploadText ? (
                                         <div className="ant_upload_text">{ uploadText }</div>

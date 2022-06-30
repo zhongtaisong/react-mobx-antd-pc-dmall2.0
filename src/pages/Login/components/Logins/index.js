@@ -1,5 +1,6 @@
 import React from 'react';
-import { Form, Icon, Input, Button, Checkbox, Row, Col } from 'antd';
+import { Form, Input, Button, Checkbox, Row, Col } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
 import { observer } from 'mobx-react';
 import { Link } from 'react-router-dom';
 
@@ -27,7 +28,7 @@ class Logins extends React.Component {
                                     initialValue: localStorage.getItem('uname')
                                 })(
                                     <Input
-                                        prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                                        prefix={<UserOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
                                         placeholder="请输入用户名"
                                     />
                                 )

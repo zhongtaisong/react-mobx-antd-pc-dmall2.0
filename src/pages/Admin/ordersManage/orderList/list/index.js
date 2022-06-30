@@ -1,5 +1,4 @@
 import React from 'react';
-import { Form } from 'antd';
 import { toJS } from 'mobx';
 import { observer } from 'mobx-react';
 // 公共组件
@@ -88,4 +87,4 @@ class List extends React.Component {
     }
 }
 
-export default Form.create()(List);
+export default List;

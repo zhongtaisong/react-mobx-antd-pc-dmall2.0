@@ -114,18 +114,18 @@ class List extends React.Component {
                     title={ title }
                     drawerVisible={ drawerVisible }
                     closeDrawer={ this.closeDrawer }
-                    children={ 
-                        <DrawerForm 
-                            setForm={ setForm }
-                            formData={ toJS( formData ) }
-                            setFormData={ setFormData }
-                            setFormData02={ setFormData02 }
-                            id={ toJS(id) }                         
-                            state={ state }
-                            isDisabled={ isDisabled }
-                            unameArr={ unameArr }
-                        /> 
-                    }
+                    // children={ 
+                    //     <DrawerForm 
+                    //         setForm={ setForm }
+                    //         formData={ toJS( formData ) }
+                    //         setFormData={ setFormData }
+                    //         setFormData02={ setFormData02 }
+                    //         id={ toJS(id) }                         
+                    //         state={ state }
+                    //         isDisabled={ isDisabled }
+                    //         unameArr={ unameArr }
+                    //     /> 
+                    // }
                     btnChildren={
                         !isDisabled ? (
                             <Fragment>                            

@@ -1,6 +1,7 @@
 import React from 'react';
-import { Popconfirm, Icon } from 'antd';
+import { Popconfirm } from 'antd';
 import { Link } from 'react-router-dom';
+import { QuestionCircleOutlined } from '@ant-design/icons';
 // 全局设置
 import { PUBLIC_URL } from '@config';
 // 数据
@@ -63,7 +64,7 @@ export const columns = [
                 <div className='operation'>
                     <Popconfirm
                         title="你确定要删除这条数据？"
-                        icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
+                        icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
                         onConfirm={() => {
                             state.delcartData( [record.id] );
                         }}

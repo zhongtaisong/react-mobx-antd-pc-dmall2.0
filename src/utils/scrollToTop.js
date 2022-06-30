@@ -1,5 +1,4 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
 
 // 跳转路由页面滚动至顶部
 class ScrollToTop extends React.Component {
@@ -23,4 +22,4 @@ class ScrollToTop extends React.Component {
     }
 }
 
-export default withRouter(ScrollToTop);
+export default ScrollToTop;

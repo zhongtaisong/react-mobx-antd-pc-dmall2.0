@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Routes, Route, Redirect } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import { BackTop, Spin } from 'antd';
 import { toJS } from 'mobx';
@@ -8,7 +8,7 @@ import { HeaderBar, FooterCopyright } from '@com';
 // 全局设置
 import { searchAreaState } from '@config';
 // 各级页面路由
-import Routes from '@router';
+import RoutesList from '@router';
 // 401、402、403、404
 import ResultPages from '@pages/ResultPages';
 // 搜索结果页面
@@ -53,36 +53,37 @@ class Index extends React.Component {
                 <Spin spinning={ isLoading } tip="Loading...">
                     {
                         !isShowResultPage ? (
-                            <Switch>
+                            <Routes>
                                 {
-                                    Routes.map(item => {
-                                        if( item.redirect ){
-                                            if( oauthCode && oauthCode == 401 && item.noDirectAccess ){
-                                                return (<Redirect from={ this.props.location.pathname } to={ '/login' } key={ item.id } />);
-                                            }else{
-                                                return (<Redirect exact from={ item.path } to={ item.redirect } key={ item.id } />);
-                                            }
-                                        }else{
-                                            return (
-                                                <Route exact path={ item.path } key={ item.id }
-                                                    render={
-                                                        props => {
-                                                            if( oauthCode && oauthCode == 401 && item.noDirectAccess ){
-                                                                return (<Redirect from={ props.location.pathname } to={ '/login' } />);
-                                                            }else{
-                                                                return (<item.component {...props} />);
-                                                            }
-                                                        }
-                                                    }
-                                                />
-                                            );
-                                        }
+                                    RoutesList.map(item => {
+                                        // if( item.redirect ){
+                                        //     if( oauthCode && oauthCode == 401 && item.noDirectAccess ){
+                                        //         return (<Redirect from={ this.props.location.pathname } to={ '/login' } key={ item.id } />);
+                                        //     }else{
+                                        //         return (<Redirect exact from={ item.path } to={ item.redirect } key={ item.id } />);
+                                        //     }
+                                        // }else{
+                                        //     return (
+                                        //         <Route exact path={ item.path } key={ item.id }
+                                        //             render={
+                                        //                 props => {
+                                        //                     if( oauthCode && oauthCode == 401 && item.noDirectAccess ){
+                                        //                         return (<Redirect from={ props.location.pathname } to={ '/login' } />);
+                                        //                     }else{
+                                        //                         return (<item.component {...props} />);
+                                        //                     }
+                                        //                 }
+                                        //             }
+                                        //         />
+                                        //     );
+                                        // }
+                                        return (<item.component {...props} />);
                                     })
                                 }
-                                <Route path='/views/admin/pm/brands/list' component={ Bus } />
+                                {/* <Route path='/views/admin/pm/brands/list' component={ Bus } /> */}
                                 {/* 所有错误路由跳转页面 */}
                                 {/* <Route component={ ResultPages } /> */}
-                            </Switch>
+                            </Routes>
                         ) : (
                             <SearchResults 
                                 {...this.props}
