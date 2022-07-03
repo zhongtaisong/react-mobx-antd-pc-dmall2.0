@@ -2,8 +2,9 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import { Table, Row, Col, Typography } from 'antd';
 import { toJS } from 'mobx';
-// 表头
-import { columns02 } from './data';
+import { Link } from 'react-router-dom';
+// 全局设置
+import { PUBLIC_URL } from '@config';
 // 数据
 import state from './state';
 // less样式
@@ -11,7 +12,7 @@ import './index.less';
 
 // 订单详情
 @observer
-class Index extends React.Component {
+class Index extends React.Component<any, any> {
 
     componentDidMount() {
         const { id } = this.props || {};
@@ -21,10 +22,12 @@ class Index extends React.Component {
     render() {
         const { isTitle=true, className='' } = this.props;
         const { 
-            dataSource02, orderInfo: { ordernum, submitTime, num, totalprice },
-            consignees: { detail, name, phone, region }
+            dataSource02, orderInfo,
+            consignees,
         } = state;
-        let scrollObj = dataSource02 && dataSource02.length >= 3 ? { x: false, y: 220 } : { x: false, y: false };
+        const { ordernum, submitTime, num, totalprice } = orderInfo as any;
+        const { detail, name, phone, region } = consignees as any;
+        let scrollObj: Object = dataSource02 && dataSource02.length >= 3 ? { x: false, y: 220 } : { x: false, y: false };
         return (
             <div className={ `common_width dm_OrderDetails ${ className ? className : '' }` }>
                 {
@@ -37,7 +40,45 @@ class Index extends React.Component {
                 }
                 <Row style={{ borderTop: '1px solid #E8E8E8' }}>
                     <Table 
-                        columns={ columns02 } 
+                        columns={[
+                            {
+                                title: '图片',
+                                dataIndex: 'mainPicture',
+                                key: 'mainPicture',
+                                align: 'center',
+                                width: '10%',
+                                render: (text, record, index) => <img className='imgs_style' src={ `${ PUBLIC_URL }${ text }` } alt={ text } />
+                            },
+                            {
+                                title: '商品',
+                                dataIndex: 'description',
+                                key: 'description',
+                                width: '40%',
+                                render: (text, record, index) => <Link to={'/views/products/detail/' + record.id}>{ text }</Link>
+                            },
+                            {
+                                title: '规格',
+                                dataIndex: 'spec',
+                                key: 'spec',
+                                width: '30%'
+                            },
+                            {
+                                title: '单价',
+                                dataIndex: 'price',
+                                key: 'price',
+                                align: 'center',
+                                width: '10%',
+                                render: (text, record, index) => Number(text) ? `￥${Number(text).toFixed(2)}` : 0
+                            },
+                            {
+                                title: '数量',
+                                dataIndex: 'num',
+                                key: 'num',
+                                align: 'center',
+                                width: '10%',
+                                render: (text, record, index) => `x ${text}`
+                            }
+                        ]} 
                         dataSource={ toJS( dataSource02 ) }
                         showHeader={ false }
                         pagination={ false }

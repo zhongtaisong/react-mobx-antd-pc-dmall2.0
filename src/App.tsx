@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import axios from '@axios';
 // 全局公共方法
-import { ScrollToTop } from '@utils';
+// import { ScrollToTop } from '@utils';
 // 首页
 import Index from '@pages/Index';
 // 登录
@@ -23,12 +23,12 @@ class App extends React.Component {
 
     // 查字典表
     selectDicData = async () => {
-        const res = await new Promise((resolve, reject) => {
+        const res: any = await new Promise((resolve, reject) => {
             axios.get('dic/selectDic', {
                 params: {}
-            }).then(res => {
+            }).then((res: unknown) => {
                 resolve(res);
-            }).catch(err => {
+            }).catch((err: any) => {
                 console.log(err);
             });
         });
@@ -64,13 +64,14 @@ class App extends React.Component {
     }
 
     render() {
+        console.log('55555555', this.props)
         return (
             <div className='dm_App'>
                 <BrowserRouter>
                     {/* <ScrollToTop> */}
                         <Routes>
                             <Route path='/' element={ <Index /> } />
-                            <Route path='*' element={ <Navigate to='/views' /> } />
+                            {/* <Route path='*' element={ <Navigate to='/views' /> } /> */}
                             {/* <Route path='/login' element={ Login } />
                             <Route path='/register' element={ Register } /> */}
                             {/* 所有错误路由跳转页面 */}

@@ -23,7 +23,7 @@ const logoBg = {
 
 // 搜索区域
 @observer
-class SearchArea extends React.Component {
+class SearchArea extends React.Component<any, any> {
     
     componentDidMount() {
         state.productNumData(); 

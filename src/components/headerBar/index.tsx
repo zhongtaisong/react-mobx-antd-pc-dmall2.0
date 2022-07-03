@@ -8,9 +8,11 @@ import SearchArea from './components/searchArea';
 // less样式
 import './index.less';
 
-// 顶部导航
+/**
+ * 顶部导航
+ */
 @observer
-class HeaderBar extends React.Component {
+class HeaderBar extends React.Component<any, any> {
     render() {
         return (
             <div className='dm_HeaderBar'>

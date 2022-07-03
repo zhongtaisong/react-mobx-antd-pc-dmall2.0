@@ -11,7 +11,7 @@ import './index.less';
 
 // 顶部菜单
 @observer
-class TopMenu extends React.Component {
+class TopMenu extends React.Component<any, any> {
 
     // 跳转到目标页面
     intoTargetPage = (that) => {

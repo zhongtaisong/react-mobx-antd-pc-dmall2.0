@@ -18,7 +18,7 @@ class State {
         searchAreaState.setIsShowResultPage();
         searchAreaState.setIsShowSearchInput();
     
-        const res = await service.oauthData();
+        const res: any = await service.oauthData();
         try{
             if( res.data.code === 200 ){
                 const { data } = res.data || {};
@@ -48,7 +48,7 @@ class State {
                 return;
             }
         }
-        const res = await service.adminData({ uname });
+        const res: any = await service.adminData({ uname });
         try{
             if( res.data.code === 200 ){
                 res.data.data && $state.setAdminObj(res.data.data);

@@ -30,7 +30,7 @@ class State {
 
     // 查询订单详情 - 发起请求
     detailOrdersData = async (obj = {}) => {
-        const res = await service.detailOrdersData(obj);
+        const res: any = await service.detailOrdersData(obj);
         try{
             if( res.data.code === 200 ){
                 const { address, orderInfo, productsInfo } = res.data.data || {};

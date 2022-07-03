@@ -16,9 +16,9 @@ message.config({
     top: 36
 });
 
-React.Component.prototype.$md5 = md5;
+(React.Component.prototype as any).$md5 = md5;
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <React.StrictMode>
     <ConfigProvider locale={ zhCN }>

@@ -28,7 +28,7 @@ class State {
                 return;
             }
         }
-        const res = await service.productNumData({ uname });
+        const res: any = await service.productNumData({ uname });
         try{
             if( res.data.code === 200 ){
                 this.setProductNum( res.data.data );
@@ -55,7 +55,7 @@ class State {
 
     // 关键字搜索结果 - 发起请求
     kwData = async (kw = '') => {
-        const res = await service.kwData({
+        const res: any = await service.kwData({
             kws: kw,
         });
         try{

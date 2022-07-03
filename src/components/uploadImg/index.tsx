@@ -9,7 +9,7 @@ const imgFormat = ['image/jpeg', 'image/png'];
 
 // 上传图片
 @observer
-class UploadImg extends React.Component {
+class UploadImg extends React.Component<any, any> {
 
     constructor(props) {
         super(props);
@@ -46,7 +46,7 @@ class UploadImg extends React.Component {
   
     // 上传过程中
     handleChange = async ({ file={}, fileList=[] }) => {
-        const { type, size, status } = file;
+        const { type, size, status } = file as any;
         const { setFileListArr, width, height, ifSize=true } = this.props;
         
         if( !setFileListArr ){

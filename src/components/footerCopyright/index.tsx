@@ -37,7 +37,7 @@ const footerData = [
 
 // 底部版权区域
 @observer
-class FooterCopyright extends React.Component {
+class FooterCopyright extends React.Component<any, any> {
 
     render() {
         return (
