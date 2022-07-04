@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { Row, Col, Input, Button, Badge, message } from 'antd';
 import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react';
+import { ShoppingCartOutlined, SearchOutlined } from '@ant-design/icons';
 // logo图片
 import logoImg from '@img/logo.png';
 // 数据
@@ -128,11 +129,11 @@ class SearchArea extends React.Component<any, any> {
                             {
                                 !pathname.includes('/views/admin') ? (
                                     <Fragment>
-                                        <Button type="primary" icon="search" className='search' 
+                                        <Button type="primary" icon={ <SearchOutlined /> } className='search' 
                                             onClick={ this.showSearchInput }
                                         />
                                         <Badge showZero count={ productNum } overflowCount={ 99 }>
-                                            <Button icon='shopping-cart' type="primary" className='cart'
+                                            <Button icon={ <ShoppingCartOutlined /> } type="primary" className='cart'
                                                 onClick={ this.handleClick.bind(this, 'cart') }
                                             >我的购物车</Button>
                                         </Badge>
