@@ -1,21 +1,21 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import axios from '@axios';
 // 全局公共方法
-// import { ScrollToTop } from '@utils';
+import { ScrollToTop } from '@utils';
 // 首页
 import Index from '@pages/Index';
 // 登录
-// import Login from '@pages/Login';
+import Login from '@pages/Login';
 // 注册
-// import Register from '@pages/Register';
+import Register from '@pages/Register';
 // 401、402、403、404
-// import ResultPages from '@pages/ResultPages';
+import ResultPages from '@pages/ResultPages';
 
 // App
 @observer
-class App extends React.Component {
+class App extends React.Component<any, any> {
 
     componentDidMount() {
         this.selectDicData();
@@ -64,20 +64,17 @@ class App extends React.Component {
     }
 
     render() {
-        console.log('55555555', this.props)
         return (
             <div className='dm_App'>
                 <BrowserRouter>
-                    {/* <ScrollToTop> */}
-                        <Routes>
-                            <Route path='/' element={ <Index /> } />
-                            {/* <Route path='*' element={ <Navigate to='/views' /> } /> */}
-                            {/* <Route path='/login' element={ Login } />
-                            <Route path='/register' element={ Register } /> */}
-                            {/* 所有错误路由跳转页面 */}
-                            {/* <Route element={ ResultPages } /> */}
-                        </Routes>
-                    {/* </ScrollToTop> */}
+                    <ScrollToTop />
+                    <Switch>
+                        <Route path='/' component={ Index } />
+                        <Route path='/login' component={ Login } />
+                        <Route path='/register' component={ Register } />
+                        {/* 所有错误路由跳转页面 */}
+                        <Route component={ ResultPages } />
+                    </Switch>
                 </BrowserRouter>
             </div>
         );
