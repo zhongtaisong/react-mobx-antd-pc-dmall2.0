@@ -46,11 +46,11 @@ class TopMenu extends React.Component<any, any> {
         return (
             <div className='dm_topMenu'>
                 <Row className='common_width'>
-                    <Col span={ 6 }>
+                    <Col span={ 1 }>
                         <EnvironmentOutlined style={{ paddingRight: '4px' }} />
                         上海
                     </Col>
-                    <Col span={ 18 }>
+                    <Col span={ 19 }>
                         {
                             uname ? (
                                 <Fragment>

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Row, Col, Input, Button, Badge, message } from 'antd';
 import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react';
@@ -53,52 +53,51 @@ class SearchArea extends React.Component<any, any> {
     // 菜单列表
     menuList = () => {
         const { pathname } = this.props.location;
-        let adminObj = toJS($state.adminObj);
+        const adminObj = toJS($state.adminObj);
         if( !pathname.includes('/views/admin') ){
-            return (<Fragment>
+            return (<>
                 <Link to='/views/home' className={ pathname == '/views/home' ? 'active' : '' }>首 页</Link>
                 <Link to='/views/products' className={ 
                     pathname == '/views/products' || pathname.includes('/views/products/detail') ? 'active' : '' 
                 }>杂货铺</Link>
                 <Link to='/views/web' className={ pathname == '/views/web' ? 'active' : '' }>网站说明</Link>
                 <Link to='/views/message' className={ pathname == '/views/message' ? 'active' : '' }>留言</Link>
-            </Fragment>);
-        }else{
-            if( Object.keys(adminObj).length ){
-                return (<Fragment>
-                    {
-                        adminObj['brandMenu'] ? (
-                            <Link to='/views/admin/brand' className={ pathname == '/views/admin/brand' ? 'active' : '' }>品牌管理</Link>                            
-                        ) : ''
-                    }
-                    {
-                        adminObj['productMenu'] ? (
-                            <Link to='/views/admin/product' className={ pathname == '/views/admin/product' ? 'active' : '' }>商品管理</Link>                          
-                        ) : ''
-                    }
-                    {
-                        adminObj['orderMenu'] ? (
-                            <Link to='/views/admin/order' className={ pathname == '/views/admin/order' ? 'active' : '' }>订单管理</Link>                        
-                        ) : ''
-                    }
-                    {
-                        adminObj['userMenu'] ? (
-                            <Link to='/views/admin/user' className={ pathname == '/views/admin/user' ? 'active' : '' }>用户管理</Link>                      
-                        ) : ''
-                    }
-                    {
-                        adminObj['commentMenu'] ? (
-                            <Link to='/views/admin/comment' className={ pathname == '/views/admin/comment' ? 'active' : '' }>评论管理</Link>                     
-                        ) : ''
-                    }
-                    {
-                        adminObj['adminMenu'] ? (
-                            <Link to='/views/admin/adminList' className={ pathname == '/views/admin/adminList' ? 'active' : '' }>权限管理</Link>                    
-                        ) : ''
-                    }
-                </Fragment>);
-            }
+            </>);
         }
+
+        if( !adminObj || !Object.keys(adminObj).length ) return null;
+        return (<>
+            {
+                adminObj['brandMenu'] ? (
+                    <Link to='/views/admin/brand' className={ pathname == '/views/admin/brand' ? 'active' : '' }>品牌管理</Link>                            
+                ) : ''
+            }
+            {
+                adminObj['productMenu'] ? (
+                    <Link to='/views/admin/product' className={ pathname == '/views/admin/product' ? 'active' : '' }>商品管理</Link>                          
+                ) : ''
+            }
+            {
+                adminObj['orderMenu'] ? (
+                    <Link to='/views/admin/order' className={ pathname == '/views/admin/order' ? 'active' : '' }>订单管理</Link>                        
+                ) : ''
+            }
+            {
+                adminObj['userMenu'] ? (
+                    <Link to='/views/admin/user' className={ pathname == '/views/admin/user' ? 'active' : '' }>用户管理</Link>                      
+                ) : ''
+            }
+            {
+                adminObj['commentMenu'] ? (
+                    <Link to='/views/admin/comment' className={ pathname == '/views/admin/comment' ? 'active' : '' }>评论管理</Link>                     
+                ) : ''
+            }
+            {
+                adminObj['adminMenu'] ? (
+                    <Link to='/views/admin/adminList' className={ pathname == '/views/admin/adminList' ? 'active' : '' }>权限管理</Link>                    
+                ) : ''
+            }
+        </>);
     }
 
     // 获取搜索关键字
@@ -116,7 +115,7 @@ class SearchArea extends React.Component<any, any> {
         const { productNum, isShowSearchInput } = state;
         const { pathname } = this.props.location;
         return (
-            <Fragment>
+            <>
                 <div className='dm_SearchArea'>
                     <Row className='common_width'>
                         <Col span={ 4 } className='logo' onClick={ this.handleClick.bind(this, 'home') } style={ logoBg } title='首页'></Col>
@@ -128,16 +127,16 @@ class SearchArea extends React.Component<any, any> {
                         <Col span={ 4 }>
                             {
                                 !pathname.includes('/views/admin') ? (
-                                    <Fragment>
+                                    <>
                                         <Button type="primary" icon={ <SearchOutlined /> } className='search' 
                                             onClick={ this.showSearchInput }
                                         />
                                         <Badge showZero count={ productNum } overflowCount={ 99 }>
-                                            <Button icon={ <ShoppingCartOutlined /> } type="primary" className='cart'
+                                            <Button icon={ <ShoppingCartOutlined style={{ fontSize: 16 }} /> } type="primary" className='cart'
                                                 onClick={ this.handleClick.bind(this, 'cart') }
                                             >我的购物车</Button>
                                         </Badge>
-                                    </Fragment>
+                                    </>
                                 ) : ''
                             }
                         </Col>
@@ -152,7 +151,7 @@ class SearchArea extends React.Component<any, any> {
                         </div>
                     ) : ''
                 }
-            </Fragment>
+            </>
         );
     }
 }

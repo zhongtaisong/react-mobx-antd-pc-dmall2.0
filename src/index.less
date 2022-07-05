@@ -1,4 +1,4 @@
-@import '~@com/index.less';
+@import './components/index.less';
 @import "~slick-carousel/slick/slick.css"; 
 @import "~slick-carousel/slick/slick-theme.css";
 @import '~antd/dist/antd.less';
@@ -21,9 +21,6 @@ time, mark, audio, video {
 	border: 0;
 	font-family: '微软雅黑', 'Microsoft YaHei';
 	font-size: 12px;
-	// font-size: 100%;
-	// font: inherit;
-	// vertical-align: baseline;
 	vertical-align: middle;
 }
 /* HTML5 display-role reset for older browsers */
@@ -82,10 +79,7 @@ a {
     color: inherit;
 }
 * {
-    // &:not(.ant-radio-inner) {
-    //     border-radius: 2px !important;
-    // }
-    border-radius: 2px !important;
+    border-radius: 2px;
 }
 // 输入框 - 禁用
 .ant-input[disabled] {

@@ -22,7 +22,7 @@ import AdminList from '@pages/Admin/adminList';
 export default [
     { 
         id: 1,
-        path: '/views',
+        path: '/',
         redirect: '/views/home',
         title: '首页'
     },
