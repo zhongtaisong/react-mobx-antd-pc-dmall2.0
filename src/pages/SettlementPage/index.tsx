@@ -13,7 +13,9 @@ import state from './state';
 // less样式
 import './index.less';
 
-// 结算页
+/**
+ * 结算页
+ */
 @observer
 class SettlementPage extends React.Component<any, any> {
 

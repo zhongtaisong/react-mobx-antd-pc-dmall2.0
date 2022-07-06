@@ -10,7 +10,9 @@ import state from './state';
 import './index.less';
 const { TextArea } = Input;
 
-// 我的评价
+/**
+ * 我的评价
+ */
 @observer
 class MyEvaluation extends React.Component<any, any> {
 

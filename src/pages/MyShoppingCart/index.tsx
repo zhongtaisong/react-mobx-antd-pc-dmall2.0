@@ -9,7 +9,9 @@ import state from './state';
 // less样式
 import './index.less';
 
-// 我的购物车
+/**
+ * 我的购物车
+ */
 @observer
 class MyShoppingCart extends React.Component<any, any> {
 

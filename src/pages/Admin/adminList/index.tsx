@@ -17,7 +17,9 @@ import $state from '@store';
 // less样式
 import './index.less';
 
-// 用户权限列表
+/**
+ * 用户权限列表
+ */
 @observer
 class List extends React.Component<any, any> {
 

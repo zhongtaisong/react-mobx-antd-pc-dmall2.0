@@ -15,7 +15,9 @@ import './index.less';
 const { Meta } = Card;
 const { Title } = Typography;
 
-// 杂货铺
+/**
+ * 杂货铺
+ */
 @observer
 class Products extends React.Component<any, any> {
 
@@ -116,7 +118,7 @@ class Products extends React.Component<any, any> {
                 <div className='common_width'>
                     <div className='filter_title'>
                         <h1>商品筛选</h1>
-                        <span>共 { total || 0 }件商品</span>
+                        <span>共 { total || 0 } 件商品</span>
                     </div>
                     <div className='filter_current'>
                         {

@@ -10,7 +10,9 @@ import state from './state';
 // less样式
 import './index.less';
 
-// 我的订单
+/**
+ * 我的订单
+ */
 @observer
 class MyOrder extends React.Component<any, any> {
 

@@ -15,7 +15,9 @@ import $state from '@store';
 import './index.less';
 const { TextArea  } = Input;
 
-// 留言
+/**
+ * 留言
+ */
 @observer
 class Index extends React.Component<any, any> {
 

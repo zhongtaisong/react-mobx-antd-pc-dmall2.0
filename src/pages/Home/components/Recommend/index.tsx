@@ -32,27 +32,25 @@ class Recommend extends React.Component<any, any> {
             slidesToScroll: 1,
             slidesToShow: 3
         };
+        if(!toJS(productsList).length) return null;
+
         return (
             <Row className='dm_recommend'>
-                {
-                    toJS( productsList ).length ? (
-                        <Slider {...settings}>
-                            {
-                                toJS( productsList ).map( item => {
-                                    return (
-                                        <Col span={ 8 } key={ item.id } onClick={ this.watchProductDetails.bind(this, item.id) }>
-                                            <img src={  PUBLIC_URL + item.mainPicture } draggable="false" />
-                                            <div>
-                                                <span className='title' title={ item.productName }>{ item.productName }</span>
-                                                <span className='description' title={ item.description }>{ item.description }</span>
-                                            </div>
-                                        </Col>
-                                    );
-                                } )
-                            }
-                        </Slider>
-                    ) : ''
-                }
+                <Slider {...settings}>
+                    {
+                        toJS( productsList ).map( item => {
+                            return (
+                                <Col span={ 8 } key={ item.id } onClick={ this.watchProductDetails.bind(this, item.id) }>
+                                    <img src={  PUBLIC_URL + item.mainPicture } draggable="false" />
+                                    <div>
+                                        <span className='title' title={ item.productName }>{ item.productName }</span>
+                                        <span className='description' title={ item.description }>{ item.description }</span>
+                                    </div>
+                                </Col>
+                            );
+                        } )
+                    }
+                </Slider>
             </Row>
         );
     }

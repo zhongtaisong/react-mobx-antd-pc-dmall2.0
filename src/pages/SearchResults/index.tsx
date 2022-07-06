@@ -6,7 +6,9 @@ import { columns } from './data';
 // less样式
 import './index.less';
 
-// 搜索结果展示页面
+/**
+ * 搜索结果展示页面
+ */
 @observer
 class SearchResults extends React.Component<any, any> {
     render() {

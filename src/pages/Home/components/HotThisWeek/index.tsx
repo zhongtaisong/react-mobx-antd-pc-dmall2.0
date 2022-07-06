@@ -28,48 +28,46 @@ class HotThisWeek extends React.Component<any, any> {
             slidesToScroll: 1,
             slidesToShow: 5
         };
+        if(!toJS(productsList).length) return null;
+
         return (
             <div className='dm_HotThisWeek'>
                 <Row className='title'>热门推荐</Row>
                 <div className='common_width'>
                     <Row className='hot_content'>
-                        {
-                            toJS( productsList ).length ? (
-                                <Slider {...settings}>
-                                    {
-                                        toJS( productsList ).map( item => {
-                                            let price = parseFloat(item.price) && parseFloat(item.price).toFixed(2);
-                                            return (
-                                                <Card
-                                                    key={ item.id }
-                                                    bordered={ false }
-                                                    cover={
-                                                        <img
-                                                            alt=''
-                                                            src={ `${ PUBLIC_URL }${ item.mainPicture }` }
-                                                            title={ item.productName }
-                                                            onClick={() => {
-                                                                this.props.history.push(`/views/products/detail/${item.id}`);
-                                                            }}
-                                                        />
-                                                    }
-                                                >
-                                                    <Meta
-                                                        title={ <Title level={ 4 }><span className='unit'>￥</span>{ item.price ? Number(item.price).toFixed(2) : 0 }</Title> }
-                                                        description={ 
-                                                            <Link 
-                                                                to={`/views/products/detail/${item.id}`}
-                                                                title={ item.description }
-                                                            >{ item.description }</Link> 
-                                                        }
-                                                    />
-                                                </Card>
-                                            );
-                                        } )
-                                    }
-                                </Slider>
-                            ) : ''
-                        }
+                        <Slider {...settings}>
+                            {
+                                toJS( productsList ).map( item => {
+                                    let price = parseFloat(item.price) && parseFloat(item.price).toFixed(2);
+                                    return (
+                                        <Card
+                                            key={ item.id }
+                                            bordered={ false }
+                                            cover={
+                                                <img
+                                                    alt=''
+                                                    src={ `${ PUBLIC_URL }${ item.mainPicture }` }
+                                                    title={ item.productName }
+                                                    onClick={() => {
+                                                        this.props.history.push(`/views/products/detail/${item.id}`);
+                                                    }}
+                                                />
+                                            }
+                                        >
+                                            <Meta
+                                                title={ <Title level={ 4 }><span className='unit'>￥</span>{ item.price ? Number(item.price).toFixed(2) : 0 }</Title> }
+                                                description={ 
+                                                    <Link 
+                                                        to={`/views/products/detail/${item.id}`}
+                                                        title={ item.description }
+                                                    >{ item.description }</Link> 
+                                                }
+                                            />
+                                        </Card>
+                                    );
+                                } )
+                            }
+                        </Slider>
                     </Row>
                 </div>
             </div>

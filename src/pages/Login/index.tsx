@@ -25,7 +25,9 @@ const loginBg = {
     backgroundSize: 'cover'
 };
 
-// 登录、忘记密码、新密码
+/**
+ * 登录、忘记密码、新密码
+ */
 @observer
 class Login extends React.Component<any, any> {
 

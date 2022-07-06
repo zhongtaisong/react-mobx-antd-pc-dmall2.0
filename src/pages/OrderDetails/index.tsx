@@ -5,7 +5,9 @@ import { OrderDetails } from '@com';
 // less样式
 import './index.less';
 
-// 订单详情
+/**
+ * 订单详情
+ */
 @observer
 class Index extends React.Component<any, any> {
 

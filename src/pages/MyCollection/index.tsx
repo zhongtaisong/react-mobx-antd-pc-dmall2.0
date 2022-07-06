@@ -9,7 +9,9 @@ import state from './state';
 // less样式
 import './index.less';
 
-// 我的收藏
+/**
+ * 我的收藏
+ */
 @observer
 class MyCollection extends React.Component<any, any> {
 

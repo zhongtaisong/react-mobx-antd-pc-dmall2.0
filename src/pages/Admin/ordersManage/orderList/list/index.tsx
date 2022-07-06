@@ -14,7 +14,9 @@ import state from './state';
 // less样式
 import './index.less';
 
-// 订单列表
+/**
+ * 订单列表
+ */
 @observer
 class List extends React.Component<any, any> {
 

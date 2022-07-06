@@ -10,7 +10,9 @@ import indexState from './state';
 // 样式
 import './index.less';
 
-// 商品详情
+/**
+ * 商品详情
+ */
 @observer
 class ProductsDetail extends React.Component<any, any> {
 

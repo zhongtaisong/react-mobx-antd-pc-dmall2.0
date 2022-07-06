@@ -16,7 +16,9 @@ import state from './state';
 // 全局数据
 import $state from '@store';
 
-// 用户列表
+/**
+ * 用户列表
+ */
 @observer
 class List extends React.Component<any, any> {
 

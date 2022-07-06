@@ -14,7 +14,9 @@ import state from './state';
 import './index.less';
 const { Option } = Select;
 
-// 用户中心
+/**
+ * 用户中心
+ */
 @observer
 class UserCenter extends React.Component<any, any> {
 

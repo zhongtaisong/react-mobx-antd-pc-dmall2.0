@@ -17,9 +17,11 @@ import SearchResults from '@pages/SearchResults';
 import state from './state';
 // 全局数据
 import $state from '@store';
+import './index.less';
 
-
-// 根页面
+/**
+ * 根页面
+ */
 @observer
 class Index extends React.Component<any, any> {
 
@@ -44,48 +46,50 @@ class Index extends React.Component<any, any> {
         const { oauthCode, isLoading } = $state;
         const { isShowResultPage, searchResultList } = searchAreaState;
         return (
-            <div>
-                <BackTop style={{ right: '60px', bottom: '60px' }} />
+            <div className='pages_index'>
+                <BackTop className='pages_index__backTop' />
                 <HeaderBar {...this.props} />
                 <Spin spinning={ isLoading } tip="Loading...">
-                    {
-                        !isShowResultPage ? (
-                            <Switch>
-                                {
-                                    Routes.map(item => {
-                                        if( item.redirect ){
-                                            if( oauthCode && oauthCode == 401 && item.noDirectAccess ){
-                                                return (<Redirect from={ this.props.location.pathname } to={ '/login' } key={ item.id } />);
+                    <div className='pages_index__content'>
+                        {
+                            !isShowResultPage ? (
+                                <Switch>
+                                    {
+                                        Routes.map(item => {
+                                            if( item.redirect ){
+                                                if( oauthCode && oauthCode == 401 && item.noDirectAccess ){
+                                                    return (<Redirect from={ this.props.location.pathname } to={ '/login' } key={ item.id } />);
+                                                }else{
+                                                    return (<Redirect exact from={ item.path } to={ item.redirect } key={ item.id } />);
+                                                }
                                             }else{
-                                                return (<Redirect exact from={ item.path } to={ item.redirect } key={ item.id } />);
-                                            }
-                                        }else{
-                                            return (
-                                                <Route exact path={ item.path } key={ item.id }
-                                                    render={
-                                                        props => {
-                                                            if( oauthCode && oauthCode == 401 && item.noDirectAccess ){
-                                                                return (<Redirect from={ props.location.pathname } to={ '/login' } />);
-                                                            }else{
-                                                                return (<item.component {...props} />);
+                                                return (
+                                                    <Route exact path={ item.path } key={ item.id }
+                                                        render={
+                                                            props => {
+                                                                if( oauthCode && oauthCode == 401 && item.noDirectAccess ){
+                                                                    return (<Redirect from={ props.location.pathname } to={ '/login' } />);
+                                                                }else{
+                                                                    return (<item.component {...props} />);
+                                                                }
                                                             }
                                                         }
-                                                    }
-                                                />
-                                            );
-                                        }
-                                    })
-                                }
-                                {/* 所有错误路由跳转页面 */}
-                                <Route component={ ResultPages } />
-                            </Switch>
-                        ) : (
-                            <SearchResults 
-                                {...this.props}
-                                searchResultList={ toJS( searchResultList ) }
-                            />
-                        )
-                    }
+                                                    />
+                                                );
+                                            }
+                                        })
+                                    }
+                                    {/* 所有错误路由跳转页面 */}
+                                    <Route component={ ResultPages } />
+                                </Switch>
+                            ) : (
+                                <SearchResults 
+                                    {...this.props}
+                                    searchResultList={ toJS( searchResultList ) }
+                                />
+                            )
+                        }
+                    </div>
                 </Spin>
                 <FooterCopyright {...this.props} />
             </div>

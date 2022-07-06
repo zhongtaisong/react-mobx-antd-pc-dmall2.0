@@ -20,7 +20,9 @@ const loginBg = {
     backgroundSize: 'cover'
 };
 
-// 注册
+/**
+ * 注册
+ */
 @observer
 class Register extends React.Component<any, any> {
 

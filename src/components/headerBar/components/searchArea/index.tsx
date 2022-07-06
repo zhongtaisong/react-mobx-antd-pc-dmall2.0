@@ -131,7 +131,7 @@ class SearchArea extends React.Component<any, any> {
                                         <Button type="primary" icon={ <SearchOutlined /> } className='search' 
                                             onClick={ this.showSearchInput }
                                         />
-                                        <Badge showZero count={ productNum } overflowCount={ 99 }>
+                                        <Badge count={ productNum } overflowCount={ 99 }>
                                             <Button icon={ <ShoppingCartOutlined style={{ fontSize: 16 }} /> } type="primary" className='cart'
                                                 onClick={ this.handleClick.bind(this, 'cart') }
                                             >我的购物车</Button>

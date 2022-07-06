@@ -26,8 +26,8 @@ class State {
     }
 
     // 数据总数
-    @observable total = SIZE;
-    @action setTotal = (data = SIZE) => {
+    @observable total = 0;
+    @action setTotal = (data = 0) => {
         this.total = data;
     }
 
