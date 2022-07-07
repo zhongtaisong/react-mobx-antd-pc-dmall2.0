@@ -1,6 +1,6 @@
-const CracoLessPlugin = require('craco-less');
 const path = require('path');
 const webpack = require('webpack');
+const CracoAntDesignPlugin = require('craco-antd');
 
 module.exports = {
   babel: {
@@ -42,14 +42,9 @@ module.exports = {
   },
   plugins: [
     {
-      plugin: CracoLessPlugin,
+      plugin: CracoAntDesignPlugin,
       options: {
-        lessLoaderOptions: {
-          lessOptions: {
-            modifyVars: { '@primary-color': '#1890ff' },
-            javascriptEnabled: true,
-          },
-        },
+        customizeTheme: {},
       },
     },
   ],
