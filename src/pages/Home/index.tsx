@@ -7,6 +7,7 @@ import HotThisWeek from './components/HotThisWeek';
 
 // 本周热门 - 数据
 import hotThisWeekState from './components/HotThisWeek/state';
+import './index.less';
 
 /**
  * 首页
