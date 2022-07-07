@@ -1,5 +1,3 @@
-@import '~@com/index.less';
-
 .dm_SearchArea, .dm_SearchInput {
     width: 100%;
     background: #fff;
@@ -21,16 +19,16 @@
                 height: 100%;
                 padding: 0 15px;
                 font-size: 14px;
-                color: @font-color-555;
+                color: var(--dm-font-color-555);
                 font-weight: bold;
                 transition: none;
                 &:hover {
-                    color: @font-color-white;
-                    background-color: @main-color;
+                    color: var(--dm-font-color-white);
+                    background-color: var(--main-color);
                 }
                 &.active {
-                    color: @font-color-white;
-                    background-color: @main-color;
+                    color: var(--dm-font-color-white);
+                    background-color: var(--main-color);
                 }
             }
         }

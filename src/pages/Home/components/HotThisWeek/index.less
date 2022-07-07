@@ -1,12 +1,10 @@
-@import '~@com/index.less';
-
 .dm_HotThisWeek {
     .title {
         width: 100%;
         height: 92px;
         background: #fff;
         font-size: 26px;
-        color: @font-color-blue;
+        color: var(--dm-font-color-blue);
         border: solid 1px #e6e6e6;
         border-left: 0 none;
         border-right: 0 none;
@@ -43,7 +41,7 @@
                     &.slick-active {
                         button {
                             &:before {
-                                color: @font-color-blue;
+                                color: var(--dm-font-color-blue);
                             }
                         }
                     }
@@ -102,7 +100,7 @@
                                     .ant-card-body {
                                         .ant-card-meta-description {
                                             >a {
-                                                color: @font-color-blue;
+                                                color: var(--dm-font-color-blue);
                                             }
                                         }
                                     }
