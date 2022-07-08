@@ -115,7 +115,7 @@ class Products extends React.Component<any, any> {
         const { BRAND_LIST } = session.getItem('tableDic');
         return (
             <div className='dm_Products'>
-                <div className='common_width'>
+                <div className='common_width dm_Products__content'>
                     <div className='filter_title'>
                         <h1>商品筛选</h1>
                         <span>共 { total || 0 } 件商品</span>
@@ -127,14 +127,14 @@ class Products extends React.Component<any, any> {
                                     {
                                         Object.keys(filter).map((item, index) => {
                                             return (
-                                                <Tag color='blue' key={ index } visible={ visible[item] } closable onClose={ this.deleteTag.bind(this, item) }>{ item == 'brandId' ? BRAND_LIST[filter[item]] : filter[item] }</Tag>
+                                                <Tag key={ index } visible={ visible[item] } closable onClose={ this.deleteTag.bind(this, item) }>{ item == 'brandId' ? BRAND_LIST[filter[item]] : filter[item] }</Tag>
                                             );
                                         })
                                     }
                                     <p onClick={ this.clearFilter }>清空筛选</p>
                                 </Fragment>
                             ) : (                                
-                                <Tag color='blue'>暂无筛选条件</Tag>
+                                <Tag>暂无筛选条件</Tag>
                             )
                         }
                     </div>

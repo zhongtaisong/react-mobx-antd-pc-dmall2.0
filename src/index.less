@@ -31,7 +31,7 @@ footer, header, hgroup, menu, nav, section {
 body {
 	line-height: 1;
     box-sizing: border-box;
-    background-color: var(--dm-body-color) !important;
+    background-color: var(--dm-body-color);
 }
 ol, ul {
 	list-style: none;
@@ -53,7 +53,6 @@ table {
     .common_width {
         width: 1100px;
         margin: 0 auto;
-        // overflow: hidden;
     }
 }
 // 表格
@@ -118,7 +117,7 @@ a {
 .common_bg {
     background: #fff;
     border: solid 1px #e6e6e6;
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+    
 }
 .ant-upload.ant-upload-select-picture-card {
     margin-right: 0;
@@ -188,4 +187,9 @@ td.columns_left {
 :root {
     // 页面中间区域最小高度
     --min-content-height: 440px;
+}
+
+.ant-tag {
+    color: var(--ant-primary-color);
+    background: var(--dm-bg-color-alpha);
 }

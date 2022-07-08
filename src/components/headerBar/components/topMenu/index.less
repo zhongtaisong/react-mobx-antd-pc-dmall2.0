@@ -3,13 +3,12 @@
     height: 48px;
     line-height: 48px;
     background: #555;
-    .ant-row {
+    &__content {
         height: 100%;
-        display: flex;
         align-items: center;
         color: #fff;
-        .ant-col-23 {
-            display: flex;
+        &--right {
+            display: flex !important;
             justify-content: flex-end;
             span {
                 cursor: pointer;
@@ -20,6 +19,18 @@
                 &:hover {
                     text-decoration: underline;
                 }
+            }
+
+            &__theme {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                >div {
+                    width: 24px;
+                    height: 14px;
+                    margin-right: 4px;
+                }
+                >span {}
             }
         }
     }

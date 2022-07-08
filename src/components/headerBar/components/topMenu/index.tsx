@@ -28,6 +28,10 @@ class TopMenu extends React.Component<any, IComponentState> {
         this.state = {
             color: {
                 primaryColor: '#1890ff',
+                errorColor: '#1890ff',
+                warningColor: '#1890ff',
+                successColor: '#1890ff',
+                infoColor: '#1890ff',
             },
         }
     }
@@ -66,12 +70,12 @@ class TopMenu extends React.Component<any, IComponentState> {
 
         return (
             <div className='dm_topMenu'>
-                <Row className='common_width'>
-                    <Col span={ 1 }>
+                <Row className='common_width dm_topMenu__content'>
+                    <Col span={ 1 } className='dm_topMenu__content--left'>
                         <EnvironmentOutlined style={{ paddingRight: '4px' }} />
                         南京
                     </Col>
-                    <Col span={ 23 }>
+                    <Col span={ 23 } className='dm_topMenu__content--right'>
                         {
                             uname ? (
                                 <>
@@ -101,6 +105,7 @@ class TopMenu extends React.Component<any, IComponentState> {
                         }
                         <Popover
                             overlayClassName='dm_topMenu__popover'
+                            placement="bottom"
                             content={
                                 <SketchPicker
                                     presetColors={['#1890ff', '#25b864', '#ff6f00']}
@@ -109,7 +114,10 @@ class TopMenu extends React.Component<any, IComponentState> {
                                 />
                             }
                         >
-                            <span>更改主题</span>
+                            <div className='dm_topMenu__content--right__theme'>
+                                <div style={{ background: color?.primaryColor }} />
+                                <span>主题色</span>
+                            </div>
                         </Popover>
                     </Col>
                 </Row>
@@ -125,14 +133,21 @@ class TopMenu extends React.Component<any, IComponentState> {
 
         this.setState({
             color: {
-                ...color,
                 primaryColor: hex,
+                errorColor: hex,
+                warningColor: hex,
+                successColor: hex,
+                infoColor: hex,
             },
         })
 
         ConfigProvider.config({
           theme: {
             primaryColor: hex,
+            errorColor: hex,
+            warningColor: hex,
+            successColor: hex,
+            infoColor: hex,
           },
         });
 

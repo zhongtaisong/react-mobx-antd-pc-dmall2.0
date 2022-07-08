@@ -1,7 +1,10 @@
 .dm_Products {
-    padding: 10px 0;
-    background: #fff;
-    min-height: var(--min-content-height);
+    &__content {
+        background: #fff;
+        min-height: var(--min-content-height);
+        padding: 10px 16px;
+    }
+
     .filter_title {
         width: 100%;
         border-bottom: 1px dashed #eee;
@@ -61,7 +64,7 @@
             padding: 1%;
             border: 1px solid #fff;
             &:hover {
-                box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+                
                 border-color: rgba(0, 0, 0, 0.1);
             }
             .ant-card {
