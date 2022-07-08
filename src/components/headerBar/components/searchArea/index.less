@@ -4,24 +4,35 @@
 }
 .dm_SearchArea {
     height: 82px;
-    line-height: 82px;
     border-bottom: 1px solid #e6e6e6;
-    .ant-row {
-        display: flex;
+    &__content {
+        display: flex !important;
         align-items: center;
-        .ant-col-16 {
+        height: 100%;
+
+        &--logo {
+            cursor: pointer;
+            background: url(~@img/logo.png) no-repeat;
+            height: 100%;
+            background-size: contain;
+            background-position: center;
+        }
+
+        &--menu {
             display: flex;
             padding-left: 30px;
+            height: 100%;
             >a {
-                display: block;
                 min-width: 90px;
-                text-align: center;
                 height: 100%;
                 padding: 0 15px;
                 font-size: 14px;
                 color: var(--dm-font-color-555);
                 font-weight: bold;
                 transition: none;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
                 &:hover {
                     color: var(--dm-font-color-white);
                     background-color: var(--dm-main-color);
@@ -32,47 +43,26 @@
                 }
             }
         }
-        .ant-col-4 {
-            display: flex;
-            justify-content: space-between;
-            &.logo {
-                cursor: pointer;
-            }
-            button {
-                i {                        
-                    font-size: 15px;
+        &--search {
+            display: flex !important;
+            justify-content: flex-end;
+            &__input {
+                margin-right: 8px;
+                .ant-input {
+                    &::placeholder {
+                        font-size: 12px;
+                    }
+                }
+                .anticon-search {
+                    font-size: 14px;
                 }
             }
-            .search {
-                width: 46px;
-            }
-            .cart {
-                width: 120px;
+            &__cart {
                 display: flex;
                 align-items: center;
-                span {
-                    margin-left: 4px;
-                }
             }
             .ant-badge-count {
                 line-height: 19px;
-            }
-        }
-    }
-}
-.dm_SearchInput {
-    height: 74px;
-    .ant-row {
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        .ant-input-search {
-            max-width: 500px;
-            button {
-                i {                        
-                    font-size: 15px;
-                }
             }
         }
     }

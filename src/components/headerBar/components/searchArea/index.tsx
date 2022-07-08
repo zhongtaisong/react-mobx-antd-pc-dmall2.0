@@ -3,8 +3,6 @@ import { Row, Col, Input, Button, Badge, message } from 'antd';
 import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import { ShoppingCartOutlined, SearchOutlined } from '@ant-design/icons';
-// logo图片
-import logoImg from '@img/logo.png';
 // 数据
 import state from './state';
 // 全局数据
@@ -13,14 +11,6 @@ import $state from '@store';
 import './index.less';
 import { toJS } from 'mobx';
 const { Search } = Input;
-
-// 插入logo图片
-const logoBg = {
-    background: `url(${logoImg}) no-repeat`,
-    height: '72px',
-    backgroundSize: 'contain',
-    backgroundPosition: 'center'
-};
 
 // 搜索区域
 @observer
@@ -101,7 +91,7 @@ class SearchArea extends React.Component<any, any> {
     }
 
     // 获取搜索关键字
-    getSearchKws = (value, e) => {
+    getSearchKws = (value) => {
         if( !value.trim() ){
             message.warning('关键字不能为空！');
             return;
@@ -112,29 +102,37 @@ class SearchArea extends React.Component<any, any> {
     }
 
     render() {
-        const { productNum, isShowSearchInput } = state;
+        const { productNum } = state;
         const { pathname } = this.props.location;
         return (
             <>
                 <div className='dm_SearchArea'>
-                    <Row className='common_width'>
-                        <Col span={ 4 } className='logo' onClick={ this.handleClick.bind(this, 'home') } style={ logoBg } title='首页'></Col>
-                        <Col span={ 16 }>
-                            {
-                                this.menuList()
-                            }
+                    <Row className='common_width dm_SearchArea__content'>
+                        <Col span={ 4 } 
+                            className='dm_SearchArea__content--logo' 
+                            onClick={ this.handleClick.bind(this, 'home') } 
+                            title='首页'
+                        />
+                        <Col span={ 12 } className='dm_SearchArea__content--menu'>
+                            { this.menuList() }
                         </Col>
-                        <Col span={ 4 }>
+                        <Col span={ 8 } className='dm_SearchArea__content--search'>
                             {
                                 !pathname.includes('/views/admin') ? (
                                     <>
-                                        <Button type="primary" icon={ <SearchOutlined /> } className='search' 
-                                            onClick={ this.showSearchInput }
+                                        <Search 
+                                            className='dm_SearchArea__content--search__input'
+                                            placeholder="请输入关键字" 
+                                            enterButton 
+                                            onSearch={ this.getSearchKws } 
                                         />
                                         <Badge count={ productNum } overflowCount={ 99 }>
-                                            <Button icon={ <ShoppingCartOutlined style={{ fontSize: 16 }} /> } type="primary" className='cart'
+                                            <Button 
+                                                icon={ <ShoppingCartOutlined style={{ fontSize: 16 }} /> } 
+                                                type="primary" 
+                                                className='dm_SearchArea__content--search__cart'
                                                 onClick={ this.handleClick.bind(this, 'cart') }
-                                            >我的购物车</Button>
+                                            />
                                         </Badge>
                                     </>
                                 ) : ''
@@ -142,15 +140,6 @@ class SearchArea extends React.Component<any, any> {
                         </Col>
                     </Row>
                 </div>
-                {
-                    isShowSearchInput ? (
-                        <div className='dm_SearchInput'>
-                            <Row className='common_width'>
-                                <Search placeholder="请输入关键字" onSearch={ this.getSearchKws } enterButton />
-                            </Row>
-                        </div>
-                    ) : ''
-                }
             </>
         );
     }

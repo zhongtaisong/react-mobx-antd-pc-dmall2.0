@@ -26,6 +26,7 @@ module.exports = {
         "eqeqeq": "off",
         "no-unused-vars": "off",
         "no-extra-semi": "off",
-        "no-sparse-arrays": "off"
+        "no-sparse-arrays": "off",
+        "no-constant-condition": "off"
     }
 };

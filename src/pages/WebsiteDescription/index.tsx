@@ -10,7 +10,7 @@ import './index.less';
 class WebsiteDescription extends React.Component<any, any> {
     render() {
         return (
-            <div className='common_width dm_WebsiteDescription'>期待中。。。</div>
+            <div className='common_width dm_WebsiteDescription'>期待中</div>
         );
     }
 }
