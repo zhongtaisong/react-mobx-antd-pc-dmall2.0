@@ -13,6 +13,7 @@ import state from './state';
 // 全局数据
 import $state from '@store';
 import './index.less';
+import { StaticContext } from 'react-router';
 
 /**
  * 根页面
@@ -20,8 +21,9 @@ import './index.less';
 @observer
 class Index extends React.Component<RouteComponentProps, any> {
 
-    componentWillMount() {        
+    componentDidMount() {
         this.props.history && state.setHistory( this.props.history );
+        this.initDid();
     }
 
     initDid = () => {
@@ -29,11 +31,7 @@ class Index extends React.Component<RouteComponentProps, any> {
         state.adminData();
     }
 
-    componentDidMount() {
-        this.initDid();
-    }
-
-    componentWillReceiveProps() {
+    componentDidUpdate(prevProps: Readonly<RouteComponentProps<{}, StaticContext, unknown>>, prevState: Readonly<any>, snapshot?: any): void {
         this.initDid();
     }
 
@@ -49,7 +47,7 @@ class Index extends React.Component<RouteComponentProps, any> {
                         <Switch>
                             {
                                 RouteList.map(item => {
-                                    const isAuth = oauthCode === 401 && item?.noDirectAccess;
+                                    const isAuth = oauthCode && oauthCode === 401 && item?.noDirectAccess;
                                     if(item.redirect){
                                         const redirectParams = {
                                             from: isAuth ? "*": item?.path,

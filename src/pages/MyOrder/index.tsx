@@ -16,11 +16,8 @@ import './index.less';
 @observer
 class MyOrder extends React.Component<any, any> {
 
-    componentWillMount() {
-        state.setHistory(this.props.history);
-    }
-
     componentDidMount() {
+        state.setHistory(this.props.history);
         state.selOrdersData();
     }
 

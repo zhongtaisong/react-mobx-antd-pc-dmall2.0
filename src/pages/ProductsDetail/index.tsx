@@ -1,6 +1,7 @@
 import React from 'react';
 import { toJS } from 'mobx';
 import { observer } from 'mobx-react';
+import { RouteComponentProps } from 'react-router-dom';
 // 规格
 import CommoditySpecification from './components/CommoditySpecification';
 // 详情
@@ -10,22 +11,27 @@ import indexState from './state';
 // 样式
 import './index.less';
 
+interface IComponentProps {
+    id: string;
+}
+
 /**
  * 商品详情
  */
 @observer
-class ProductsDetail extends React.Component<any, any> {
+class ProductsDetail extends React.Component<Partial<RouteComponentProps<IComponentProps>>, any> {
 
     componentDidMount() {
         const { id } = this.props.match.params;
         id && indexState.selectProductsDetailData({ id });
     }
 
-    componentWillReceiveProps(nextProps) {
-        if( this.props.match.params.id && nextProps.match.params.id && this.props.match.params.id != nextProps.match.params.id ){
-            nextProps.match.params.id && indexState.selectProductsDetailData({
-                id: nextProps.match.params.id
-            });
+    componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<any>, snapshot?: any): void {
+        const { match } = this.props;
+        const id = match?.params?.id;
+        const prevId = prevProps?.match?.params?.id;
+        if(id != prevId && id) {
+            indexState.selectProductsDetailData({ id });
         }
     }
 

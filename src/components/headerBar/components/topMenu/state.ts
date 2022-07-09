@@ -7,7 +7,9 @@ import { indexState } from '@config';
 
 class State {
 
-    // 退出登录
+    /**
+     * 退出登录
+     */
     logoutData = async () => {
         const res: any = await service.logoutData();
         try{

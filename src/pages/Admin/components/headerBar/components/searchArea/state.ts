@@ -5,12 +5,6 @@ import service from './service';
 
 class State {
 
-    // 是否展示搜索结果页面
-    @observable isShowResultPage = false;
-    @action setIsShowResultPage = (data = false) => {
-        this.isShowResultPage = data;
-    }
-
     // 商品数量
     @observable productNum = 0;
     @action setProductNum = (data = 0) => {

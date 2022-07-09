@@ -48,8 +48,10 @@ class Parameter extends React.Component<any, any> {
         this.initial(this.props, this.state);
     }
 
-    componentWillReceiveProps(nextProps) {
-        this.initial(nextProps, this.state);
+    componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<any>, snapshot?: any): void {
+        if(this.props !== prevProps) {
+            this.initial(this.props, this.state);
+        }
     }
 
     render() {

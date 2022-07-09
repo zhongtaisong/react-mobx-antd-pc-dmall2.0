@@ -1,8 +1,10 @@
 import React from 'react';
-import { Row, Col, message, Popover, ConfigProvider } from 'antd';
+import { Row, Col, Popover, ConfigProvider } from 'antd';
+import { RouteComponentProps } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import { EnvironmentOutlined } from '@ant-design/icons';
 import { SketchPicker } from 'react-color';
+import { MENU_LIST } from './data';
 // 数据
 import state from './state';
 // 全局数据
@@ -15,15 +17,34 @@ interface IComponentState {
      * 主题色配置
      */
     color: {
-        [key: string]: string;
+        /**
+         * 主色调
+         */
+        primaryColor: string;
+        /**
+         * 错误色调
+         */
+        errorColor: string,
+        /**
+         * 提示色调
+         */
+        warningColor: string;
+        /**
+         * 成功色调
+         */
+        successColor: string;
+        /**
+         * 信息色调
+         */
+        infoColor: string;
     },
 }
 
 // 顶部菜单
 @observer
-class TopMenu extends React.Component<any, IComponentState> {
+class TopMenu extends React.Component<Partial<RouteComponentProps>, IComponentState> {
 
-    constructor(props) {
+    constructor(props: Partial<RouteComponentProps>) {
         super(props);
         this.state = {
             color: {
@@ -36,32 +57,6 @@ class TopMenu extends React.Component<any, IComponentState> {
         }
     }
 
-    // 跳转到目标页面
-    intoTargetPage = (that) => {
-        const { oauthCode, admin } = $state;
-        if( that == 'login' ){
-            this.props.history.push('/login');
-        }else if( that == 'register' ){
-            this.props.history.push('/register');
-        }else if( that == 'logout' ){
-            state.logoutData();
-        }else{
-            if( oauthCode && oauthCode != 401 ){
-                if( that == 'admin' ){
-                    if( admin == 1 ){
-                        this.props.history.push(`/views/${that}`);
-                    }else{
-                        message.error('您不是管理员，无权进入后台！');
-                    }
-                }else{
-                    this.props.history.push(`/views/${that}`);
-                }
-            }else{
-                message.error('尚未登录，无法访问该页面！点击logo跳转首页');
-                this.props.history.replace('/login');
-            }
-        }
-    }
 
     render() {
         const { uname, admin } = $state;
@@ -75,62 +70,90 @@ class TopMenu extends React.Component<any, IComponentState> {
                         <EnvironmentOutlined style={{ paddingRight: '4px' }} />
                         南京
                     </Col>
-                    <Col span={ 22 } className='dm_topMenu__content--right'>
-                        {
-                            uname ? (
-                                <>
-                                    <span>欢迎你，{ uname }</span>
-                                    <span onClick={ this.intoTargetPage.bind(this, 'logout') }>退出登录</span>
-                                </>
-                            ) : (
-                                <>
-                                    <span onClick={ this.intoTargetPage.bind(this, 'login') }>登录</span>
-                                    <span onClick={ this.intoTargetPage.bind(this, 'register') }>注册</span>
-                                </>
-                            )
-                        }
-                        {
-                            !pathname.includes('/views/admin') ? (
-                                <>
-                                    <span onClick={ this.intoTargetPage.bind(this, 'order') }>我的订单</span>
-                                    <span onClick={ this.intoTargetPage.bind(this, 'collection') }>我的收藏</span>
-                                    <span onClick={ this.intoTargetPage.bind(this, 'user') }>用户中心</span>
-                                    {
-                                        admin == 1 ? (
-                                            <span onClick={ this.intoTargetPage.bind(this, 'admin') }>商城后台</span>
-                                        ) : ''
+                    { !pathname.includes('/views/admin') && (
+                        <Col span={ 22 } className='dm_topMenu__content--right'>
+                            {
+                                MENU_LIST.map(item => {
+                                    if(uname) {
+                                        if([0, 1].includes(item.key)) {
+                                            return null;
+                                        }
+                                    }else {
+                                        if([2].includes(item.key)) {
+                                            return null;
+                                        }
                                     }
-                                </>
-                            ) : ''
-                        }
-                        <Popover
-                            overlayClassName='dm_topMenu__popover'
-                            placement="bottom"
-                            content={
-                                <SketchPicker
-                                    presetColors={['#1890ff', '#25b864', '#ff6f00']}
-                                    color={ color?.primaryColor }
-                                    onChange={ this.onColorChange }
-                                />
+
+                                    if([6].includes(item.key)) {
+                                        if(admin !== 1) {
+                                            return null;
+                                        }
+                                    };
+
+                                    return (
+                                        <span key={ item.key }
+                                            onClick={() => this.intoTargetPage(item)}
+                                        >{ item.name }</span>
+                                    );
+                                })
                             }
-                        >
-                            <div className='dm_topMenu__content--right__theme'>
-                                <div style={{ background: color?.primaryColor }} />
-                                <span>主题色</span>
-                            </div>
-                        </Popover>
-                    </Col>
+                            <Popover
+                                overlayClassName='dm_topMenu__popover'
+                                placement="bottom"
+                                content={
+                                    <SketchPicker
+                                        presetColors={['#1890ff', '#25b864', '#ff6f00']}
+                                        color={ color?.primaryColor }
+                                        onChange={ this.onColorChange }
+                                    />
+                                }
+                            >
+                                <div className='dm_topMenu__content--right__theme'>
+                                    <div style={{ background: color?.primaryColor }} />
+                                    <span>主题色</span>
+                                </div>
+                            </Popover>
+                        </Col>
+                    )}
                 </Row>
             </div>
         );
     }
 
     /**
+     * 跳转到目标页面
+     * @param obj 菜单Object
+     */
+    intoTargetPage = (obj: {
+        key: number;
+        name: string;
+        pathName?: string;
+    }) => {
+        if(!obj || !Object.keys(obj).length) return;
+        const { key, pathName } = obj;
+        const { oauthCode } = $state;
+        const { history } = this.props;
+        const isAuth = oauthCode && oauthCode !== 401;
+
+        if([0, 1].includes(key)) {
+            return pathName && history.push(pathName);
+        }
+
+        if(key === 2) {
+            return state.logoutData();
+        }
+
+        if(!isAuth) {
+            return history.push('/login');
+        }
+
+        return pathName && history.push(pathName);
+    }
+
+    /**
      * 监听 - 拾色器操作
      */
     onColorChange = ({ hex }) => {
-        const { color } = this.state;
-
         this.setState({
             color: {
                 primaryColor: hex,

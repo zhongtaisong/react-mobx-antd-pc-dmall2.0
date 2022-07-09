@@ -3,6 +3,7 @@ import { Comment, Avatar, Empty } from 'antd';
 import { observer } from 'mobx-react';
 import { toJS } from 'mobx';
 import { LikeOutlined, DislikeOutlined } from '@ant-design/icons';
+import { RouteComponentProps } from 'react-router-dom';
 // 设置
 import { PUBLIC_URL } from '@config';
 // 数据
@@ -12,9 +13,19 @@ import $state from '@store';
 // less样式
 import './index.less';
 
-// 商品评价
+interface IComponentProps extends RouteComponentProps {
+    pid: number;
+}
+
+interface IComponentState {
+    [key: string]: any;
+}
+
+/**
+ * 商品评价
+ */
 @observer
-class CommodityEvaluation extends React.Component<any, any> {
+class CommodityEvaluation extends React.Component<Partial<IComponentProps>, IComponentState> {
 
     constructor(props) {
         super(props);
@@ -24,16 +35,16 @@ class CommodityEvaluation extends React.Component<any, any> {
     }
 
     componentDidMount() {
-        this.props.pid && state.selcommentsData({
-            pid: this.props.pid
-        });
+        const { pid } = this.props;
+        if(pid) {
+            state.selcommentsData({ pid });
+        }
     }
 
-    componentWillReceiveProps(nextProps) {
-        if( this.props.pid != nextProps.pid ){
-            this.props.pid && nextProps.pid && state.selcommentsData({
-                pid: nextProps.pid
-            });
+    componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<any>, snapshot?: any): void {
+        const { pid } = this.props;
+        if( pid && pid !== prevProps.pid ){
+            state.selcommentsData({ pid });
         }
     }
 

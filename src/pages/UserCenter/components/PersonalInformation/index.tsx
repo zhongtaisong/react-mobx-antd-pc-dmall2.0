@@ -76,15 +76,17 @@ class PersonalInformation extends React.Component<any, any> {
         }]);
     }
 
-    componentWillReceiveProps(nextProps) {
-        if( nextProps.avatar != this.props.avatar ){
+    componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<any>, snapshot?: any): void {
+        const { avatar } = this.props;
+        if(avatar !== prevProps.avatar){
             state.setFileListArr([{
                 uid: Date.now() + 1,
                 name: 'img.png',
                 status: 'done',
-                url: PUBLIC_URL + nextProps.avatar
+                url: PUBLIC_URL + avatar
             }]);
         }
+
     }
 
     render() {

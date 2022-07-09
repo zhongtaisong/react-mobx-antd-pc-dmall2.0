@@ -1,4 +1,5 @@
 import axios from '@axios';
+import { message } from 'antd';
 // 购物车商品数量
 const productNumUrl = 'cart/select/num';
 // 关键字搜索
@@ -24,7 +25,7 @@ class Service {
             }).then(res => {
                 resolve(res);
             }).catch(err => {
-                console.log(err);
+                message.error("操作失败！");
             });
         });
     }

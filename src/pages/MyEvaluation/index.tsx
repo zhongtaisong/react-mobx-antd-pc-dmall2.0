@@ -23,12 +23,9 @@ class MyEvaluation extends React.Component<any, any> {
         };
     }
 
-    componentWillMount() {
-        this.props.history && state.setHistory( this.props.history );
-    }
-
     componentDidMount() {
         const { id } = this.props.location.state || {};
+        this.props.history && state.setHistory( this.props.history );
         try{
             if( id ){
                 state.productsData({ id });

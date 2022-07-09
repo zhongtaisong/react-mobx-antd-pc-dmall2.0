@@ -1,38 +1,25 @@
 import React from 'react';
 import { Row, Col, Input, Button, Badge, message } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, RouteComponentProps } from 'react-router-dom';
 import { observer } from 'mobx-react';
-import { ShoppingCartOutlined, SearchOutlined } from '@ant-design/icons';
+import { ShoppingCartOutlined } from '@ant-design/icons';
+import { toJS } from 'mobx';
 // 数据
 import state from './state';
 // 全局数据
 import $state from '@store';
 // less样式
 import './index.less';
-import { toJS } from 'mobx';
 const { Search } = Input;
 
-// 搜索区域
+/**
+ * 搜索区域
+ */
 @observer
-class SearchArea extends React.Component<any, any> {
+class SearchArea extends React.Component<Partial<RouteComponentProps>, any> {
     
     componentDidMount() {
         state.productNumData(); 
-    }
-
-    // 跳转页面
-    handleClick = (that) => {
-        const { oauthCode } = $state;
-        if( that == 'cart' ){
-            if( oauthCode && oauthCode != 401 ){
-                this.props.history.push(`/views/${that}`);
-            }else{
-                message.error('尚未登录，无法访问该页面！点击logo跳转首页');
-                this.props.history.replace('/login');
-            }
-        }else{
-            this.props.history.push(`/views/${that}`);
-        }
     }
 
     // 展示搜索框
@@ -90,34 +77,24 @@ class SearchArea extends React.Component<any, any> {
         </>);
     }
 
-    // 获取搜索关键字
-    getSearchKws = (value) => {
-        if( !value.trim() ){
-            message.warning('关键字不能为空！');
-            return;
-        }else{
-            state.kwData( value.trim() );
-            state.setIsShowResultPage( true );
-        }
-    }
-
     render() {
         const { productNum } = state;
-        const { pathname } = this.props.location;
+        const { history, location } = this.props;
+
         return (
             <>
                 <div className='dm_SearchArea'>
                     <Row className='common_width dm_SearchArea__content'>
                         <Col span={ 4 } 
                             className='dm_SearchArea__content--logo' 
-                            onClick={ this.handleClick.bind(this, 'home') } 
+                            onClick={() => history.push("/")} 
                         />
                         <Col span={ 12 } className='dm_SearchArea__content--menu'>
                             { this.menuList() }
                         </Col>
                         <Col span={ 8 } className='dm_SearchArea__content--search'>
                             {
-                                !pathname.includes('/views/admin') ? (
+                                !location.pathname.includes('/views/admin') ? (
                                     <>
                                         <Search 
                                             className='dm_SearchArea__content--search__input'
@@ -130,7 +107,7 @@ class SearchArea extends React.Component<any, any> {
                                                 icon={ <ShoppingCartOutlined style={{ fontSize: 16 }} /> } 
                                                 type="primary" 
                                                 className='dm_SearchArea__content--search__cart'
-                                                onClick={ this.handleClick.bind(this, 'cart') }
+                                                onClick={ this.goShopCartFn }
                                             />
                                         </Badge>
                                     </>
@@ -141,6 +118,34 @@ class SearchArea extends React.Component<any, any> {
                 </div>
             </>
         );
+    }
+
+    /**
+     * 获取搜索关键字
+     * @param value 关键字
+     * @returns 
+     */
+    getSearchKws = (value: string) => {
+        value = value?.trim?.();
+        if(!value){
+            return message.error('关键字不能为空！');
+        }
+
+        state.kwData(value);
+    }
+
+    /**
+     * 进入 - 购物车页面
+     */
+    goShopCartFn = () => {
+        const { oauthCode } = $state;
+        const { history } = this.props;
+        const isAuth = oauthCode && oauthCode !== 401;
+        let pathname = "/views/cart";
+        if(!isAuth) {
+            pathname = "/login";
+        }
+        history.push(pathname);
     }
 }
 

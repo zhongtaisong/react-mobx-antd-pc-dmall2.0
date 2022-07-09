@@ -1,4 +1,5 @@
 import axios from '@axios';
+import { message } from 'antd';
 // 退出登录
 const logoutUrl = `users/logout`;
 
@@ -9,7 +10,7 @@ class Service {
             axios.post(logoutUrl, req).then(res => {
                 resolve(res);
             }).catch(err => {
-                console.log(err);
+                message.error("操作失败！");
             });
         })
     }

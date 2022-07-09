@@ -15,7 +15,6 @@ class State {
 
     // 发起账号认证
     oauthData = async () => {
-        searchAreaState.setIsShowResultPage();
         searchAreaState.setIsShowSearchInput();
     
         const res: any = await service.oauthData();

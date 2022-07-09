@@ -7,17 +7,22 @@
         height: 100%;
         align-items: center;
         color: #fff;
+        &--left {
+            font-size: 12px;
+        }
         &--right {
             display: flex !important;
             justify-content: flex-end;
             span {
                 cursor: pointer;
+                font-size: 12px;
                 &:not(:last-child):after {
                     content: '|';
                     padding: 0 10px;
+                    color: #fff;
                 }
                 &:hover {
-                    text-decoration: underline;
+                    color: var(--dm-main-color);
                 }
             }
 
