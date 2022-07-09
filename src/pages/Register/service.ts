@@ -1,4 +1,5 @@
 import axios from '@axios';
+import { message } from 'antd';
 
 const registerUrl = `users/reg`;
 
@@ -8,7 +9,7 @@ class Service {
             axios.post(registerUrl, req).then(res => {
                 resolve(res);
             }).catch(err => {
-                console.log(err);
+                message.error("操作失败！");
             });
         });
     }

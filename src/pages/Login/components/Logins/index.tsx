@@ -1,96 +1,77 @@
 import React from 'react';
-import { Form, Input, Button, Checkbox, Row, Col } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+import { Form, Input, Button, Checkbox } from 'antd';
+import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { observer } from 'mobx-react';
 import { Link } from 'react-router-dom';
+import './index.less';
 
-// 登录
+interface IComponentProps {
+    handleTarget: Function;
+}
+
+/**
+ * 登录 - 表单
+ */
 @observer
-class Logins extends React.Component<any, any> {
-
+class Logins extends React.Component<IComponentProps, any> {
     render() {
-        const {
-            form: { getFieldDecorator },
-            handleTarget, loginSubmit
-        } = this.props;
+        const { handleTarget } = this.props;
+        
         return (
-            <Form className='login'>
-                <Row>
-                    <Col span={ 24 }>
-                        <Form.Item>
-                            {
-                                getFieldDecorator('uname', {
-                                    rules: [{ 
-                                        required: true, 
-                                        message: '必填', 
-                                        whitespace: true 
-                                    }],
-                                    initialValue: localStorage.getItem('uname')
-                                })(
-                                    <Input
-                                        prefix={<UserOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                        placeholder="请输入用户名"
-                                    />
-                                )
-                            }
-                        </Form.Item>
-                    </Col>
-                    <Col span={ 24 }>
-                        <Form.Item>
-                            {
-                                getFieldDecorator('upwd', {
-                                    rules: [{ 
-                                        required: true, 
-                                        message: '必填', 
-                                        whitespace: true 
-                                    }]
-                                })(
-                                    <Input
-                                        // prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                        type="password"
-                                        placeholder="请输入密码"
-                                    />
-                                )
-                            }
-                        </Form.Item>
-                    </Col>
-                </Row>
-                <Row className='password-operation'>
-                    <Col span={ 12 }>
-                        <Form.Item>
-                            {
-                                getFieldDecorator('isRemember', {
-                                    rules: [{ 
-                                        required: false, 
-                                        message: '非必填'
-                                    }]
-                                })(
-                                    <Checkbox.Group>
-                                        <Checkbox className='isRemember' value='1'>记住密码</Checkbox>
-                                    </Checkbox.Group>
-                                )
-                            }
-                        </Form.Item>            
-                    </Col>
-                    <Col span={ 12 } style={{ textAlign: 'right' }}>
-                        <Form.Item>
-                            <a onClick={ handleTarget.bind(this, 'forget') }>忘记密码？</a>
-                        </Form.Item>            
-                    </Col>
-                </Row>
-                <Row className='password-operation'>
-                    <Col span={ 24 }>
-                        <Form.Item>
-                            <Button type="primary" style={{ width: '100%' }} onClick={ loginSubmit }>登录</Button>
-                        </Form.Item>            
-                    </Col>
-                    <Col span={ 24 }>
-                        <Form.Item>
-                            <Link to="/register">新用户注册</Link>
-                        </Form.Item>            
-                    </Col>
-                </Row>
-            </Form>
+            <div className='login_logins'>
+                <Form.Item
+                    name="uname"
+                    rules={[{ 
+                        required: true, 
+                        message: '必填', 
+                        whitespace: true 
+                    }]}
+                    initialValue={ localStorage.getItem('uname') }
+                >
+                    <Input
+                        prefix={<UserOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
+                        placeholder="请输入用户名"
+                    />
+                </Form.Item>
+                <Form.Item
+                    name="upwd"
+                    rules={[{ 
+                        required: true, 
+                        message: '必填', 
+                        whitespace: true 
+                    }]}
+                >
+                    <Input
+                        prefix={<LockOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
+                        type="password"
+                        placeholder="请输入密码"
+                    />
+                </Form.Item>
+
+                <div className='login_logins__pwd'>
+                    <Form.Item 
+                        name="isRemember"
+                        valuePropName="checked"
+                        initialValue={ false }
+                    >
+                        <Checkbox>记住密码</Checkbox>
+                    </Form.Item>
+                    <Form.Item>
+                        <span className='login_logins__pwd--text' onClick={() => handleTarget?.('forget')}>忘记密码？</span>
+                    </Form.Item>
+                </div>
+
+                <Form.Item>
+                    <Button 
+                        type="primary" 
+                        htmlType="submit"
+                        style={{ width: '100%' }}
+                    >登录</Button>
+                </Form.Item> 
+                <Form.Item>
+                    <Link to="/register" className='login_logins__register'>新用户注册</Link>
+                </Form.Item>
+            </div>
         );
     }
 }

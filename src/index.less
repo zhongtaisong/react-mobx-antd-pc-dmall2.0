@@ -20,7 +20,6 @@ time, mark, audio, video {
 	padding: 0;
 	border: 0;
 	font-family: '微软雅黑', 'Microsoft YaHei';
-	font-size: 12px;
 	vertical-align: middle;
 }
 /* HTML5 display-role reset for older browsers */
@@ -48,6 +47,10 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+* {
+    border-radius: 2px;
+}
+
 .dm_App {
     width: 100%;
     .common_width {
@@ -74,12 +77,6 @@ table {
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-a {
-    color: inherit;
-}
-* {
-    border-radius: 2px;
-}
 // 输入框 - 禁用
 .ant-input[disabled] {
     color: inherit;
@@ -104,14 +101,6 @@ a {
 }
 .ant-form-item-with-help {
     margin-bottom: 0 !important;
-}
-// 多选框
-.ant-checkbox-wrapper {
-    display: flex;
-    align-items: center;
-    span + span {
-        padding-bottom: 2px;
-    }
 }
 // 背景
 .common_bg {

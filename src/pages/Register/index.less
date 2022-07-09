@@ -1,50 +1,38 @@
 .dm_Register {
     background: #fff;
-    position: relative;
-    .content {
+    &__logo {
+        display: block;
+        margin: 0  auto 24px;
+        width: 80%;
+        >img {
+            width: 100%
+        }
+    }
+    &__content {
         width: 100%;
         height: 100vh;
-        .ant-form {
-            max-width: 450px;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 42px 24px 50px;
-            position: fixed;
-            right: 0;
-            top: 0;
-            .ant-col-24 {
-                .ant-row.ant-form-item {
-                    display: flex;
-                    justify-content: flex-end;
-                    margin-bottom: 24px;
-                    .ant-form-item-label {
-                        >label {
-                            color: #fff;
-                        }
-                    }
-                    .ant-form-item-control-wrapper {
-                        .ant-form-item-control {
-                            width: 300px;
-                            text-align: center;
-                            &.has-error {
-                                text-align: left;
-                            }
-                        }
-                    }
+        background: url(~@img/register/bg.png) no-repeat;
+        background-size: cover;
+        position: relative;
+        z-index: 1;
+        >.ant-form {
+            width: 22%;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 24px 12px;
+            position: absolute;
+            right: 6%;
+            top: 10%;
+            >.ant-form-item {
+                >.ant-form-item-label {
+                    >label {
+                        color: #fff;
+                    }    
                 }
             }
         }
     }
-    .logo {
-        a {
-            position: absolute;
-            left: 0;
-            top: 0;
-            padding: 42px 24px;
-            
-            border: 1px solid #ffffff1a;
-            border-left: 0 none;
-            border-top: 0 none;
-        }
+    &__login {
+        display: block;
+        text-align: right;
     }
 }

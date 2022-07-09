@@ -1,94 +1,90 @@
 import React from 'react';
-import { Form, Input, Button, Row, Col } from 'antd';
+import { Form, Input, Button } from 'antd';
 import { observer } from 'mobx-react';
+// less样式
+import './index.less';
 
-// 忘记密码
+interface IComponentProps {
+    handleTarget: Function;
+}
+
+/**
+ * 忘记密码 - 表单
+ */
 @observer
-class ForgetPassword extends React.Component<any, any> {
-
-    // 手机号码 - 校验
-    validatePhone = (rule, value, callback) => {
-        let reg = /^((1[3,5,8][0-9])|(14[5,7])|(17[0,6,7,8])|(19[7]))\d{8}$/;
-        if ( !reg.test( value ) ) {
-            callback('请输入合法的手机号码！');
-        } else {
-            callback();
-        }
-    };
-
+class ForgetPassword extends React.Component<IComponentProps, any> {
     render() {
-        const {
-            form: { getFieldDecorator },
-            handleTarget
-        } = this.props;
+        const { handleTarget } = this.props;
+
         return (
-            <Form layout='inline' className='dm_ForgetPassword'>
-                <Row>
-                    <Col span={ 24 }>
-                        <Form.Item label="邮箱">
-                            {
-                                getFieldDecorator('email', {
-                                    rules: [{
-                                        type: 'email',
-                                        message: '输入的邮箱无效!',
-                                    },{
-                                        required: true,
-                                        message: '必填', 
-                                        whitespace: true 
-                                    }]
-                                })(
-                                    <Input placeholder='请输入' />
-                                )
+            <div className='dm_ForgetPassword'>
+                <Form.Item 
+                    label='用户名'
+                    name="uName"
+                    rules={[{ 
+                        required: true, 
+                        message: '必填', 
+                        whitespace: true 
+                    }]}
+                    initialValue={ localStorage.getItem('uname') }
+                >
+                    <Input placeholder='请输入用户名' />
+                </Form.Item>
+                <Form.Item 
+                    label="手机号码"
+                    name="phone"
+                    required
+                    rules={[{ 
+                        validator: (rule, value) => {
+                            if(!value?.trim?.()) {
+                                return Promise.reject('请输入手机号码！');
                             }
-                        </Form.Item>
-                    </Col>
-                    <Col span={ 24 }>
-                        <Form.Item label='用户名'>
-                            {
-                                getFieldDecorator('uName', {
-                                    rules: [{ 
-                                        required: true, 
-                                        message: '必填', 
-                                        whitespace: true 
-                                    }],
-                                    initialValue: localStorage.getItem('uname')
-                                })(
-                                    <Input placeholder='请输入' />
-                                )
+
+                            const reg = /^((1[3,5,8][0-9])|(14[5,7])|(17[0,6,7,8])|(19[7]))\d{8}$/;
+                            if (!reg.test(value)) {
+                                return Promise.reject('请输入合法的手机号码！');
                             }
-                        </Form.Item>
-                    </Col>
-                    <Col span={ 24 }>
-                        <Form.Item label="手机号码">
-                            {
-                                getFieldDecorator('phone', {
-                                    rules: [{ 
-                                        required: true, 
-                                        message: '必填', 
-                                        whitespace: true 
-                                    },{
-                                        validator: this.validatePhone
-                                    }]
-                                })(
-                                    <Input style={{ width: '100%' }} placeholder='请输入' />
-                                )
-                            }
-                        </Form.Item>
-                    </Col>
-                </Row>
-                <Row className='password-operation'>
-                    <Col span={ 24 }>
-                        <Form.Item style={{ marginBottom: 0 }}>
-                            <Button type="primary" style={{ width: '100%' }} onClick={ handleTarget.bind(this, 'newPwd') }>验证信息</Button>
-                        </Form.Item>
-                    </Col>
-                    <Col span={ 24 }>
-                        <Form.Item>
-                            <a  onClick={ handleTarget.bind(this, 'login') }>直接登录</a>
-                        </Form.Item>            
-                    </Col>
-                </Row>
-            </Form>
+                    
+                            return Promise.resolve();
+                        } 
+                    }]}
+                >
+                    <Input placeholder='请输入手机号码' />
+                </Form.Item>
+                <Form.Item 
+                    label="邮箱"
+                    name="email"
+                    rules={[
+                        {
+                            type: 'email',
+                            message: '输入的邮箱无效!',
+                        },
+                        {
+                            required: true,
+                            message: '必填', 
+                            whitespace: true 
+                        }
+                    ]}
+                >
+                    <Input placeholder='请输入邮箱' />
+                </Form.Item>
+                <Form.Item
+                    label=" "
+                    colon={ false }
+                >
+                    <Button 
+                        type="primary" 
+                        style={{ width: '100%' }} 
+                        htmlType="submit"
+                    >验证信息</Button>
+                </Form.Item>
+                <Form.Item
+                    label=" "
+                    colon={ false }
+                >
+                    <span className='dm_ForgetPassword__login' onClick={() => handleTarget?.()}>直接登录</span>
+                </Form.Item>
+            </div>
         );
     }
 }
