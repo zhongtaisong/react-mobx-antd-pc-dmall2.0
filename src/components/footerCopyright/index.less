@@ -20,16 +20,18 @@
                 line-height: 2rem;
                 font-size: 14px;
                 &:hover {
-                    text-decoration: underline;
+                    color: var(--dm-main-color);
                 }
             }
         }
     }
-    .copyright {
-        height: 58px;
-        line-height: 58px;
+
+    &__copyright {
         background: #555;
-        color: var(--dm-font-color-white);
         text-align: center;
+        >li {
+            color: var(--dm-font-color-white);
+            padding: 10px 0;
+        }
     }
 }

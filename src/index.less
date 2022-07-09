@@ -51,6 +51,26 @@ table {
     border-radius: 2px;
 }
 
+:root {
+    // 页面中间区域最小高度
+    --min-content-height: 440px;
+}
+
+.ant-tag {
+    color: var(--ant-primary-color);
+    background: var(--dm-bg-color-alpha);
+}
+
+.ant-back-top {
+    >.ant-back-top-content {
+        background-color: var(--ant-primary-color-outline);
+        &:hover {
+            background-color: var(--ant-primary-color-hover);
+        }
+        
+    }
+}
+
 .dm_App {
     width: 100%;
     .common_width {
@@ -171,14 +191,4 @@ td.columns_left {
             }
         }
     }
-}
-
-:root {
-    // 页面中间区域最小高度
-    --min-content-height: 440px;
-}
-
-.ant-tag {
-    color: var(--ant-primary-color);
-    background: var(--dm-bg-color-alpha);
 }
