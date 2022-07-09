@@ -71,11 +71,11 @@ class TopMenu extends React.Component<any, IComponentState> {
         return (
             <div className='dm_topMenu'>
                 <Row className='common_width dm_topMenu__content'>
-                    <Col span={ 1 } className='dm_topMenu__content--left'>
+                    <Col span={ 2 } className='dm_topMenu__content--left'>
                         <EnvironmentOutlined style={{ paddingRight: '4px' }} />
                         南京
                     </Col>
-                    <Col span={ 23 } className='dm_topMenu__content--right'>
+                    <Col span={ 22 } className='dm_topMenu__content--right'>
                         {
                             uname ? (
                                 <>

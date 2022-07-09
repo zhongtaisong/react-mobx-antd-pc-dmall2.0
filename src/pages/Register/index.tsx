@@ -38,7 +38,6 @@ class Register extends React.Component<any, any> {
                     >
                         <Link 
                             to='/' 
-                            title='首页'
                             className='dm_Register__logo'
                         >
                             <img src={ logoImg } alt='logo' />

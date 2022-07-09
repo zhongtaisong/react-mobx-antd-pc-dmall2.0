@@ -1,6 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import { Button } from 'antd';
 import axios from '@axios';
 // 全局公共方法
 import { ScrollToTop } from '@utils';
@@ -69,11 +70,24 @@ class App extends React.Component<any, any> {
                 <BrowserRouter>
                     <ScrollToTop />
                     <Switch>
-                        <Route path='/' component={ Index } />
+                        <Route path='/views' component={ Index } />
+                        <Redirect exact from="/" to="/views" />
                         <Route path='/login' component={ Login } />
                         <Route path='/register' component={ Register } />
-                        {/* 所有错误路由跳转页面 */}
-                        <Route component={ ResultPages } />
+                        <Route
+                            render={props => {
+                                return (
+                                    <ResultPages 
+                                        extra={ 
+                                            <Button 
+                                                type="primary" 
+                                                onClick={() => props?.history?.goBack?.() }
+                                            >返回</Button> 
+                                        }
+                                    />
+                                );
+                            }} 
+                        />
                     </Switch>
                 </BrowserRouter>
             </div>

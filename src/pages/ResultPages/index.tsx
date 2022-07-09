@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { Result, Button } from 'antd';
+import { Result } from 'antd';
 // less样式
 import './index.less';
 
@@ -9,20 +9,14 @@ import './index.less';
  */
 @observer
 class ResultPages extends React.Component<any, any> {
-
-    // 跳转到目标页面
-    goTargetPage = () => {
-        this.props.history.replace('/');
-    }
-
     render() {
         return (
             <Result
+                className='dm_ResultPages'
                 status='404'
                 title='404'
-                subTitle='很抱歉，没找到页面！'
-                extra={ <Button type="primary" onClick={ this.goTargetPage }>返回首页</Button> }
-                className='dm_ResultPages common_width'
+                subTitle='页面不存在'
+                {...this.props}
             />
         );
     }

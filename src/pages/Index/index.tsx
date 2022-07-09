@@ -1,18 +1,13 @@
 import React from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect, RouteComponentProps } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import { BackTop, Spin } from 'antd';
-import { toJS } from 'mobx';
 // 公共组件
 import { HeaderBar, FooterCopyright } from '@com';
-// 全局设置
-import { searchAreaState } from '@config';
 // 各级页面路由
-import Routes from '@router';
+import RouteList from '@router';
 // 401、402、403、404
 import ResultPages from '@pages/ResultPages';
-// 搜索结果页面
-import SearchResults from '@pages/SearchResults';
 // 数据
 import state from './state';
 // 全局数据
@@ -23,7 +18,7 @@ import './index.less';
  * 根页面
  */
 @observer
-class Index extends React.Component<any, any> {
+class Index extends React.Component<RouteComponentProps, any> {
 
     componentWillMount() {        
         this.props.history && state.setHistory( this.props.history );
@@ -44,51 +39,48 @@ class Index extends React.Component<any, any> {
 
     render() {
         const { oauthCode, isLoading } = $state;
-        const { isShowResultPage, searchResultList } = searchAreaState;
+
         return (
             <div className='pages_index'>
                 <BackTop className='pages_index__backTop' />
                 <HeaderBar {...this.props} />
-                <Spin spinning={ isLoading } tip="Loading...">
+                <Spin spinning={ isLoading } tip="加载中...">
                     <div className='pages_index__content'>
-                        {
-                            !isShowResultPage ? (
-                                <Switch>
-                                    {
-                                        Routes.map(item => {
-                                            if( item.redirect ){
-                                                if( oauthCode && oauthCode == 401 && item.noDirectAccess ){
-                                                    return (<Redirect from={ this.props.location.pathname } to={ '/login' } key={ item.id } />);
-                                                }else{
-                                                    return (<Redirect exact from={ item.path } to={ item.redirect } key={ item.id } />);
-                                                }
-                                            }else{
-                                                return (
-                                                    <Route exact path={ item.path } key={ item.id }
-                                                        render={
-                                                            props => {
-                                                                if( oauthCode && oauthCode == 401 && item.noDirectAccess ){
-                                                                    return (<Redirect from={ props.location.pathname } to={ '/login' } />);
-                                                                }else{
-                                                                    return (<item.component {...props} />);
-                                                                }
-                                                            }
-                                                        }
-                                                    />
-                                                );
-                                            }
-                                        })
+                        <Switch>
+                            {
+                                RouteList.map(item => {
+                                    const isAuth = oauthCode === 401 && item?.noDirectAccess;
+                                    if(item.redirect){
+                                        const redirectParams = {
+                                            from: isAuth ? "*": item?.path,
+                                            to: isAuth ? '/login' : item?.redirect,
+                                        }
+                                        return (
+                                            <Redirect key={ item.id } exact {...redirectParams} />
+                                        );
                                     }
-                                    {/* 所有错误路由跳转页面 */}
-                                    <Route component={ ResultPages } />
-                                </Switch>
-                            ) : (
-                                <SearchResults 
-                                    {...this.props}
-                                    searchResultList={ toJS( searchResultList ) }
-                                />
-                            )
-                        }
+
+                                    return (
+                                        <Route 
+                                            key={ item.id }
+                                            exact
+                                            path={ item.path }
+                                            render={
+                                                (props: RouteComponentProps) => {
+                                                    if(isAuth){
+                                                        return (<Redirect to={ '/login' } />);
+                                                    }
+
+                                                    return (<item.component {...props} />);
+                                                }
+                                            }
+                                        />
+                                    );
+                                })
+                            }
+
+                            <Route component={ ResultPages } />
+                        </Switch>
                     </div>
                 </Spin>
                 <FooterCopyright {...this.props} />

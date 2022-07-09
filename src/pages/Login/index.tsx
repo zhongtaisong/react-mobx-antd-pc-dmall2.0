@@ -66,7 +66,6 @@ class Login extends React.Component<any, IComponentState> {
                     >
                         <Link 
                             to='/' 
-                            title='首页'
                             className='dm_Login__logo'
                         >
                             <img src={ logoImg } alt='logo' />

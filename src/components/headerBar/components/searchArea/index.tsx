@@ -46,7 +46,7 @@ class SearchArea extends React.Component<any, any> {
         const adminObj = toJS($state.adminObj);
         if( !pathname.includes('/views/admin') ){
             return (<>
-                <Link to='/views/home' className={ pathname == '/views/home' ? 'active' : '' }>首 页</Link>
+                <Link to='/' className={ pathname == '/views/home' ? 'active' : '' }>首 页</Link>
                 <Link to='/views/products' className={ 
                     pathname == '/views/products' || pathname.includes('/views/products/detail') ? 'active' : '' 
                 }>杂货铺</Link>
@@ -111,7 +111,6 @@ class SearchArea extends React.Component<any, any> {
                         <Col span={ 4 } 
                             className='dm_SearchArea__content--logo' 
                             onClick={ this.handleClick.bind(this, 'home') } 
-                            title='首页'
                         />
                         <Col span={ 12 } className='dm_SearchArea__content--menu'>
                             { this.menuList() }
