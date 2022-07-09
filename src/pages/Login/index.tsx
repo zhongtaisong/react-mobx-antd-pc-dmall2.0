@@ -3,11 +3,11 @@ import { Form } from 'antd';
 import { observer } from 'mobx-react';
 import { Link } from 'react-router-dom';
 // 登录 - 表单
-import Logins from './components/Logins';
+import Logins from './components/logins';
 // 忘记密码 - 表单
-import ForgetPassword from './components/ForgetPassword';
+import ForgetPassword from './components/forget-password';
 // 新密码
-import NewPassword from './components/NewPassword';
+import NewPassword from './components/new-password';
 // 设置
 import { indexState, PWD_KEY } from '@config';
 // logo图片

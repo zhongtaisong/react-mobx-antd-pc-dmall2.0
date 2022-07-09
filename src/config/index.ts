@@ -1,13 +1,13 @@
 // 首页 - 数据
-import indexState from '@pages/Index/state';
+import indexState from '@pages/state';
 // 顶部菜单 - 数据
-import topMenuState from '@com/headerBar/components/topMenu/state';
+import topMenuState from '@com/header-bar/components/topMenu/state';
 // 注册 - 数据
-import registerState from '@pages/Register/state';
+import registerState from '@pages/register/state';
 // 加入购物车 / 搜索框 - 数据
-import searchAreaState from '@com/headerBar/components/searchArea/state';
+import searchAreaState from '@com/header-bar/components/searchArea/state';
 // 商品详情 - 加入购物车 - 数据
-import commoditySpecificationState from '@pages/ProductsDetail/components/CommoditySpecification/state';
+import commoditySpecificationState from '@pages/products-detail/components/commodity-specification/state';
 // url前缀
 const PUBLIC_URL = 'http://127.0.0.1:8000/api/';
 // 加密key

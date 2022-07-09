@@ -1,12 +1,12 @@
 import React from 'react';
 // 走马灯
-import CarouselBox from './components/CarouselBox';
+import CarouselBox from './components/carousel-box';
 
 // 本周热门
-import HotThisWeek from './components/HotThisWeek';
+import HotThisWeek from './components/hot-this-week';
 
 // 本周热门 - 数据
-import hotThisWeekState from './components/HotThisWeek/state';
+import hotThisWeekState from './components/hot-this-week/state';
 import './index.less';
 
 /**

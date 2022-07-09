@@ -1,7 +1,7 @@
-import HeaderBar from './headerBar';
-import FooterCopyright from './footerCopyright';
-import UploadImg from './uploadImg';
-import OrderDetails from './orderDetails';
+import HeaderBar from './header-bar';
+import FooterCopyright from './footer-copyright';
+import UploadImg from './upload-img';
+import OrderDetails from './order-details';
 
 export {
     HeaderBar,
