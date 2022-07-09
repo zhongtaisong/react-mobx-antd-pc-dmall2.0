@@ -4,6 +4,7 @@ import { Link, RouteComponentProps } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import { ShoppingCartOutlined } from '@ant-design/icons';
 import { toJS } from 'mobx';
+import lodash from 'lodash';
 // 数据
 import state from './state';
 // 全局数据
@@ -125,14 +126,9 @@ class SearchArea extends React.Component<Partial<RouteComponentProps>, any> {
      * @param value 关键字
      * @returns 
      */
-    getSearchKws = (value: string) => {
-        value = value?.trim?.();
-        if(!value){
-            return message.error('关键字不能为空！');
-        }
-
-        state.kwData(value);
-    }
+    getSearchKws = lodash.debounce((value: string) => {
+        state.kwData(value?.trim?.());
+    }, 360);
 
     /**
      * 进入 - 购物车页面
