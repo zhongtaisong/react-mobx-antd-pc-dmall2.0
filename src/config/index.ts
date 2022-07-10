@@ -9,11 +9,11 @@ import searchAreaState from '@com/header-bar/components/searchArea/state';
 // 商品详情 - 加入购物车 - 数据
 import commoditySpecificationState from '@pages/products-detail/components/commodity-specification/state';
 // url前缀
-const PUBLIC_URL = 'http://127.0.0.1:8000/api/';
+export const PUBLIC_URL = 'http://127.0.0.1:8000/api/';
 // 加密key
-const PWD_KEY = 'fjreqjklnvmsn9u9084931jj雨色轻风意柔情怜花殇12612132212';
+export const PWD_KEY = 'fjreqjklnvmsn9u9084931jj雨色轻风意柔情怜花殇12612132212';
 // 路由黑名单
-const BLACK_LIST_PATH = [
+export const BLACK_LIST_PATH = [
     // 我的购物车
     '/views/products/cart', 
     // 我的订单
@@ -28,7 +28,7 @@ const BLACK_LIST_PATH = [
     '/views/products/cart/orderDetails'
 ];
 // 路由白名单
-const WHITE_LIST_PATH = [
+export const WHITE_LIST_PATH = [
     // 首页
     '/views/home',
     // 杂货铺
@@ -42,6 +42,9 @@ const WHITE_LIST_PATH = [
 ];
 
 export {
-    PUBLIC_URL, PWD_KEY, BLACK_LIST_PATH, WHITE_LIST_PATH, indexState, topMenuState, registerState, searchAreaState, 
+    indexState, 
+    topMenuState, 
+    registerState, 
+    searchAreaState, 
     commoditySpecificationState
 };
