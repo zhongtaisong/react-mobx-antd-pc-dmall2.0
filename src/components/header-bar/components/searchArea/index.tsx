@@ -1,10 +1,11 @@
 import React from 'react';
-import { Row, Col, Input, Button, Badge, message } from 'antd';
+import { Row, Col, Input, Button, Badge } from 'antd';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import { ShoppingCartOutlined } from '@ant-design/icons';
 import { toJS } from 'mobx';
 import lodash from 'lodash';
+import { MENU_LIST_01, MENU_LIST_02 } from './data';
 // 数据
 import state from './state';
 // 全局数据
@@ -28,59 +29,10 @@ class SearchArea extends React.Component<Partial<RouteComponentProps>, any> {
         state.setIsShowSearchInput02();
     }
 
-    // 菜单列表
-    menuList = () => {
-        const { pathname } = this.props.location;
-        const adminObj = toJS($state.adminObj);
-        if( !pathname.includes('/views/admin') ){
-            return (<>
-                <Link to='/' className={ pathname == '/views/home' ? 'active' : '' }>首 页</Link>
-                <Link to='/views/products' className={ 
-                    pathname == '/views/products' || pathname.includes('/views/products/detail') ? 'active' : '' 
-                }>杂货铺</Link>
-                <Link to='/views/web' className={ pathname == '/views/web' ? 'active' : '' }>网站说明</Link>
-                <Link to='/views/message' className={ pathname == '/views/message' ? 'active' : '' }>留言</Link>
-            </>);
-        }
-
-        if( !adminObj || !Object.keys(adminObj).length ) return null;
-        return (<>
-            {
-                adminObj['brandMenu'] ? (
-                    <Link to='/views/admin/brand' className={ pathname == '/views/admin/brand' ? 'active' : '' }>品牌管理</Link>                            
-                ) : ''
-            }
-            {
-                adminObj['productMenu'] ? (
-                    <Link to='/views/admin/product' className={ pathname == '/views/admin/product' ? 'active' : '' }>商品管理</Link>                          
-                ) : ''
-            }
-            {
-                adminObj['orderMenu'] ? (
-                    <Link to='/views/admin/order' className={ pathname == '/views/admin/order' ? 'active' : '' }>订单管理</Link>                        
-                ) : ''
-            }
-            {
-                adminObj['userMenu'] ? (
-                    <Link to='/views/admin/user' className={ pathname == '/views/admin/user' ? 'active' : '' }>用户管理</Link>                      
-                ) : ''
-            }
-            {
-                adminObj['commentMenu'] ? (
-                    <Link to='/views/admin/comment' className={ pathname == '/views/admin/comment' ? 'active' : '' }>评论管理</Link>                     
-                ) : ''
-            }
-            {
-                adminObj['adminMenu'] ? (
-                    <Link to='/views/admin/adminList' className={ pathname == '/views/admin/adminList' ? 'active' : '' }>权限管理</Link>                    
-                ) : ''
-            }
-        </>);
-    }
-
     render() {
         const { productNum } = state;
         const { history, location } = this.props;
+        const adminObj = toJS($state.adminObj);
 
         return (
             <>
@@ -91,7 +43,39 @@ class SearchArea extends React.Component<Partial<RouteComponentProps>, any> {
                             onClick={() => history.push("/")} 
                         />
                         <Col span={ 12 } className='dm_SearchArea__content--menu'>
-                            { this.menuList() }
+                            {
+                                !location.pathname.includes('/views/admin') ? (
+                                    <>
+                                        {
+                                            MENU_LIST_01.map(item => {
+                                                return (
+                                                    <Link 
+                                                        key={ item.key }
+                                                        to={ item.pathname } 
+                                                        className={ location.pathname === item.pathname ? 'active' : '' }
+                                                    >{ item.name }</Link>
+                                                );
+                                            })
+                                        }
+                                    </>
+                                ) : (
+                                    <>
+                                        {
+                                            adminObj && Object.keys(adminObj).length && MENU_LIST_02.map(item => {
+                                                if(!adminObj[item.authKey]) return null;
+
+                                                return (
+                                                    <Link 
+                                                        key={ item.key }
+                                                        to={ item.pathname } 
+                                                        className={ location.pathname === item.pathname ? 'active' : '' }
+                                                    >{ item.name }</Link>
+                                                );
+                                            })
+                                        }
+                                    </>
+                                )
+                            }
                         </Col>
                         <Col span={ 8 } className='dm_SearchArea__content--search'>
                             {

@@ -12,56 +12,14 @@ import $state from '@store';
 // less样式
 import './index.less';
 
-interface IComponentState {
-    /**
-     * 主题色配置
-     */
-    color: {
-        /**
-         * 主色调
-         */
-        primaryColor: string;
-        /**
-         * 错误色调
-         */
-        errorColor: string,
-        /**
-         * 提示色调
-         */
-        warningColor: string;
-        /**
-         * 成功色调
-         */
-        successColor: string;
-        /**
-         * 信息色调
-         */
-        infoColor: string;
-    },
-}
-
-// 顶部菜单
+/**
+ * 顶部菜单
+ */
 @observer
-class TopMenu extends React.Component<Partial<RouteComponentProps>, IComponentState> {
-
-    constructor(props: Partial<RouteComponentProps>) {
-        super(props);
-        this.state = {
-            color: {
-                primaryColor: '#1890ff',
-                errorColor: '#1890ff',
-                warningColor: '#1890ff',
-                successColor: '#1890ff',
-                infoColor: '#1890ff',
-            },
-        }
-    }
-
-
+class TopMenu extends React.Component<Partial<RouteComponentProps>, any> {
     render() {
         const { uname, admin } = $state;
         const { pathname } = this.props.location;
-        const { color } = this.state;
 
         return (
             <div className='dm_topMenu'>
@@ -103,13 +61,13 @@ class TopMenu extends React.Component<Partial<RouteComponentProps>, IComponentSt
                                 content={
                                     <SketchPicker
                                         presetColors={['#1890ff', '#25b864', '#ff6f00']}
-                                        color={ color?.primaryColor }
+                                        color={ `var(--dm-main-color)` }
                                         onChange={ this.onColorChange }
                                     />
                                 }
                             >
                                 <div className='dm_topMenu__content--right__theme'>
-                                    <div style={{ background: color?.primaryColor }} />
+                                    <div style={{ background: `var(--dm-main-color)`}} />
                                     <span>主题色</span>
                                 </div>
                             </Popover>
@@ -154,16 +112,6 @@ class TopMenu extends React.Component<Partial<RouteComponentProps>, IComponentSt
      * 监听 - 拾色器操作
      */
     onColorChange = ({ hex }) => {
-        this.setState({
-            color: {
-                primaryColor: hex,
-                errorColor: hex,
-                warningColor: hex,
-                successColor: hex,
-                infoColor: hex,
-            },
-        })
-
         ConfigProvider.config({
           theme: {
             primaryColor: hex,
