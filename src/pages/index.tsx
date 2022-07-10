@@ -6,7 +6,7 @@ import { StaticContext } from 'react-router';
 // 公共组件
 import { HeaderBar, FooterCopyright } from '@com';
 // 各级页面路由
-import RouteList from '@router';
+import routeList from '@router';
 // 401、402、403、404
 import ResultPages from '@pages/result-pages';
 // 数据
@@ -46,12 +46,13 @@ class Index extends React.Component<RouteComponentProps, any> {
                     <div className='pages_index__content'>
                         <Switch>
                             {
-                                RouteList.map(item => {
-                                    const isAuth = oauthCode && oauthCode === 401 && item?.noDirectAccess;
+                                routeList.map(item => {
+                                    const isAuth = (oauthCode && oauthCode !== 401) || item?.isOpen;
+
                                     if(item.redirect){
                                         const redirectParams = {
-                                            from: isAuth ? "*": item?.path,
-                                            to: isAuth ? '/login' : item?.redirect,
+                                            from: isAuth ? item?.path :  "*",
+                                            to: isAuth ? item?.redirect : '/login',
                                         }
                                         return (
                                             <Redirect key={ item.id } exact {...redirectParams} />
@@ -65,7 +66,7 @@ class Index extends React.Component<RouteComponentProps, any> {
                                             path={ item.path }
                                             render={
                                                 (props: RouteComponentProps) => {
-                                                    if(isAuth){
+                                                    if(!isAuth){
                                                         return (<Redirect to={ '/login' } />);
                                                     }
 
