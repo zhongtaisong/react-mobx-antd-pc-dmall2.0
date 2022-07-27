@@ -1,21 +1,11 @@
 /**
  * 菜单
  */
-export const MENU_LIST = [
-    {
-        key: 0,
-        name: '登录',
-        pathName: '/login'
-    },
-    {
-        key: 1,
-        name: '注册',
-        pathName: '/register'
-    },
-    {
-        key: 2,
-        name: '退出登录',
-    },
+export const MENU_LIST: Array<{
+    key: number;
+    name: string;
+    pathName?: string;
+}> = [
     {
         key: 3,
         name: '我的订单',

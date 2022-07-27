@@ -2,8 +2,8 @@ import React from 'react';
 import { Row, Col, Popover, ConfigProvider } from 'antd';
 import { RouteComponentProps } from 'react-router-dom';
 import { observer } from 'mobx-react';
-import { EnvironmentOutlined } from '@ant-design/icons';
 import { SketchPicker } from 'react-color';
+import { commonFn } from '@utils';
 import { MENU_LIST } from './data';
 // 数据
 import state from './state';
@@ -16,34 +16,47 @@ import './index.less';
  * 顶部菜单
  */
 @observer
-class TopMenu extends React.Component<Partial<RouteComponentProps>, any> {
+class TopMenu extends React.Component<Partial<RouteComponentProps>, {
+    /**
+     * 是否展示登录、注册
+     */
+    isLoginAndRegister: boolean;
+}> {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            isLoginAndRegister: !commonFn?.isLogin?.(),
+        };
+    }
+
     render() {
-        const { uname, admin } = $state;
         const { pathname } = this.props.location;
+        const { admin, uname } = commonFn?.getUserInfo?.() || {};
+        const { isLoginAndRegister } = this.state;
 
         return (
             <div className='dm_topMenu'>
-                <Row className='common_width dm_topMenu__content'>
-                    <Col span={ 2 } className='dm_topMenu__content--left'>
-                        <EnvironmentOutlined style={{ paddingRight: '4px' }} />
-                        南京
-                    </Col>
+                <div className='common_width dm_topMenu__content'>
+                    <div className='dm_topMenu__content--left'>
+                        { uname ? `欢迎您，${ uname }` : null }
+                    </div>
                     { !pathname.includes('/views/admin') && (
-                        <Col span={ 22 } className='dm_topMenu__content--right'>
+                        <div className='dm_topMenu__content--right'>
+                            {
+                                isLoginAndRegister ? (
+                                    <>
+                                        <span onClick={() => this.props.history.push('/login')}>登录</span>
+                                        <span onClick={() => this.props.history.push('/register')}>注册</span>
+                                    </>
+                                ) : (
+                                    <span onClick={ this.logoutFn }>退出登录</span>
+                                )
+                            }
                             {
                                 MENU_LIST.map(item => {
-                                    if(uname) {
-                                        if([0, 1].includes(item.key)) {
-                                            return null;
-                                        }
-                                    }else {
-                                        if([2].includes(item.key)) {
-                                            return null;
-                                        }
-                                    }
-
                                     if([6].includes(item.key)) {
-                                        if(admin !== 1) {
+                                        if(admin !== '1') {
                                             return null;
                                         }
                                     };
@@ -71,11 +84,20 @@ class TopMenu extends React.Component<Partial<RouteComponentProps>, any> {
                                     <span>主题色</span>
                                 </div>
                             </Popover>
-                        </Col>
+                        </div>
                     )}
-                </Row>
+                </div>
             </div>
         );
+    }
+
+    /**
+     * 退出登录 - 操作
+     */
+    logoutFn = () => {
+        state.logoutData(() => {
+            this.setState({ isLoginAndRegister: true });
+        });
     }
 
     /**
@@ -88,18 +110,10 @@ class TopMenu extends React.Component<Partial<RouteComponentProps>, any> {
         pathName?: string;
     }) => {
         if(!obj || !Object.keys(obj).length) return;
-        const { key, pathName } = obj;
+        const { pathName } = obj;
         const { oauthCode } = $state;
         const { history } = this.props;
         const isAuth = oauthCode && oauthCode !== 401;
-
-        if([0, 1].includes(key)) {
-            return pathName && history.push(pathName);
-        }
-
-        if(key === 2) {
-            return state.logoutData();
-        }
 
         if(!isAuth) {
             return history.push('/login');

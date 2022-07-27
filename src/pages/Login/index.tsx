@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form } from 'antd';
 import { observer } from 'mobx-react';
-import { Link } from 'react-router-dom';
+import { Link, RouteComponentProps } from 'react-router-dom';
 // 登录 - 表单
 import Logins from './components/logins';
 // 忘记密码 - 表单
@@ -31,7 +31,7 @@ interface IComponentState {
  * 登录、忘记密码、新密码
  */
 @observer
-class Login extends React.Component<any, IComponentState> {
+class Login extends React.Component<Partial<RouteComponentProps>, IComponentState> {
 
     constructor(props) {
         super(props);
@@ -41,7 +41,6 @@ class Login extends React.Component<any, IComponentState> {
     }
 
     componentDidMount() {
-        this.props.history && state.setHistory( this.props.history );
         indexState.oauthData();
     }
 
@@ -123,6 +122,8 @@ class Login extends React.Component<any, IComponentState> {
                 ...values,
                 upwd: (window as any).$md5(values?.upwd + PWD_KEY),
                 isRemember: Number(values?.isRemember),
+            }, () => {
+                this.props.history.replace("/");
             });
         }
         

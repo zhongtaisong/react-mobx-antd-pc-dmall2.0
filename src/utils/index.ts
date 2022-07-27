@@ -10,6 +10,10 @@ import base64ToFile from './base64-to-file';
 import session from './session';
 // 手机号码 - 校验
 import validatePhone from './validate-phone';
+// 公共方法
+import * as commonFn from './common-fn';
+// storage缓存，常量key
+import * as cacheKey from './cache-key';
 
 export {
     IconFont,
@@ -18,4 +22,6 @@ export {
     base64ToFile,
     session,
     validatePhone,
+    commonFn,
+    cacheKey,
 }

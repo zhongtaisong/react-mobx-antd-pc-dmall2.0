@@ -1,17 +1,12 @@
 import { message } from 'antd';
 import { observable, action } from 'mobx';
+import { cacheKey } from '@utils';
 // 接口服务
 import service from './service';
 // 全局数据
 import $state from '@store';
 
 class State {
-
-    // 路由
-    @observable history: any = {};
-    @action setHistory = (data = {}) => {
-        this.history = data;
-    }
 
     // 提交新密码所需参数
     @observable upwdObj = {};
@@ -20,17 +15,24 @@ class State {
     }
 
     // 登录
-    loginData = async ( values ) => {
+    loginData = async (values, callBack) => {
+        if(!values || !Object.keys(values).length) return;
+
         const res: any = await service.loginData(values);
         try{
             if( res.data.code === 200 ){
+                const { isRemember } = values;
                 const { data } = res.data || {};
-                data.uname && $state.setUname( data.uname );
-                data.token && $state.setToken( data.token );
-                data.uname && sessionStorage.setItem('uname', data.uname);
-                data.uname && localStorage.setItem('uname', data.uname);
+
+                const key = cacheKey.USER_INFO;
+                const value = JSON.stringify(data);
+                if(isRemember === 1) {
+                    localStorage.setItem(key, value);
+                }else {
+                    sessionStorage.setItem(key, value);
+                }
                 message.success('登录成功！');
-                this.history.push('/views/home');
+                callBack?.();
             }
         }catch(err) {
             console.log(err);
@@ -74,7 +76,6 @@ class State {
 
     // 清除mobx数据
     clearMobxData = () => {
-        this.setHistory();
         this.setUpwdObj();
     }
 }

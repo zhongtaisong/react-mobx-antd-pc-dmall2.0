@@ -4,21 +4,20 @@ import service from './service';
 import $state from '@store';
 // 全局设置
 import { indexState } from '@config';
+import { cacheKey } from '@utils';
 
 class State {
 
     /**
      * 退出登录
      */
-    logoutData = async () => {
+    logoutData = async (callBack?: Function) => {
         const res: any = await service.logoutData();
         try{
             if( res.data.code === 200 ){
-                $state.setUname( res.data.data );
-                let uname = sessionStorage.getItem('uname');
-                uname && localStorage.setItem('uname', uname);
-                sessionStorage.clear();
-                indexState.oauthData();
+                localStorage.removeItem(cacheKey.USER_INFO);
+                sessionStorage.removeItem(cacheKey.USER_INFO);
+                callBack?.();
             }
         }catch(err) {
             console.log(err);
