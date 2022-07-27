@@ -12,60 +12,11 @@ import { PUBLIC_URL } from '@config';
 // 数据
 import state from './state';
 
-const onFieldsChange = (props, changedFields) => {
-    props.setPersonalInformation({...toJS( props.personalInformation ), ...formUtils.formToMobx(changedFields)});
-};
-const mapPropsToFields = (props) => {
-    if( toJS( props.personalInformation ) ){
-        return formUtils.mobxToForm({...toJS( props.personalInformation )});
-    }
-};
-
-// 个人资料
+/**
+ * 个人资料
+ */
 @observer
 class PersonalInformation extends React.Component<any, any> {
-
-    // 提交
-    handleSubmit = async () => {
-        const { fileListArr, delList, updateUserInfoData } = state;
-        let formData = new FormData();
-        let userInfo = {};
-        
-        await new Promise<void>((resolve, reject) => {
-            this.props.form.validateFields(['phone', 'gender', 'birthday', 'nickName'],(err, values) => {
-                if (!err) {
-                    values['birthday'] = moment(values['birthday']).format('YYYY-MM-DD');
-                    userInfo = {...values};
-                    resolve();
-                }else{
-                    message.error('带*是必填项！');
-                }
-            });
-        });
-
-        await new Promise<void>((resolve, reject) => {
-            if( !fileListArr.length ){
-                message.error('上传头像，必传项！');
-            }else{
-                fileListArr.forEach((item, index) => {
-                    if( item.originFileObj ){
-                        formData.append('avatar', item.originFileObj);
-                    }else if( item.url ){
-                        let url = item.url.slice(item.url.indexOf('api/') + 4);
-                        formData.append('avatar', url);
-                    }
-                });
-                resolve();
-            }
-        });
-
-        // 表单
-        formData.append('userInfo', JSON.stringify(userInfo));
-        // 存储被删图片
-        formData.append('delList', JSON.stringify(delList));
-        formData.append('uname', session.getItem('uname'));
-        updateUserInfoData(formData);
-    }
 
     componentDidMount() {
         this.props.avatar && state.setFileListArr([{
@@ -90,133 +41,137 @@ class PersonalInformation extends React.Component<any, any> {
     }
 
     render() {
-        const { getFieldDecorator } = this.props.form;
         const { setFileListArr, fileListArr, delList, setDelList } = state;
+        
         return (
             <div className='dm_PersonalInformation'>
-                <Form layout="inline">
-                    <Row>
-                        <Col span={ 12 }>
-                            <Form.Item label="用户名">
-                                {
-                                    getFieldDecorator('uname', {
-                                        rules: [{ 
-                                            required: false, 
-                                            message: '非必填' 
-                                        }]
-                                    }
-                                    )(
-                                        <Input disabled placeholder='-' />
-                                    )
+                <Form layout="inline"
+                    onFinish={ this.handleSubmit }
+                >
+                    <Form.Item
+                        label="用户名"
+                        name="uname"
+                    >
+                        <Input disabled placeholder='-' />
+                    </Form.Item>
+
+                    <Form.Item
+                        label="昵称"
+                        name="nickName"
+                        rules={[{ 
+                            required: true, 
+                            message: '必填', 
+                            whitespace: true 
+                        }]}
+                    >
+                        <Input placeholder='请输入' />
+                    </Form.Item>
+
+                    <Form.Item 
+                        label="手机号码"
+                        name="phone"
+                        required
+                        rules={[{ 
+                            validator: (rule, value) => {
+                                if(!value?.trim?.()) {
+                                    return Promise.reject('请输入手机号码！');
                                 }
-                            </Form.Item>
-                        </Col>
-                        <Col span={ 12 }>
-                            <Form.Item label="昵称">
-                                {
-                                    getFieldDecorator('nickName', {
-                                        rules: [{ 
-                                            required: true,
-                                            whitespace: true,
-                                            message: '必填' 
-                                        }]
-                                    }
-                                    )(
-                                        <Input placeholder='请输入' />
-                                    )
+
+                                const reg = /^((1[3,5,8][0-9])|(14[5,7])|(17[0,6,7,8])|(19[7]))\d{8}$/;
+                                if (!reg.test(value)) {
+                                    return Promise.reject('请输入合法的手机号码！');
                                 }
-                            </Form.Item>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col span={ 12 }>
-                            <Form.Item label="手机号码">
-                                {
-                                    getFieldDecorator('phone', {
-                                        rules: [{ 
-                                            required: true,
-                                            whitespace: true,
-                                            message: '必填' 
-                                        },{
-                                            validator: validatePhone
-                                        }]
-                                    }
-                                    )(
-                                        <Input placeholder='请输入' />
-                                    )
-                                }
-                            </Form.Item>
-                        </Col>
-                        <Col span={ 12 }>
-                            <Form.Item label="性别">
-                                {
-                                    getFieldDecorator('gender', {
-                                        rules: [{ 
-                                            required: true, 
-                                            message: '必填' 
-                                        }]
-                                    }
-                                    )(
-                                        <Radio.Group>
-                                            <Radio value='0'>男</Radio>
-                                            <Radio value='1'>女</Radio>
-                                            <Radio value='2'>保密</Radio>
-                                        </Radio.Group>
-                                    )
-                                }
-                            </Form.Item>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col span={ 12 }>
-                            <Form.Item label="上传头像">
-                                {
-                                    getFieldDecorator('avatar', {
-                                        rules: [{ 
-                                            required: true, 
-                                            message: '必传' 
-                                        }]
-                                    }
-                                    )(
-                                        <UploadImg 
-                                            downloadUrl='products/download'
-                                            fileNum={ 1 }
-                                            setFileListArr={ setFileListArr }
-                                            fileListArr={ toJS(fileListArr) }
-                                            disabled={ false }
-                                            delList={ toJS(delList) }
-                                            setDelList={ setDelList }
-                                        />
-                                    )
-                                }
-                            </Form.Item>
-                        </Col>
-                        <Col span={ 12 }>
-                            <Form.Item label="生日">
-                                {
-                                    getFieldDecorator('birthday', {
-                                        rules: [{ 
-                                            required: true, 
-                                            message: '必填' 
-                                        }]
-                                    }
-                                    )(
-                                        <DatePicker />
-                                    )
-                                }
-                            </Form.Item>
-                        </Col>
-                    </Row>
-                    <Row className='submit'>
-                        <Col span={ 24 }>
-                            <Form.Item>
-                                <Button type="primary" onClick={ this.handleSubmit }>提交</Button>
-                            </Form.Item>
-                        </Col>
-                    </Row>
+                        
+                                return Promise.resolve();
+                            } 
+                        }]}
+                    >
+                        <Input placeholder='请输入手机号码' />
+                    </Form.Item>
+
+                    <Form.Item
+                        label="性别"
+                        name="gender"
+                        rules={[{
+                            required: true, 
+                            message: '必填' 
+                        }]}
+                    >
+                        <Radio.Group>
+                            <Radio value='0'>男</Radio>
+                            <Radio value='1'>女</Radio>
+                            <Radio value='2'>保密</Radio>
+                        </Radio.Group>
+                    </Form.Item>
+
+                    <Form.Item
+                        label="上传头像"
+                        name="avatar"
+                        rules={[{
+                            required: true, 
+                            message: '必填' 
+                        }]}
+                    >
+                        <UploadImg 
+                            downloadUrl='products/download'
+                            fileNum={ 1 }
+                            setFileListArr={ setFileListArr }
+                            fileListArr={ toJS(fileListArr) }
+                            disabled={ false }
+                            delList={ toJS(delList) }
+                            setDelList={ setDelList }
+                        />
+                    </Form.Item>
+
+                    <Form.Item
+                        label="生日"
+                        name="birthday"
+                        rules={[{
+                            required: true, 
+                            message: '必填' 
+                        }]}
+                    >
+                        <DatePicker />
+                    </Form.Item>
+
+                    <Form.Item>
+                        <Button type="primary" htmlType="submit">提交</Button>
+                    </Form.Item>
                 </Form>
             </div>
         );
+    }
+
+    /**
+     * 提交
+     */
+    handleSubmit = (values) => {
+        const { fileListArr, delList, updateUserInfoData } = state;
+        let formData = new FormData();
+        let userInfo = {};
+        
+        values['birthday'] = moment(values['birthday']).format('YYYY-MM-DD');
+        userInfo = {...values};
+
+        if(!fileListArr.length){
+            return message.error('上传头像，必传项！');
+        }
+
+        fileListArr.forEach((item, index) => {
+            if( item.originFileObj ){
+                formData.append('avatar', item.originFileObj);
+            }else if( item.url ){
+                let url = item.url.slice(item.url.indexOf('api/') + 4);
+                formData.append('avatar', url);
+            }
+        });
+
+        // 表单
+        formData.append('userInfo', JSON.stringify(userInfo));
+        // 存储被删图片
+        formData.append('delList', JSON.stringify(delList));
+        formData.append('uname', session.getItem('uname'));
+        updateUserInfoData(formData);
     }
 }
 

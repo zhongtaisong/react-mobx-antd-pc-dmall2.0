@@ -1,15 +1,10 @@
+import { commonFn } from '@utils';
 import { message } from 'antd';
 import { observable, action } from 'mobx';
 // 接口服务
 import service from './service';
 
 class State {
-
-    // form
-    @observable form: any = {};
-    @action setForm = (data = {}) => {
-        this.form = data;
-    }
 
     // 当前数据id
     @observable id = null;
@@ -68,7 +63,7 @@ class State {
         // 清除mobx数据
         this.clearMobxData();
         const res: any = await service.selAddressData({
-            uname: sessionStorage.getItem('uname')
+            uname: commonFn.getUserInfo().uname
         });
         try{
             if( res.data.code === 200 ){

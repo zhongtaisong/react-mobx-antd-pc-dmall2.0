@@ -58,7 +58,7 @@ class UserCenter extends React.Component<any, any> {
                                 setPersonalInformation={ setPersonalInformation }
                                 avatar={ toJS(avatar) }
                             />
-                        ) : ''
+                        ) : null
                     }
                     {/* 修改登录密码 */}
                     {
@@ -68,13 +68,13 @@ class UserCenter extends React.Component<any, any> {
                                 loginPassword={ toJS( state.loginPassword ) }
                                 setLoginPassword01={ state.setLoginPassword01 }
                             />
-                        ) : ''
+                        ) : null
                     }
                     {/* 收货地址 */}
                     {
                         key == 3 ? (
                             <ReceivingAddress />
-                        ) : ''
+                        ) : null
                     }
                 </Row>
             </div>
