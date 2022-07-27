@@ -1,5 +1,6 @@
 import axios from "axios";
 import { message } from 'antd';
+import { commonFn } from "@utils";
 // 设置
 import { PUBLIC_URL, BLACK_LIST_PATH } from '@config';
 // 全局数据
@@ -8,8 +9,10 @@ import $state from '@store';
 const $axios = axios.create({
     baseURL: PUBLIC_URL,
     timeout: 60 * 1000,
-    withCredentials: true
-    // headers: {'X-Custom-Header': 'foobar'}
+    withCredentials: true,
+    headers: {
+        token: commonFn?.getUserInfo()?.token
+    },
 });
 
 // 添加请求拦截器

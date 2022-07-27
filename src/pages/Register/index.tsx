@@ -19,7 +19,7 @@ class Register extends React.Component<any, any> {
 
     componentDidMount() {
         this.props.history && state.setHistory( this.props.history );
-        indexState.oauthData();
+        // indexState.oauthData();
     }
 
     componentWillUnmount() {

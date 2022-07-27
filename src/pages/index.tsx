@@ -3,6 +3,7 @@ import { Switch, Route, Redirect, RouteComponentProps } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import { BackTop, Spin } from 'antd';
 import { StaticContext } from 'react-router';
+import { commonFn } from '@utils';
 // 公共组件
 import { HeaderBar, FooterCopyright } from '@com';
 // 各级页面路由
@@ -27,7 +28,7 @@ class Index extends React.Component<RouteComponentProps, any> {
     }
 
     initDid = () => {
-        state.oauthData();
+        // state.oauthData();
         state.adminData();
     }
 
@@ -37,6 +38,7 @@ class Index extends React.Component<RouteComponentProps, any> {
 
     render() {
         const { oauthCode, isLoading } = $state;
+        const isLogin = commonFn.isLogin();
 
         return (
             <div className='pages_index'>
@@ -47,7 +49,7 @@ class Index extends React.Component<RouteComponentProps, any> {
                         <Switch>
                             {
                                 routeList.map(item => {
-                                    const isAuth = (oauthCode && oauthCode !== 401) || item?.isOpen;
+                                    const isAuth = isLogin || item?.isOpen;
 
                                     if(item.redirect){
                                         const redirectParams = {

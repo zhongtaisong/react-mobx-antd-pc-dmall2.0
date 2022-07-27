@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Popover, ConfigProvider } from 'antd';
+import { Popover, ConfigProvider } from 'antd';
 import { RouteComponentProps } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import { SketchPicker } from 'react-color';
@@ -7,8 +7,6 @@ import { commonFn } from '@utils';
 import { MENU_LIST } from './data';
 // 数据
 import state from './state';
-// 全局数据
-import $state from '@store';
 // less样式
 import './index.less';
 
@@ -111,11 +109,10 @@ class TopMenu extends React.Component<Partial<RouteComponentProps>, {
     }) => {
         if(!obj || !Object.keys(obj).length) return;
         const { pathName } = obj;
-        const { oauthCode } = $state;
         const { history } = this.props;
-        const isAuth = oauthCode && oauthCode !== 401;
+        const isLogin = commonFn?.isLogin?.()
 
-        if(!isAuth) {
+        if(!isLogin) {
             return history.push('/login');
         }
 
