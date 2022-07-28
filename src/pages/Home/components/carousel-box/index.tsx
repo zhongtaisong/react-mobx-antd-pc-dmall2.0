@@ -5,8 +5,6 @@ import { Link } from 'react-router-dom';
 import { toJS } from 'mobx';
 // url前缀
 import { PUBLIC_URL } from '@config';
-// 首页推荐
-import Recommend from '../recommend';
 // 数据
 import state from './state';
 // less样式
@@ -28,7 +26,9 @@ class CarouselBox extends React.PureComponent<any, any> {
                 <div className='dm_CarouselBox'>
                     {
                         carouselList.length ? (
-                            <Carousel autoplay effect="fade">
+                            <Carousel autoplay effect="fade"
+                                dots={{ className: "dm_CarouselBox__dots" }}
+                            >
                                 {
                                     carouselList.map( item => {
                                         return (
@@ -44,7 +44,6 @@ class CarouselBox extends React.PureComponent<any, any> {
                         ) : null
                     }
                 </div>
-                <Recommend {...this.props} />
             </div>
         );
     }

@@ -1,112 +1,51 @@
 .dm_HotThisWeek {
-    .title {
-        width: 100%;
-        height: 92px;
-        background: #fff;
-        font-size: 26px;
-        color: var(--dm-font-color-blue);
-        border: solid 1px #e6e6e6;
-        border-left: 0 none;
-        border-right: 0 none;
-        
-        align-items: center;
-        justify-content: center;
-    }
-    .hot_content {
-        margin: 30px 0 60px;
-        .slick-slider {
-            .slick-arrow {
-                width: 50px;
-                height: 50px;
-                &::before {
-                    font-size: 50px;
-                    color: #d6d6d6;
-                }
-                &.slick-prev {
-                    left: -50px;
-                }
-                &.slick-next {
-                    right: -50px;
-                }
+    margin-top: 20px;
+    &__content {
+        display: flex;
+        flex-wrap: wrap;
+        &--item {
+            width: calc((100% - 20px * 3) / 4);
+            margin-bottom: 20px;
+            background-color: #fff;
+            &:not(&:nth-child(4n)) {
+                margin-right: 20px;
             }
-            .slick-dots {
-                bottom: -30px;
-                li {
-                    button {
-                        &:before {
-                            color: #D6D6D6;
-                            opacity: 1;
-                        }
-                    }
-                    &.slick-active {
-                        button {
-                            &:before {
-                                color: var(--dm-font-color-blue);
-                            }
-                        }
-                    }
-                }
-            }
-            .slick-list {
+            >img {
                 width: 100%;
-                height: 100%;
-                .slick-track {
-                    height: 100%;
+                cursor: pointer;
+            }
+            &__text {
+                padding: 10px 16px 16px;
+                &--title {
+                    margin-bottom: 6px;
+                    line-height: 20px;
+                    >a {
+                        color: var(--dm-bg-color-333);
+                        font-weight: bold;
+                        display: inline-block;
+                        font-size: 14px;
+                        margin-bottom: 6px;
+                    }
+                    >div {
+                        font-size: 13px;
+                        color: var(--dm-font-color-555);
+                        display: -webkit-box;
+                        -webkit-box-orient: vertical;
+                        -webkit-line-clamp: 2;
+                        text-overflow: ellipsis;
+                        overflow: hidden;
+                    }
+                }
+                &--price {
                     display: flex;
-                    .slick-slide {
-                        margin: 0 10px;
-                        
-                        border-color: rgba(0, 0, 0, 0.1);
-                        >div {
-                            .ant-card {
-                                padding: 10px 16px;
-                                .ant-card-cover {
-                                    width: 100%;
-                                    margin: 0 auto;
-                                    cursor: pointer;
-                                }
-                                .ant-card-body {
-                                    padding: 10px 0;
-                                    .ant-card-meta-title {
-                                        margin-bottom: 0;
-                                        .ant-typography {
-                                            margin-bottom: 0;
-                                            color: #1890ff;
-                                        }
-                                    }
-                                    .ant-card-meta-description {
-                                        >a {
-                                            display: inline-block;
-                                            color: #808080;
-                                            font-size: 12px;
-                                            height: 56px;
-                                            max-height: 56px;
-                                            overflow: hidden;
-                                        }
-                                    }
-                                }
-                                .ant-card-actions {
-                                    background: none;
-                                    border: 0;
-                                    >li {
-                                        border: 0;
-                                    }
-                                }
-                            }
-                        }
-                        &:hover {
-                            >div {
-                                .ant-card {
-                                    .ant-card-body {
-                                        .ant-card-meta-description {
-                                            >a {
-                                                color: var(--dm-font-color-blue);
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                    align-items: baseline;
+                    color: var(--dm-main-color);
+                    font-weight: bold;
+                    >span {
+                        font-size: 12px;
+                    }
+                    >p {
+                        font-size: 16px;
                     }
                 }
             }
