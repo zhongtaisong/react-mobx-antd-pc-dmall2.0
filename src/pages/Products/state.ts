@@ -1,4 +1,5 @@
 import { observable, action, toJS } from 'mobx';
+import { makeAutoObservable } from "mobx";
 // 接口服务
 import service from './service';
 
@@ -6,6 +7,10 @@ import service from './service';
 const SIZE = 10;
 
 class State {
+
+    constructor() {
+        makeAutoObservable(this);
+    }
 
     // 关键字
     @observable kw = '';

@@ -1,8 +1,13 @@
 import service from './service';
 import { message } from 'antd';
 import { observable, action } from 'mobx';
+import { makeAutoObservable } from "mobx";
 
 class State {
+
+    constructor() {
+        makeAutoObservable(this);
+    }
 
     @observable history: any = {};
     @action setHistory = (data = {}) => {

@@ -1,9 +1,14 @@
 import { observable, action, toJS } from 'mobx';
+import { makeAutoObservable } from "mobx";
 
 // 一页展示多少条数据
 const SIZE = 6;
 
 class State {
+
+    constructor() {
+        makeAutoObservable(this);
+    }
 
     // form
     @observable form: any = {};

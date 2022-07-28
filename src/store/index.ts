@@ -1,6 +1,11 @@
 import { action, observable } from 'mobx';
+import { makeAutoObservable } from "mobx";
 
 class State {
+
+    constructor() {
+        makeAutoObservable(this);
+    }
 
     // 用户名
     @observable uname = '';

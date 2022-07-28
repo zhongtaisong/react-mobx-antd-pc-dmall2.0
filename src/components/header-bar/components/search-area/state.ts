@@ -1,8 +1,12 @@
-import { observable, action, toJS } from "mobx";
+import { observable, action, toJS, makeAutoObservable } from "mobx";
 // 接口服务
 import service from './service';
 
 class State {
+
+    constructor() {
+        makeAutoObservable(this);
+    }
 
     // 商品数量
     @observable productNum = 0;

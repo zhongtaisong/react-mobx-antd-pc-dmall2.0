@@ -5,8 +5,13 @@ import $state from '@store';
 // 全局设置
 import { indexState } from '@config';
 import { cacheKey } from '@utils';
+import { makeAutoObservable } from "mobx";
 
 class State {
+
+    constructor() {
+        makeAutoObservable(this);
+    }
 
     /**
      * 退出登录

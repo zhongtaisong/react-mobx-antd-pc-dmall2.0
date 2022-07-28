@@ -14,10 +14,6 @@ import './index.less';
 @observer
 class Recommend extends React.Component<any, any> {
 
-    componentDidMount() {
-        state.productsListData();
-    }
-
     // 跳转到商品详情
     watchProductDetails = (id) => {
         id && this.props.history.push(`/views/products/detail/${id}`);

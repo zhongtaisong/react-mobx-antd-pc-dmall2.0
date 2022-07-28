@@ -1,9 +1,14 @@
 import { observable, action } from 'mobx';
 import { message } from 'antd';
+import { makeAutoObservable } from "mobx";
 // 接口服务
 import service from './service';
 
 class State {
+
+    constructor() {
+        makeAutoObservable(this);
+    }
 
     @observable nums = [];
     @action setNums = (data = []) => {

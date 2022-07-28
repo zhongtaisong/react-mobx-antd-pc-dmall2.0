@@ -1,4 +1,5 @@
 import { observable, action, toJS } from "mobx";
+import { makeAutoObservable } from "mobx";
 import { message } from 'antd';
 // 接口服务
 import service from './service';
@@ -6,6 +7,10 @@ import service from './service';
 import { searchAreaState } from '@config';
 
 class State {
+
+    constructor() {
+        makeAutoObservable(this);
+    }
 
     // 购物车数据
     @observable dataSource = [];

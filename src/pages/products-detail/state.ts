@@ -1,7 +1,12 @@
 import service from './service';
 import { observable, action } from 'mobx';
+import { makeAutoObservable } from "mobx";
 
 class State {
+
+    constructor() {
+        makeAutoObservable(this);
+    }
 
     // 基本信息
     @observable basicInfo = {};

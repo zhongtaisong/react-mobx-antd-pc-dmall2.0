@@ -1,12 +1,17 @@
 import { message } from 'antd';
 import { observable, action } from 'mobx';
 import { cacheKey } from '@utils';
+import { makeAutoObservable } from "mobx";
 // 接口服务
 import service from './service';
 // 全局数据
 import $state from '@store';
 
 class State {
+
+    constructor() {
+        makeAutoObservable(this);
+    }
 
     // 提交新密码所需参数
     @observable upwdObj = {};

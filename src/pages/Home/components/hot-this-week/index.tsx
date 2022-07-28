@@ -13,8 +13,6 @@ import './index.less';
 const { Meta } = Card;
 const { Title } = Typography;
 
-
-
 // 热门推荐
 @observer
 class HotThisWeek extends React.Component<any, any> {
@@ -28,7 +26,7 @@ class HotThisWeek extends React.Component<any, any> {
             slidesToScroll: 1,
             slidesToShow: 5
         };
-        if(!toJS(productsList).length) return null;
+        if(!productsList.length) return null;
 
         return (
             <div className='dm_HotThisWeek'>
@@ -37,7 +35,7 @@ class HotThisWeek extends React.Component<any, any> {
                     <Row className='hot_content'>
                         <Slider {...settings}>
                             {
-                                toJS( productsList ).map( item => {
+                                productsList.map( item => {
                                     let price = parseFloat(item.price) && parseFloat(item.price).toFixed(2);
                                     return (
                                         <Card

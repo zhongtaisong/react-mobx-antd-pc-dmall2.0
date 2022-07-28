@@ -14,7 +14,7 @@ import './index.less';
 
 // 走马灯区域 + 首页推荐
 @observer
-class CarouselBox extends React.Component<any, any> {
+class CarouselBox extends React.PureComponent<any, any> {
 
     componentDidMount() {
         state.imgCarouselData();
@@ -22,14 +22,15 @@ class CarouselBox extends React.Component<any, any> {
 
     render() {
         const { carouselList } = state;
+        
         return (
             <div className='common_width'>
                 <div className='dm_CarouselBox'>
                     {
-                        toJS( carouselList ).length ? (
+                        carouselList.length ? (
                             <Carousel autoplay effect="fade">
                                 {
-                                    toJS( carouselList ).map( item => {
+                                    carouselList.map( item => {
                                         return (
                                             <Link key={ item.id } 
                                                 to={'/views/products/detail/' + item.id}
@@ -40,7 +41,7 @@ class CarouselBox extends React.Component<any, any> {
                                     } )
                                 }
                             </Carousel>
-                        ) : ''
+                        ) : null
                     }
                 </div>
                 <Recommend {...this.props} />

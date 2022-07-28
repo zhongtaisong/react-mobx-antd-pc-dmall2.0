@@ -1,8 +1,13 @@
 import { observable, action } from "mobx";
+import { makeAutoObservable } from "mobx";
 // 接口服务
 import service from './service';
 
 class State {
+
+    constructor() {
+        makeAutoObservable(this);
+    }
 
     // 收货人信息
     @observable consignees = {};

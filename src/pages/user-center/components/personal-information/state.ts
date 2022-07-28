@@ -1,9 +1,14 @@
 import { message } from 'antd';
 import { observable, action } from 'mobx';
+import { makeAutoObservable } from "mobx";
 // 接口服务
 import service from './service';
 
 class State {
+
+    constructor() {
+        makeAutoObservable(this);
+    }
 
     // -------------------- 上传图片 -------------------------- //
         // 上传图片 - 数据

@@ -1,4 +1,5 @@
 import { action, observable } from 'mobx';
+import { makeAutoObservable } from "mobx";
 // 接口服务
 import service from './service';
 // 全局数据
@@ -7,6 +8,10 @@ import $state from '@store';
 import { searchAreaState } from '@config';
 
 class State {
+
+    constructor() {
+        makeAutoObservable(this);
+    }
 
     @observable history = {};
     @action setHistory = (data = {}) => {

@@ -11,7 +11,8 @@ const $axios = axios.create({
     timeout: 60 * 1000,
     withCredentials: true,
     headers: {
-        token: commonFn?.getUserInfo()?.token
+        token: commonFn?.getUserInfo()?.token,
+        uname: commonFn?.getUserInfo()?.uname,
     },
 });
 

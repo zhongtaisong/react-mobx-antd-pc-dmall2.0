@@ -1,10 +1,15 @@
 import { commonFn } from '@utils';
 import { message } from 'antd';
 import { observable, action } from 'mobx';
+import { makeAutoObservable } from "mobx";
 // 接口服务
 import service from './service';
 
 class State {
+
+    constructor() {
+        makeAutoObservable(this);
+    }
 
     // 当前数据id
     @observable id = null;

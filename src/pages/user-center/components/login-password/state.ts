@@ -1,11 +1,16 @@
 import { message } from 'antd';
 import { observable, action } from 'mobx';
+import { makeAutoObservable } from "mobx";
 // 全局公共方法
 import { session } from '@utils';
 // 接口服务
 import service from './service';
 
 class State {
+
+    constructor() {
+        makeAutoObservable(this);
+    }
 
     @observable history = {};
     @action setHistory = (data = {}) => {

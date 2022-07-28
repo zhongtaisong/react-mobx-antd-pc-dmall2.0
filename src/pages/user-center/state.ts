@@ -1,4 +1,5 @@
 import { observable, action } from 'mobx';
+import { makeAutoObservable } from "mobx";
 import moment from 'moment';
 // 接口服务
 import service from './service';
@@ -6,6 +7,10 @@ import service from './service';
 import { session } from '@utils';
 
 class State {
+
+    constructor() {
+        makeAutoObservable(this);
+    }
 
     // 个人资料
     @observable personalInformation = {};

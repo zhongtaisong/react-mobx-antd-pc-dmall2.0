@@ -1,5 +1,6 @@
 import { message } from 'antd';
 import { observable, action, toJS } from 'mobx';
+import { makeAutoObservable } from "mobx";
 import md5 from 'js-md5';
 // 接口服务
 import service from './service';
@@ -9,6 +10,10 @@ import { store } from '@pages/admin/components';
 import { PWD_KEY } from '@config';
 
 class State {
+
+    constructor() {
+        makeAutoObservable(this);
+    }
 
     // 上传头像 - 数据
     @observable fileListArr = [];

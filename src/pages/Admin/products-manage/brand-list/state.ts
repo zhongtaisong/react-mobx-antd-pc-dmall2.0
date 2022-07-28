@@ -1,11 +1,16 @@
 import { message } from 'antd';
 import { observable, action } from 'mobx';
+import { makeAutoObservable } from "mobx";
 // 接口服务
 import service from './service';
 // 公共数据
 import { store } from '@pages/admin/components';
 
 class State {
+
+    constructor() {
+        makeAutoObservable(this);
+    }
 
     // 标题
     @observable title = '添加品牌';

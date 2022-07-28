@@ -1,9 +1,14 @@
 import { observable, action, toJS } from "mobx";
+import { makeAutoObservable } from "mobx";
 import { message } from "antd";
 // 接口服务
 import service from './service';
 
 class State {
+
+    constructor() {
+        makeAutoObservable(this);
+    }
 
     // 路由
     @observable history: any = {};

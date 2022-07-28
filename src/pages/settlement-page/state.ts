@@ -1,9 +1,14 @@
 import { observable, action } from "mobx";
+import { makeAutoObservable } from "mobx";
 import { message } from "antd";
 // 接口服务
 import service from './service';
 
 class State {
+
+    constructor() {
+        makeAutoObservable(this);
+    }
 
     // 收货地址
     @observable dataSource01 = [];

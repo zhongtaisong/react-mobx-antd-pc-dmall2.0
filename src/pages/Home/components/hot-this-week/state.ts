@@ -1,8 +1,13 @@
 import { action, observable } from 'mobx';
+import { makeAutoObservable } from "mobx";
 // 接口服务
 import service from './service';
 
 class State {
+
+    constructor() {
+        makeAutoObservable(this);
+    }
 
     // 本周热门商品列表
     @observable productsList = [];
@@ -15,7 +20,7 @@ class State {
         const res: any = await service.productsListData();
         try{
             if( res.data.code === 200 ){
-                res.data.data && this.setProductsList( res.data.data );
+                this.setProductsList(res?.data?.data || []);
             }
         }catch(err) {
             console.log(err);

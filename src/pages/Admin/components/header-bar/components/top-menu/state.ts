@@ -4,8 +4,13 @@ import service from './service';
 import $state from '@store';
 // 全局设置
 import { indexState } from '@config';
+import { makeAutoObservable } from "mobx";
 
 class State {
+
+    constructor() {
+        makeAutoObservable(this);
+    }
 
     // 退出登录
     logoutData = async () => {
