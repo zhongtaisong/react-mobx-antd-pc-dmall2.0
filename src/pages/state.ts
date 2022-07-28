@@ -13,11 +13,6 @@ class State {
         makeAutoObservable(this);
     }
 
-    @observable history = {};
-    @action setHistory = (data = {}) => {
-        this.history = data;
-    }
-
     // 发起账号认证
     oauthData = async () => {
         searchAreaState.setIsShowSearchInput();

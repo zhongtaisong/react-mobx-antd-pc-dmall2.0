@@ -1,5 +1,4 @@
 import React from 'react';
-import { observer } from 'mobx-react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import { Button } from 'antd';
 import axios from '@axios';
@@ -15,8 +14,7 @@ import Register from '@pages/register';
 import ResultPages from '@pages/result-pages';
 
 // App
-@observer
-class App extends React.Component<any, any> {
+class App extends React.PureComponent<any, any> {
 
     componentDidMount() {
         this.selectDicData();

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Switch, Route, Redirect, RouteComponentProps } from 'react-router-dom';
-import { observer } from 'mobx-react';
 import { BackTop, Spin } from 'antd';
 import { StaticContext } from 'react-router';
 import { commonFn } from '@utils';
@@ -19,25 +18,18 @@ import './index.less';
 /**
  * 根页面
  */
-@observer
-class Index extends React.Component<RouteComponentProps, any> {
+class Index extends React.PureComponent<RouteComponentProps, any> {
 
     componentDidMount() {
-        this.props.history && state.setHistory( this.props.history );
-        this.initDid();
-    }
-
-    initDid = () => {
-        // state.oauthData();
         state.adminData();
     }
 
     componentDidUpdate(prevProps: Readonly<RouteComponentProps<{}, StaticContext, unknown>>, prevState: Readonly<any>, snapshot?: any): void {
-        this.initDid();
+        state.adminData();
     }
 
     render() {
-        const { oauthCode, isLoading } = $state;
+        const { isLoading } = $state;
         const isLogin = commonFn.isLogin();
 
         return (
