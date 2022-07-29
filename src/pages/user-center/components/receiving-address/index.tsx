@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Button, Row } from 'antd';
+import { Table, Button } from 'antd';
 import { toJS } from 'mobx';
 import { observer } from 'mobx-react';
 // 添加收货地址
@@ -11,7 +11,9 @@ import state from './state';
 // less样式
 import './index.less';
 
-// 收货地址
+/**
+ * 收货地址
+ */
 @observer
 class EditableTable extends React.PureComponent<any, any> {
 
@@ -21,25 +23,25 @@ class EditableTable extends React.PureComponent<any, any> {
 
     render() {
         const { dataSource, visible } = state;
+        
         return (
             <div className='dm_ReceivingAddress'>
-                <Row style={{ paddingBottom: '6px', textAlign: 'right' }}>
+                <div className='dm_ReceivingAddress__btn'>
                     <Button type="primary"                         
                         onClick={() => state.setVisible( true )}
-                        icon='plus'
                     >添加</Button>
-                </Row>
-                <Row>
+                </div>
+
+                <div className='dm_ReceivingAddress__table'>
                     <Table
                         bordered
                         dataSource={ toJS( dataSource ) }
                         columns={ columns as any }
-                        // scroll={{ x: false, y: false }}
                         rowKey={ (record) => record.id }
                         pagination={ false }
                         size='middle'
                     />
-                </Row>
+                </div>
                 <AddressModal visible={ visible } />
             </div>
         );

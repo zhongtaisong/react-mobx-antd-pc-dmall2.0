@@ -15,7 +15,7 @@ class Service {
             axios.post(loginUrl, req).then(res => {
                 resolve(res);
             }).catch(err => {
-                message.error("操作失败！");
+                reject("操作失败！");
             });
         });
     }
@@ -25,7 +25,7 @@ class Service {
             axios.post(forgetPwdUrl, req).then(res => {
                 resolve(res);
             }).catch(err => {
-                message.error("操作失败！");
+                reject("操作失败！");
             });
         });
     }
@@ -35,7 +35,7 @@ class Service {
             axios.post(newPwdUrl, req).then(res => {
                 resolve(res);
             }).catch(err => {
-                message.error("操作失败！");
+                reject("操作失败！");
             });
         });
     }

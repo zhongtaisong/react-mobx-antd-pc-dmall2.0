@@ -3,18 +3,17 @@
     background: #fff;
     margin-bottom: 30px !important;
     border: solid 1px #e6e6e6;
-    padding: 10px;
-    
-    .dm_PersonalInformation, .dm_LoginPassword {
-        padding: 4px 0;
-        &.submit {
-            .ant-col-24 {
-                text-align: center;
-                padding: 10px 0;
-                .ant-btn {
-                    width: 104px;
-                }
-            }
+    padding: 0 20px 20px;
+    &__title {
+        padding: 16px 0;
+        text-align: center;
+        border-bottom: 1px solid #f0f0f0;
+    }
+    &__content {
+        margin-top: 20px;
+        &--form {
+            max-width: 600px;
+            margin: 0 auto;
         }
     }
     .operation_btn {
@@ -23,18 +22,6 @@
             &:hover {
                 color: var(--dm-font-color-blue);
             }
-        }
-    }
-    .table_title {
-        display: flex;
-        padding: 0px 0 6px 10px;
-        border-bottom: 1px solid #f0f0f0;
-        h4 {
-            margin-bottom: 0;
-        }
-        >.ant-select {
-            min-width: 12%;
-            margin-left: 20px;
         }
     }
 }

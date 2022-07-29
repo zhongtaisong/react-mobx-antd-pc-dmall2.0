@@ -27,6 +27,7 @@ module.exports = {
         "no-unused-vars": "off",
         "no-extra-semi": "off",
         "no-sparse-arrays": "off",
-        "no-constant-condition": "off"
+        "no-constant-condition": "off",
+        "no-empty": "off"
     }
 };

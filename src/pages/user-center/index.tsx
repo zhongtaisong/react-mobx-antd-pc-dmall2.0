@@ -1,7 +1,12 @@
 import React from 'react';
-import { Typography, Row, Select } from 'antd';
+import { Form, Button, Radio, message } from 'antd';
 import { observer } from 'mobx-react';
 import { toJS } from 'mobx';
+import moment from 'moment';
+import {FormInstance} from 'antd/es/form';
+import { RouteComponentProps } from 'react-router-dom';
+import { PWD_KEY } from '@config';
+import { cacheKey } from '@utils';
 // 个人信息
 import PersonalInformation from './components/personal-information';
 // 修改登录密码
@@ -12,73 +17,165 @@ import ReceivingAddress from './components/receiving-address';
 import state from './state';
 // less样式
 import './index.less';
-const { Option } = Select;
 
 /**
  * 用户中心
  */
 @observer
-class UserCenter extends React.Component<any, any> {
+class UserCenter extends React.PureComponent<RouteComponentProps, {
+    /**
+     * 当前菜单key
+     */
+    menuKey: "personalInformation" | "loginPassword" | "receivingAddress";
+}> {
+    formRef = React.createRef<FormInstance>();
 
     constructor(props) {
         super(props);
         this.state = {
-            key: 1
+            menuKey: "personalInformation",
         };
     }
 
     componentDidMount() {
-        state.selectUserInfoData();
-    }
-
-    // 监听下拉菜单
-    handleChange = (value) => {
-        this.setState({ key: value });
+        state.selectUserInfoData().then(res => {
+            this.formRef.current.setFieldsValue({...res});
+        });
     }
 
     render() {
-        const { key } = this.state;
-        const { personalInformation, setPersonalInformation, avatar } = state;
+        const { menuKey } = this.state;
+        const { personalInformation, setFileListArr, fileListArr } = state;
         return (
             <div className='common_width dm_UserCenter'>
-                <Row className='table_title'>
-                    <Typography.Title level={ 4 }>用户中心</Typography.Title>
-                    <Select defaultValue={ key } onChange={ this.handleChange }>
-                        <Option value={ 1 }>个人资料</Option>
-                        <Option value={ 2 }>修改登录密码</Option>
-                        <Option value={ 3 }>收货地址</Option>
-                    </Select>
-                </Row>
-                <Row style={{ padding: '10px 0' }}>
-                    {/* 个人资料 */}
+                <div className='dm_UserCenter__title'>
+                    <Radio.Group
+                        defaultValue={ menuKey }
+                        onChange={e => this.setState({ menuKey: e?.target?.value })}
+                    >
+                        <Radio.Button value="personalInformation">个人资料</Radio.Button>
+                        <Radio.Button value="loginPassword">修改登录密码</Radio.Button>
+                        <Radio.Button value="receivingAddress">收货地址</Radio.Button>
+                    </Radio.Group>
+                </div>
+                
+                <div className='dm_UserCenter__content'>
                     {
-                        key == 1 ? (
-                            <PersonalInformation 
-                                personalInformation={ toJS(personalInformation) } 
-                                setPersonalInformation={ setPersonalInformation }
-                                avatar={ toJS(avatar) }
-                            />
-                        ) : null
-                    }
-                    {/* 修改登录密码 */}
-                    {
-                        key == 2 ? (
-                            <LoginPassword 
-                                {...this.props}
-                                loginPassword={ toJS( state.loginPassword ) }
-                                setLoginPassword01={ state.setLoginPassword01 }
-                            />
-                        ) : null
-                    }
-                    {/* 收货地址 */}
-                    {
-                        key == 3 ? (
+                        menuKey !== "receivingAddress" ? (
+                            <div className='dm_UserCenter__content--form'>
+                                <Form 
+                                    labelCol={{ span: 4 }}
+                                    wrapperCol={{ span: 20 }}
+                                    autoComplete="off"
+                                    ref={ this.formRef }
+                                    onFinish={ this.onFinish }
+                                >
+            
+                                    {/* 个人资料 */}
+                                    {
+                                        menuKey === "personalInformation" && (
+                                            <PersonalInformation 
+                                                fileListArr={ toJS(fileListArr) } 
+                                                setFileListArr={(val) => {
+                                                    if(!Array.isArray(val) || !val.length) {
+                                                        this.formRef.current.resetFields(["avatar"]);
+                                                    }else {
+                                                        this.formRef.current.setFieldsValue({
+                                                            "avatar": val
+                                                        });
+                                                    }
+                                                    setFileListArr(val);
+                                                }}
+                                            />
+                                        )
+                                    }
+            
+                                    {/* 修改登录密码 */}
+                                    {
+                                        menuKey === "loginPassword" && (
+                                            <LoginPassword />
+                                        )
+                                    }
+            
+                                    <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                                        <Button type="primary" htmlType="submit">提交</Button>
+                                    </Form.Item>
+                                </Form>
+                            </div>
+                        ) : (
                             <ReceivingAddress />
-                        ) : null
+                        )
                     }
-                </Row>
+                </div>
             </div>
         );
+    }
+
+    /**
+     * 更新 - 个人资料 - 操作
+     * @param values 
+     * @returns 
+     */
+    updateUserInfoDataFn = (values) => {
+        const formData = new FormData();
+        const { avatar } = values || {};
+        if(!avatar) {
+            return message.error("请上传头像！");
+        }else if(Array.isArray(avatar)) {
+            if(!avatar.length) {
+                return message.error("请上传头像！");
+            }else {
+                const { originFileObj } = avatar?.[0] || {};
+                formData.append('avatar', originFileObj || {});
+            }
+        }else if(typeof avatar === 'string') {
+            formData.append('avatar', avatar);
+        }
+
+        // 表单
+        formData.append('userInfo', JSON.stringify({
+            ...values,
+            birthday: moment(values['birthday']).format('YYYY-MM-DD'),
+        }));
+        state?.updateUserInfoData?.(formData);
+    }
+
+    /**
+     * 更新 - 登录密码 - 操作
+     * @param values 
+     * @returns 
+     */
+     updateUpwdDataFn = (values) => {
+        state.updateUpwdData({
+            oldUpwd: (window as any).$md5(values?.oldUpwd + PWD_KEY),
+            newUpwd: (window as any).$md5(values?.newUpwd + PWD_KEY),
+        }).then(bol => {
+            if(bol) {
+                localStorage.removeItem(cacheKey.USER_INFO);
+                sessionStorage.removeItem(cacheKey.USER_INFO);
+                this.props.history.push("/login");
+            }
+        });
+    }
+
+    /**
+     * 表单提交 - 操作
+     */
+     onFinish = (values) => {
+        if(!values || !Object.keys(values).length) return;
+
+        const { menuKey } = this.state;
+        if(menuKey === 'personalInformation') {
+            return this.updateUserInfoDataFn(values);
+        }
+
+        if(menuKey === 'loginPassword') {
+            return this.updateUpwdDataFn(values);
+        }
+
+        if(menuKey === 'receivingAddress') {
+            return this.updateUserInfoDataFn(values);
+        }
     }
 }
 

@@ -52,7 +52,6 @@ export const columns = [
         align: 'center',
         width: '10%',
         render: (text, record, index) => {
-            record.isDefault = Number(record.isDefault);
             return text && text == 1 ? '是' : "否";
         }
     },

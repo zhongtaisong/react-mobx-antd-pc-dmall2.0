@@ -1,6 +1,5 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Upload, Modal, message } from 'antd';
-import { observer } from 'mobx-react';
 import { PlusOutlined } from '@ant-design/icons';
 // 全局设置
 import { PUBLIC_URL } from '@config';
@@ -8,8 +7,7 @@ import { PUBLIC_URL } from '@config';
 const imgFormat = ['image/jpeg', 'image/png'];
 
 // 上传图片
-@observer
-class UploadImg extends React.Component<any, any> {
+class UploadImg extends React.PureComponent<any, any> {
 
     constructor(props) {
         super(props);
@@ -145,27 +143,9 @@ class UploadImg extends React.Component<any, any> {
     };
 
     // 删除
-    onRemove = (file) => {
-        let { delList, setDelList, setFileListArr, fileListArr } = this.props;
-        if( !delList ){
-            message.error('缺少delList参数，delList是用来存储被删图片的信息！');
-            return;
-        }
-        if( !setDelList ){
-            message.error('缺少setDelList方法！');
-            return;
-        }
-        if( !setFileListArr ){
-            message.error('缺少setFileListArr方法！');
-            return;
-        }
-        let { uid, url } = file;
-        if( url ){
-            url = url.slice(url.indexOf('api/') + 4);
-            setDelList( [...delList, url] );
-        }
-        fileListArr = fileListArr.filter(item => item.uid != uid);
-        setFileListArr( fileListArr );
+    onRemove = () => {
+        const { setFileListArr } = this.props;
+        setFileListArr?.([]);
     }
 
     // 下载
@@ -185,10 +165,10 @@ class UploadImg extends React.Component<any, any> {
     render() {
         const { previewVisible, previewImage, dUrl } = this.state;
         let { disabled=false, fileNum=1, fileListArr=[], uploadText } = this.props;
+        
         return (
-            <Fragment>
+            <>
                 <Upload
-                    {...this.props}
                     listType="picture-card"
                     fileList={ fileListArr }
                     onPreview={ this.handlePreview }
@@ -197,17 +177,14 @@ class UploadImg extends React.Component<any, any> {
                     onRemove={ this.onRemove }
                     onDownload={ this.onDownload }
                     disabled={ disabled }
+                    maxCount={ fileNum }
                 >
                     {
-                        fileListArr.length >= fileNum || disabled ? null : (
-                            <div>
-                                <PlusOutlined style={{ fontSize: '20px' }} />
-                                {
-                                    uploadText ? (
-                                        <div className="ant_upload_text">{ uploadText }</div>
-                                    ) : ''
-                                }
-                            </div>
+                        fileListArr.length < fileNum && (
+                            <>
+                                <PlusOutlined />
+                                { uploadText ? ( <div className="ant_upload_text">{ uploadText }</div> ) : '' }
+                            </>
                         )
                     }
                 </Upload>
@@ -215,7 +192,7 @@ class UploadImg extends React.Component<any, any> {
                     <img alt="example" style={{ width: '100%' }} src={ previewImage } />
                 </Modal>
                 <iframe src={ dUrl } frameBorder={ 0 } style={{ display: 'none' }}></iframe>
-            </Fragment>
+            </>
         );
     }
 }

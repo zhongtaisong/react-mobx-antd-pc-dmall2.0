@@ -1,20 +1,60 @@
 import axios from '@axios';
-// 查询 - 个人资料
-const selectUserInfoUrl = 'users/select/uname';
+
+interface IResponse {
+    data: {
+        code: number;
+        data: any;
+        msg?: string;
+    };
+    [key: string]: any;
+};
 
 class Service {
 
-    selectUserInfoData = (req = {}) => {
+    /**
+     * 查询 - 个人资料
+     * @returns 
+     */
+    fetchSelectUserInfoData = (): Promise<IResponse> => {
         return new Promise((resolve, reject) => {
-            axios.get(selectUserInfoUrl, {
-                params: req
-            }).then(res => {
+            axios.get('users/select/uname').then(res => {
                 resolve(res);
             }).catch(err => {
-                console.log(err);
+                reject(err);
             });
         });
     }
+
+    /**
+     * 更新 - 个人资料
+     * @param params 
+     * @returns 
+     */
+    fetchUpdateUserInfoData = (params = {}): Promise<IResponse> => {
+        return new Promise((resolve, reject) => {
+            axios.post('users/update', params).then(res => {
+                resolve(res);
+            }).catch(err => {
+                reject(err);
+            });
+        });
+    }
+
+    /**
+     * 更新 - 登录密码
+     * @param params 
+     * @returns 
+     */
+    fetchUpdateUpwdData = (params = {}): Promise<IResponse> => {
+        return new Promise((resolve, reject) => {
+            axios.post('users/update/upwd', params).then(res => {
+                resolve(res);
+            }).catch(err => {
+                reject(err);
+            });
+        });
+    }
+
 
 }
 
