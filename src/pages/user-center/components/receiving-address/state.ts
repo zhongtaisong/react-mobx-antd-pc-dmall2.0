@@ -11,18 +11,6 @@ class State {
         makeAutoObservable(this);
     }
 
-    // 当前数据id
-    @observable id = null;
-    @action setId = (data = null) => {
-        this.id = data;
-    }
-
-    // 模态框 - 显示与隐藏
-    @observable visible = false;
-    @action setVisible = (data = false) => {
-        this.visible = data;
-    }
-
     // 收货地址 - 表格 - 数据
     @observable dataSource = [];
     @action setDataSource = (data = []) => {
@@ -37,58 +25,50 @@ class State {
 
     // 清除mobx数据
     clearMobxData = () => {
-        this.setId();
-        this.setVisible();
         this.setDataSource();
         this.setAddressModalData();
     }
 
-    // 添加收货地址 / 修改收货地址
-    editAddressData = async (values = {}) => {
-        let params = this.id ? {
-            id: this.id
-        } : {};
-        const res: any = await service.editAddressData({
-            uname: sessionStorage.getItem('uname'),
-            ...values,
-            ...params
-        });
-        try{
-            if( res.data.code === 200 ){
-                message.success(res.data.msg);
-                this.selAddressData();
-            }
-        }catch(err) {
-            console.log(err);
+    /**
+     * 收货地址 - 添加/更新 - 操作
+     * @param params 
+     */
+    editAddressData = async (params = {}) => {
+        const res = await service.editAddressData({...params});
+
+        if(res?.data?.code === 200){
+            message.success(res.data.msg);
+            this.selAddressData();
         }
     }
 
-    // 查询收货地址
+    /**
+     * 收货地址 - 查询 - 操作
+     */
     selAddressData = async () => {
-        // 清除mobx数据
-        this.clearMobxData();
-        const res: any = await service.selAddressData({
-            uname: commonFn.getUserInfo().uname
-        });
-        try{
-            if( res.data.code === 200 ){
-                res.data.data && this.setDataSource(res.data.data);
+        const res = await service.selAddressData();
+
+        if( res?.data?.code === 200 ){
+            let { data } = res?.data || {};
+            if(!Array.isArray(data)) {
+                data = [];
             }
-        }catch(err) {
-            console.log(err);
+
+            data.forEach(item => {
+                item.isDefault = Number(item.isDefault);
+            })
+            this.setDataSource(data);
         }
     }
 
     // 删除收货地址
-    delAddressData = async (obj = {}) => {
-        const res: any = await service.delAddressData(obj);
-        try{
-            if( res.data.code === 200 ){
-                message.success(res.data.msg);
-                this.selAddressData();
-            }
-        }catch(err) {
-            console.log(err);
+    delAddressData = async (params = {}) => {
+        if(!params || !Object.keys(params).length) return;
+
+        const res = await service.delAddressData(params);
+        if( res.data.code === 200 ){
+            message.success(res.data.msg);
+            this.selAddressData();
         }
     }
 }

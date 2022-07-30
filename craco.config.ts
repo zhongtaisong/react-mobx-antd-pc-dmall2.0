@@ -20,7 +20,8 @@ module.exports = {
           '@com': path.resolve(__dirname, 'src/components'),
           '@img': path.resolve(__dirname, 'src/img'),
           '@axios': path.resolve(__dirname, 'src/axios'),
-          '@store': path.resolve(__dirname, 'src/store')
+          '@store': path.resolve(__dirname, 'src/store'),
+          '@types': path.resolve(__dirname, 'src/types'),
       },
       plugins: {
         add: [

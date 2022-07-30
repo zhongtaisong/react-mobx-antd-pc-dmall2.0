@@ -13,6 +13,10 @@ class PersonalInformation extends React.PureComponent<any, any> {
                 <Form.Item
                     label="用户名"
                     name="uname"
+                    rules={[{
+                        required: true, 
+                        message: '必填' 
+                    }]}
                 >
                     <Input disabled placeholder='-' />
                 </Form.Item>

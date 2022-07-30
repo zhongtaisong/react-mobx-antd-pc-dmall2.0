@@ -1,43 +1,52 @@
 import axios from '@axios';
-// 添加 / 修改
-const editAddressUrl = 'address/edit';
-// 查询
-const selAddressUrl = 'address/select';
-// 删除
-const delAddressUrl = 'address/delete';
+import { IResponse } from '@types';
 
 class Service {
 
-    editAddressData = (req = {}) => {
+
+    /**
+     * 收货地址 - 添加/更新
+     * @param params 
+     * @returns 
+     */
+    editAddressData = (params = {}): Promise<IResponse> => {
         return new Promise((resolve, reject) => {
-            axios.post(editAddressUrl, req).then(res => {
+            axios.post("address/edit", params).then(res => {
                 resolve(res);
             }).catch(err => {
-                console.log(err);
+                reject(err);
             });
         });
     }
 
-    selAddressData = (req = {}) => {
+    /**
+     * 收货地址 - 查询
+     * @param params 
+     * @returns 
+     */
+    selAddressData = (): Promise<IResponse> => {
         return new Promise((resolve, reject) => {
-            axios.get(selAddressUrl, {
-                params: req
-            }).then(res => {
+            axios.get("address/select").then(res => {
                 resolve(res);
             }).catch(err => {
-                console.log(err);
+                reject(err);
             });
         });
     }
 
-    delAddressData = (req = {}) => {
+    /**
+     * 收货地址 - 删除
+     * @param params 
+     * @returns 
+     */
+    delAddressData = (params = {}): Promise<IResponse> => {
         return new Promise((resolve, reject) => {
-            axios.get(delAddressUrl, {
-                params: req
+            axios.get("address/delete", {
+                params
             }).then(res => {
                 resolve(res);
             }).catch(err => {
-                console.log(err);
+                reject(err);
             });
         });
     }

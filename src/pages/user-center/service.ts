@@ -1,13 +1,5 @@
 import axios from '@axios';
-
-interface IResponse {
-    data: {
-        code: number;
-        data: any;
-        msg?: string;
-    };
-    [key: string]: any;
-};
+import { IResponse } from '@types';
 
 class Service {
 

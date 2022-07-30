@@ -38,9 +38,7 @@ class UserCenter extends React.PureComponent<RouteComponentProps, {
     }
 
     componentDidMount() {
-        state.selectUserInfoData().then(res => {
-            this.formRef.current.setFieldsValue({...res});
-        });
+        this.init();
     }
 
     render() {
@@ -51,7 +49,13 @@ class UserCenter extends React.PureComponent<RouteComponentProps, {
                 <div className='dm_UserCenter__title'>
                     <Radio.Group
                         defaultValue={ menuKey }
-                        onChange={e => this.setState({ menuKey: e?.target?.value })}
+                        onChange={e => {
+                            const key = e?.target?.value;
+                            if(key === 'personalInformation') {
+                                this.init();
+                            }
+                            this.setState({ menuKey: key },);
+                        }}
                     >
                         <Radio.Button value="personalInformation">个人资料</Radio.Button>
                         <Radio.Button value="loginPassword">修改登录密码</Radio.Button>
@@ -97,7 +101,7 @@ class UserCenter extends React.PureComponent<RouteComponentProps, {
                                         )
                                     }
             
-                                    <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                                    <Form.Item wrapperCol={{ offset: 4, span: 20 }}>
                                         <Button type="primary" htmlType="submit">提交</Button>
                                     </Form.Item>
                                 </Form>
@@ -109,6 +113,15 @@ class UserCenter extends React.PureComponent<RouteComponentProps, {
                 </div>
             </div>
         );
+    }
+
+    /**
+     * 初始化
+     */
+    init = () => {
+        state.selectUserInfoData().then(res => {
+            this.formRef.current.setFieldsValue({...res});
+        });
     }
 
     /**

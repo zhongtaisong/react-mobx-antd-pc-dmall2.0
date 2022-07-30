@@ -1,8 +1,7 @@
 import React from 'react';
 import { Modal, Form, Input, Radio } from 'antd';
 import { observer } from 'mobx-react';
-// 数据
-import state from './../../state';
+import {FormInstance} from 'antd/es/form';
 
 /**
  * 添加收货地址 - Modal
@@ -10,26 +9,53 @@ import state from './../../state';
 @observer
 class AddressModal extends React.Component<{
     /**
-     * Modal是否可见
+     * AddressModal是否可见
      */
-    visible: boolean;
+     visible: boolean;
+    /**
+     * AddressModal外部入参
+     */
+    addressModalData: {
+        id?: number;
+        [key: string]: any;
+    };
+    /**
+     * Modal - 确定操作
+     */
+    onOk: Function;
+    /**
+     * Modal - 取消操作
+     */
+    onCancel: Function;
 }, any> {
+    formRef = React.createRef<FormInstance>();
+
+    componentDidUpdate(prevProps: Readonly<{ visible: boolean; addressModalData: { [key: string]: any; }; }>, prevState: Readonly<any>, snapshot?: any): void {
+        const { visible, addressModalData, } = this.props;
+
+        if(visible) {
+            this.formRef.current.setFieldsValue({
+                ...addressModalData,
+            });
+        }
+    }
+
     render() {
-        const { visible } = this.props;
+        const { visible, addressModalData } = this.props;
+        const title = typeof addressModalData?.id === 'number' ? '更新' : '添加';
 
         return (
             <Modal
-                width={ 800 }
-                title="添加收货地址"
+                title={ `${ title }收货地址` }
                 visible={ visible }
-                onOk={ this.handleOk }
-                onCancel={ this.handleCancel }
-                destroyOnClose={ true }
-                className='dm_ReceivingAddress_modal'
+                onOk={ this.onOk }
+                onCancel={ this.onCancel }
             >                    
                 <Form 
-                    layout='inline'
-                    autoComplete='off'
+                    labelCol={{ span: 6 }}
+                    wrapperCol={{ span: 18 }}
+                    autoComplete="off"
+                    ref={ this.formRef }
                 >
                     <Form.Item
                         label="收货人"
@@ -94,7 +120,7 @@ class AddressModal extends React.Component<{
                         name="isDefault"
                         rules={[{ 
                             required: true, 
-                            message: '必填', 
+                            message: '必选', 
                         }]}
                     >
                         <Radio.Group>
@@ -107,20 +133,32 @@ class AddressModal extends React.Component<{
         );
     }
 
-    // 确定
-    handleOk = () => {
-        const [ form ] = Form.useForm();
-        form.validateFields().then(values => {
-            state.editAddressData(values);
-            this.handleCancel();
+    /**
+     * AddressModal - 确定 - 操作
+     */
+    onOk = () => {
+        const { onOk, addressModalData } = this.props;
+        this.formRef.current.validateFields().then(values => {
+            if(!values || !Object.keys(values).length) return;
+
+            this.onCancel();
+            onOk?.({
+                ...addressModalData,
+                ...values,
+            })
         });
     }
 
-    // 取消
-    handleCancel = () => {
-        state.setVisible( false );
-        state.setAddressModalData();
+    /**
+     * AddressModal - 取消 - 操作
+     */
+    onCancel = () => {
+        const { onCancel } = this.props;
+
+        this.formRef.current.resetFields();
+        onCancel?.();
     }
+
 }
 
 export default AddressModal;
