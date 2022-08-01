@@ -1,54 +1,64 @@
 import axios from '@axios';
-// 查询列表
-const selectBrandUrl = 'brand/select';
-// 添加
-const addBrandUrl = 'brand/add';
-// 删除
-const deleteBrandUrl = 'brand/delete';
-// 修改
-const updateBrandUrl = 'brand/update';
+import { IResponse } from '@types';
 
 class Service {
-    selectBrandData = (req = {}) => {
+
+    /**
+     * 查询 - 品牌列表
+     * @param params 
+     * @returns 
+     */
+    selectBrandData = (params = {}): Promise<IResponse> => {
         return new Promise((resolve, reject) => {
-            axios.get(selectBrandUrl, {
-                params: req
-            }).then(res => {
+            axios.post("brand/select", params).then(res => {
                 resolve(res);
             }).catch(err => {
-                console.log(err);
+                reject(err);
             });
         });
     }
 
-    addBrandData = (req = {}) => {
+    /**
+     * 添加 - 品牌
+     * @param params 
+     * @returns 
+     */
+    addBrandData = (params = {}): Promise<IResponse> => {
         return new Promise((resolve, reject) => {
-            axios.post(addBrandUrl, req).then(res => {
+            axios.post("brand/add", params).then(res => {
                 resolve(res);
             }).catch(err => {
-                console.log(err);
+                reject(err);
             });
         });
     }
 
-    deleteBrandData = (req = {}) => {
+    /**
+     * 更新 - 品牌
+     * @param params 
+     * @returns 
+     */
+    updateBrandData = (params = {}): Promise<IResponse> => {
         return new Promise((resolve, reject) => {
-            axios.get(deleteBrandUrl, {
-                params: req
-            }).then(res => {
+            axios.put("brand/update", params).then(res => {
                 resolve(res);
             }).catch(err => {
-                console.log(err);
+                reject(err);
             });
         });
     }
 
-    updateBrandData = (req = {}) => {
+    /**
+     * 删除 - 品牌
+     * @param id 
+     * @returns 
+     */
+    deleteBrandData = (id: number): Promise<IResponse> => {
         return new Promise((resolve, reject) => {
-            axios.post(updateBrandUrl, req).then(res => {
+            axios.delete(`brand/delete/${ id }`).then(res => {
                 resolve(res);
             }).catch(err => {
-                console.log(err);
+                reject(err);
             });
         });
     }

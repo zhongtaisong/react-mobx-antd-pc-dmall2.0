@@ -3,8 +3,9 @@ import { observable, action } from 'mobx';
 import { makeAutoObservable } from "mobx";
 // 接口服务
 import service from './service';
-// 公共数据
-import { store } from '@pages/admin/components';
+
+// 一页展示多少条数据
+const SIZE = 6;
 
 class State {
 
@@ -12,77 +13,91 @@ class State {
         makeAutoObservable(this);
     }
 
-    // 标题
-    @observable title = '添加品牌';
-    @action setTitle = (data = '添加品牌') => {
-        this.title = data;
+    // 数据总数
+    @observable total = SIZE;
+    @action setTotal = (data = SIZE) => {
+        this.total = data;
     }
 
-    // 查询所有品牌
-    selectBrandData = async () => {
-        const res: any = await service.selectBrandData({
-            current: store.current,
-            pageSize: store.pageSize
-        });
-        try{
-            if( res.data.code === 200 ){
-                let { products, current, pageSize, total } = res.data.data || {};
-                products.map((item, index) => {
-                    return item['key'] = index + 1;
-                });
-                store.setDataList( products );
-                store.setCurrent( current );
-                store.setPageSize( pageSize );
-                store.setTotal( total );
-                // 清除抽屉内部数据
-                store.clearMobxData();
-            }
-        }catch(err) {
-            console.log(err);
+    // 列表 - 数据
+    @observable dataList = [];
+    @action setDataList = (data = []) => {
+        this.dataList = data;
+    }
+
+    /**
+     * 查询品牌 - 接口入参
+     */
+    @observable requestParams = {};
+    @action setRequestParams = (data = {}) => {
+        this.requestParams = data;
+    }
+
+    /**
+     * 查询 - 品牌列表
+     * @param params 
+     */
+    selectBrandDataFn = async (params = {}) => {
+        if(!params || !Object.keys(params).length) return;
+
+        const requestParams = {
+            ...params,
+            pageSize: SIZE,
+        };
+        const res = await service.selectBrandData(requestParams);
+
+        if(res?.data?.code === 200){
+            const { products, total } = res?.data?.data || {};
+
+            this.setDataList( products );
+            this.setTotal( total );
+            this.setRequestParams(requestParams);
         }
     }
 
-    // 添加品牌
-    addBrandData = async (values = {}) => {
-        const res: any = await service.addBrandData(values);
-        try{
-            if( res.data.code === 200 ){
-                message.success( res.data.msg );
-                this.selectBrandData();
-            }
-        }catch(err) {
-            console.log(err);
+    /**
+     * 添加 - 品牌 - 操作
+     * @param params 
+     * @returns 
+     */
+    addBrandDataFn = async (params = {}) => {
+        if(!params || !Object.keys(params).length) return;
+
+        const res = await service.addBrandData(params);
+        if( res.data.code === 200 ){
+            message.success(res.data.msg);
+            this.selectBrandDataFn();
+            return true;
         }
     }
 
-    // 删除品牌
-    deleteBrandData = async (id) => {
-        const res: any = await service.deleteBrandData({
-            id
-        });
-        try{
-            if( res.data.code === 200 ){
-                message.success( res.data.msg );
-                this.selectBrandData();
-            }
-        }catch(err) {
-            console.log(err);
+    /**
+     * 更新 - 品牌
+     * @param params 
+     */
+    updateBrandDataFn = async (params = {}) => {
+        if(!params || !Object.keys(params).length) return;
+
+        const res = await service.updateBrandData(params);
+        if( res.data.code === 200 ){
+            message.success(res.data.msg);
+            this.selectBrandDataFn();
+            return true;
         }
     }
 
-    // 修改品牌
-    updateBrandData = async (values = {} as any) => {
-        const res: any = await service.updateBrandData({
-            id: store.id,
-            fname: values.fname
-        });
-        try{
-            if( res.data.code === 200 ){
-                message.success( res.data.msg );
-                this.selectBrandData();
-            }
-        }catch(err) {
-            console.log(err);
+    /**
+     * 删除 - 品牌
+     * @param id 
+     * @returns 
+     */
+    deleteBrandDataFn = async (id) => {
+        if(!id || typeof id !== 'number') return;
+
+        const res = await service.deleteBrandData(id);
+        if( res.data.code === 200 ){
+            message.success(res.data.msg);
+            this.selectBrandDataFn();
         }
     }
 

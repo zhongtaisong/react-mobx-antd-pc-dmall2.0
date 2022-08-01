@@ -1,129 +1,143 @@
-import React, { Fragment } from 'react';
-import { Form, Input, Button } from 'antd';
-import { toJS } from 'mobx';
+import React from 'react';
+import { Form, Input, Button, Table, Modal } from 'antd';
 import { observer } from 'mobx-react';
-// 公共组件
-import { Table, Drawer } from '@pages/admin/components';
-// 公共数据
-import { store } from '@pages/admin/components';
+import { FormInstance } from 'antd/es/form';
 // 表头
-import { columns } from './data';
+import columns from './data';
 // 数据
 import state from './state';
-// 全局数据
-import $state from '@store';
+import './index.less';
 
-// 品牌列表
+/**
+ * 品牌列表
+ */
 @observer
-class List extends React.Component<any, any> {
+class List extends React.PureComponent<any, {
+    /**
+     * Modal是否可见
+     */
+    isVisible: boolean;
+    /**
+     * 品牌信息
+     */
+    brandInfo: {
+        [key: string]: any;
+    };
+}> {
+    formRef = React.createRef<FormInstance>();
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            isVisible: false,
+            brandInfo: {},
+        }
+    }
 
     componentDidMount() {
-        state.selectBrandData();
-    }
-
-    // 分页变化
-    pageChange = async (page) => {
-        await store.setCurrent( page );
-        await state.selectBrandData();
-    }
-
-    // 添加品牌
-    buttonClick = () => {
-        store.setDrawerVisible( true );
-        state.setTitle('添加品牌');
-    };
-
-    // 关闭抽屉
-    closeDrawer = () => {
-        store.setDrawerVisible( false );
-        store.clearMobxData();
-    };
-
-    // 重置
-    resetData = () => {
-        this.props.form.resetFields();
-        store.setInputContent();
-    }
-
-    // 提交
-    submitData = () => {
-        const { addBrandData, updateBrandData } = state;
-        let { id } = store;
-        this.props.form.validateFields((err, values) => {
-            if ( !err ) {
-                if( !id ){
-                    addBrandData( values );
-                }else{
-                    updateBrandData( values );
-                }
-            }
+        state.selectBrandDataFn({
+            current: 1,
         });
     }
 
-    componentWillUnmount() {
-        store.clearMobxTableData();
-    }
-
     render() {
-        const { 
-            dataList, current, total, pageSize, drawerVisible, isDisabled, inputContent
-        } = store;
-        const { title } = state;
-        const { getFieldDecorator } = this.props.form;
-        let { brandBtn } = toJS($state.adminObj) || {} as any;
-        brandBtn = brandBtn ? JSON.parse(brandBtn) : [];
+        const { dataList, total, } = state;
+        const { isVisible, brandInfo } = this.state;
+
         return (
-            <div className='common_width common_bg' style={{
-                padding: '10px',
-                marginBottom: '42px'
-            }}>
+            <div className='common_width admin_brand_list'>
+                <Button 
+                    className='admin_brand_list__addBtn'
+                    type='primary'
+                    onClick={() => {
+                        this.setState({ isVisible: true });
+                    }}
+                >添加品牌</Button>
+
                 <Table 
-                    columns={ toJS(columns) }
-                    dataSource={ toJS(dataList) }
-                    current={ current }
-                    total={ total }
-                    pageSize={ pageSize }
-                    rowKey='key'
-                    scroll={{ x: false, y: false }}
-                    paginationChange={ this.pageChange }
-                    addTitle='品牌'
-                    addClick={ this.buttonClick }
-                    isDisabledBtn={ !brandBtn.includes(1) }
-                />
-                <Drawer 
-                    title={ title }
-                    drawerVisible={ drawerVisible }
-                    closeDrawer={ this.closeDrawer }
-                    children={ 
-                        <Form>
-                            <Form.Item label="品牌名称">
-                                {
-                                    getFieldDecorator('fname', {
-                                        rules: [{ 
-                                            required: true,
-                                            whitespace: true,
-                                            message: '必填' 
-                                        }],
-                                        initialValue: toJS(inputContent) || null
-                                    }
-                                    )(
-                                        <Input placeholder='请输入' />
-                                    )
-                                }
-                            </Form.Item>
-                        </Form>
+                    columns={ 
+                        columns({
+                            onUpdateClick: (obj) => {
+                                this.setState({ 
+                                    isVisible: true,
+                                    brandInfo: obj,
+                                }, () => {
+                                    this.formRef.current.setFieldsValue({...obj});
+                                });
+                            },
+                            onDeleteClick: (id) => state.deleteBrandDataFn(id),
+                        }) as any
                     }
-                    btnChildren={
-                        !isDisabled ? (
-                            <Fragment>                            
-                                <Button onClick={ this.resetData } style={{ marginRight: 8 }}>重置</Button>
-                                <Button onClick={ this.submitData } type="primary">提交</Button>
-                            </Fragment>
-                        ) : ''
-                    }
+                    dataSource={ dataList }
+                    bordered
+                    pagination={{
+                        total,
+                        onChange(page) {
+                            state.selectBrandDataFn({
+                                current: page,
+                            });
+                        }
+                    }}
+                    rowKey='id'
                 />
+
+                <Modal
+                    title={`${ brandInfo?.id ? '更新' : '添加' }品牌`}
+                    visible={ isVisible }
+                    okText="保存"
+                    onCancel={ this.onCancelClick }
+                    onOk={ this.onOkClick }
+                >
+                    <Form ref={ this.formRef }>
+                        <Form.Item 
+                            label='品牌名称'
+                            name="brandName"
+                            rules={[{ 
+                                required: true, 
+                                message: '必填', 
+                                whitespace: true 
+                            }]}
+                        >
+                            <Input placeholder='请输入' />
+                        </Form.Item>
+                    </Form>
+                </Modal>
             </div>
         );
+    }
+
+    /**
+     * Modal - 保存 - 操作
+     */
+    onOkClick = () => {
+        const { brandInfo } = this.state;
+
+        this.formRef.current.validateFields().then(values => {
+            let res = null;
+            if(!brandInfo?.id) {
+                res = state.addBrandDataFn(values);
+            }else {
+                res = state.updateBrandDataFn({
+                    ...values,
+                    id: brandInfo?.id,
+                });
+            }
+
+            if(!res) return;
+            res?.then?.(bol => {
+                if(!bol) return;
+                this.onCancelClick();
+            });
+        });
+    }
+
+    /**
+     * Modal - 取消 - 操作
+     */
+    onCancelClick = () => {
+        this.setState({ isVisible: false }, () => {
+            this.formRef.current.resetFields();
+        });
     }
 }
 

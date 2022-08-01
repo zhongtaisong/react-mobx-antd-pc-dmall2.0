@@ -3,7 +3,7 @@ import { Form, Input, Button } from 'antd';
 import { observer } from 'mobx-react';
 import { Link } from 'react-router-dom';
 // 全局设置
-import { indexState, PWD_KEY } from '@config';
+import { PWD_KEY } from '@config';
 // logo图片
 import logoImg from '@img/logo2.png';
 // 数据
@@ -19,7 +19,6 @@ class Register extends React.Component<any, any> {
 
     componentDidMount() {
         this.props.history && state.setHistory( this.props.history );
-        // indexState.oauthData();
     }
 
     componentWillUnmount() {

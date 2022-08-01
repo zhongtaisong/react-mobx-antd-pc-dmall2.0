@@ -65,8 +65,8 @@ class SearchArea extends React.Component<Partial<RouteComponentProps>, any> {
                                 ) : (
                                     <>
                                         {
-                                            adminObj && Object.keys(adminObj).length && MENU_LIST_02.map(item => {
-                                                if(!adminObj[item.authKey]) return null;
+                                            MENU_LIST_02.map(item => {
+                                                if(!adminObj?.[item.authKey]) return null;
 
                                                 return (
                                                     <Link 

@@ -43,7 +43,7 @@ class UserCenter extends React.PureComponent<RouteComponentProps, {
 
     render() {
         const { menuKey } = this.state;
-        const { personalInformation, setFileListArr, fileListArr } = state;
+        const { setFileListArr, fileListArr } = state;
         return (
             <div className='common_width dm_UserCenter'>
                 <div className='dm_UserCenter__title'>
