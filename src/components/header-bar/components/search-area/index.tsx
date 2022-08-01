@@ -41,7 +41,11 @@ class SearchArea extends React.Component<Partial<RouteComponentProps>, any> {
                         <Col span={ 4 } 
                             className='dm_SearchArea__content--logo' 
                             onClick={() => history.push("/")} 
-                        />
+                        >
+                            <svg className="icon" aria-hidden="true">
+                                <use xlinkHref="#icon-logo"></use>
+                            </svg>
+                        </Col>
                         <Col span={ 12 } className='dm_SearchArea__content--menu'>
                             {
                                 !location.pathname.includes('/views/admin') ? (
