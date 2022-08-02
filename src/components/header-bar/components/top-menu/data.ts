@@ -23,7 +23,7 @@ export const MENU_LIST: Array<{
     },
     {
         key: 6,
-        name: '商家后台',
+        name: '后台管理',
         pathName: '/views/admin'
     },
 ];

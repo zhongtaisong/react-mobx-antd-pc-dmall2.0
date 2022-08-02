@@ -1,10 +1,9 @@
 import { message } from 'antd';
 import { observable, action } from 'mobx';
 import { makeAutoObservable } from "mobx";
+import { PAGE_SIZE } from '@config';
 // 接口服务
 import service from './service';
-// 公共数据
-import { store } from '@pages/admin/components';
 
 class State {
 
@@ -12,13 +11,6 @@ class State {
         makeAutoObservable(this);
     }
 
-    // 抽屉 - 标题
-    @observable title = '添加商品';
-    @action setTitle = (data = '添加商品') => {
-        this.title = data;
-    }
-
-// -------------------- 基本信息 -------------------------- //
     // form
     @observable biForm: any = {};
     @action setBiForm = (data = {}) => {
@@ -30,9 +22,7 @@ class State {
     @action setBasicInfoData = (data = {}) => {
         this.basicInfoData = data;
     }
-// -------------------- 基本信息 -------------------------- //
 
-// -------------------- 商品属性 -------------------------- //
     // form
     @observable paForm: any = {};
     @action setPaForm = (data = {}) => {
@@ -44,9 +34,7 @@ class State {
     @action setProductAttributesData = (data = {}) => {
         this.productAttributesData = data;
     }
-// -------------------- 商品属性 -------------------------- //
 
-// -------------------- 上传商品图片 -------------------------- //
     // 上传商品图片 - 数据
     @observable fileListArr = [];
     @action setFileListArr = (data = []) => {
@@ -58,9 +46,7 @@ class State {
     @action setDelList = (data = []) => {
         this.delList = data;
     }
-// -------------------- 上传商品图片 -------------------------- //
 
-// -------------------- 上传商品详情图片 -------------------------- //
     // 上传商品详情图片 - 数据
     @observable fileListDetailsArr = [];
     @action setFileListDetailsArr = (data = []) => {
@@ -72,9 +58,7 @@ class State {
     @action setDelDetailsList = (data = []) => {
         this.delDetailsList = data;
     }
-// -------------------- 上传商品详情图片 -------------------------- //
 
-// -------------------- 推广商品 -------------------------- //
     // form
     @observable pushForm: any = {};
     @action setPushForm = (data = {}) => {
@@ -103,103 +87,108 @@ class State {
     @action setDelBannerList = (data = []) => {
         this.delBannerList = data;
     }
-// -------------------- 推广商品 -------------------------- //
 
-    // 查询所有商品 - 发起请求
-    selectProductsData = async () => {
-        const res: any = await service.selectProductsData({
-            current: store.current,
-            pageSize: store.pageSize
-        });
-        try{
-            if( res.data.code === 200 ){
-                let { products, current, pageSize, total } = res.data.data || {};
-                products.map((item, index) => {
-                    return item['key'] = index + 1;
-                });
-                store.setDataList( products );
-                store.setCurrent( current );
-                store.setPageSize( pageSize );
-                store.setTotal( total );
-                // 清除抽屉内部数据
-                store.clearMobxData();
-                this.clearMobxData();
-            }
-        }catch(err) {
-            console.log(err);
+
+    // 数据总数
+    @observable total = PAGE_SIZE;
+    @action setTotal = (data = PAGE_SIZE) => {
+        this.total = data;
+    }
+
+    // 列表 - 数据
+    @observable dataSource = [];
+    @action setDataSource = (data = []) => {
+        this.dataSource = data;
+    }
+
+    /**
+     * 查询商品 - 接口入参
+     */
+    @observable requestParams = {};
+    @action setRequestParams = (data = {}) => {
+        this.requestParams = data;
+    }
+
+    /**
+     * 查询 - 商品列表
+     * @param params 
+     */
+    selectProductsDataFn = async (params = {}) => {
+        const requestParams = {
+            ...this.requestParams,
+            pageSize: PAGE_SIZE,
+            ...params,
+        };
+        const res = await service.selectProductsData(requestParams);
+
+        if(res?.data?.code === 200){
+            const { products, total } = res?.data?.data || {};
+
+            this.setDataSource( products );
+            this.setTotal( total );
+            this.setRequestParams(requestParams);
         }
     }
 
-    // 添加商品 - 发起请求
-    addProductsData = async (values = {}) => {
-        const res: any = await service.addProductsData(values);
-        try{
-            if( res.data.code === 200 ){
-                message.success( res.data.msg );
-                this.selectProductsData();
-            }
-        }catch(err) {
-            console.log(err);
+    /**
+     * 添加 - 商品 - 操作
+     * @param params 
+     * @returns 
+     */
+    addProductsDataFn = async (params = {}) => {
+        // if(!params || !Object.keys(params).length) return;
+
+        const res = await service.addProductsData(params);
+        if( res.data.code === 200 ){
+            message.success(res.data.msg);
+            this.selectProductsDataFn();
+            return true;
         }
     }
 
-    // 删除商品 - 发起请求
-    deleteProductsData = async (values = {}) => {
-        const res: any = await service.deleteProductsData(values);
-        try{
-            if( res.data.code === 200 ){
-                message.success( res.data.msg );
-                this.selectProductsData();
-            }
-        }catch(err) {
-            console.log(err);
+    /**
+     * 更新 - 商品
+     * @param params 
+     */
+    updateProductsDataFn = async (params = {}) => {
+        if(!params || !Object.keys(params).length) return;
+
+        const res = await service.updateProductsData(params);
+        if( res.data.code === 200 ){
+            message.success(res.data.msg);
+            this.selectProductsDataFn();
+            return true;
         }
     }
 
-    // 修改商品 - 发起请求
-    updateProductsData = async (values = {}) => {
-        const res: any = await service.updateProductsData(values);
-        try{
-            if( res.data.code === 200 ){
-                message.success( res.data.msg );
-                this.selectProductsData();          
-            }
-        }catch(err) {
-            console.log(err);
+    /**
+     * 删除 - 商品
+     * @param id 
+     * @returns 
+     */
+    deleteProductsDataFn = async (id) => {
+        if(!id || typeof id !== 'number') return;
+
+        const res = await service.deleteProductsData(id);
+        if( res.data.code === 200 ){
+            message.success(res.data.msg);
+            this.selectProductsDataFn();
         }
     }
 
-    // 上架 / 下架
-    pushData = async (id, code) => {
-        const res: any = await service.pushData({
-            id, code
-        });
-        try{
-            if( res.data.code === 200 ){
-                message.success( res.data.msg );
-                this.selectProductsData();
-            }
-        }catch(err) {
-            console.log(err);
-        }
-    }
+    /**
+     * 操作商品
+     * @param params 
+     * @returns 
+     */
+    pushDataFn = async (params = {}) => {
+        if(!params || !Object.keys(params).length) return;
 
-    // 清除mobx数据
-    clearMobxData = () => {
-        this.setTitle();
-        this.setBiForm();
-        this.setBasicInfoData();
-        this.setPaForm();
-        this.setProductAttributesData();
-        this.setFileListArr();
-        this.setDelList();
-        this.setFileListDetailsArr();
-        this.setDelDetailsList();
-        this.setPushForm();
-        this.setPushProductsData();
-        this.setIsUpload();
-        this.setBannerFileList();
-        this.setDelBannerList();
+        const res = await service.pushData(params);
+        if( res.data.code === 200 ){
+            message.success(res.data.msg);
+            this.selectProductsDataFn();
+        }
     }
 
 }

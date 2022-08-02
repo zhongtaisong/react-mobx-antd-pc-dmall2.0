@@ -3,184 +3,188 @@ import { Upload, Modal, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 // 全局设置
 import { PUBLIC_URL } from '@config';
-// 图片格式
-const imgFormat = ['image/jpeg', 'image/png'];
+import { commonFn } from '@utils';
 
-// 上传图片
-class UploadImg extends React.PureComponent<any, any> {
+interface IComponentProps {
+    /**
+     * 图片列表
+     */
+    fileListArr?: Array<any>;
+    /**
+     * 图片宽度 - 多个
+     */
+    width?: Array<number>;
+    /**
+     * 图片高度 - 多个
+     */
+    height?: Array<number>;
+    /**
+     * 是否禁用上传功能
+     */
+    disabled?: boolean;
+    /**
+     * 最多能上传几张图片
+     */
+    maxCount?: number;
+    /**
+     * 上传提示文案
+     */
+    uploadText?: string;
+    /**
+     * 上传图片 - 回调函数
+     */
+    onUploadCallBack?: Function;
+    /**
+     * 下载链接
+     */
+    downloadUrl?: string;
+}
 
-    constructor(props) {
+interface IComponentState {
+    /**
+     * 下载链接
+     */
+    downloadUrl: string;
+    /**
+     * 预览Modal是否可见
+     */
+    isVisible: boolean;
+    /**
+     * 预览图片url
+     */
+    previewImageUrl: string;
+    /**
+     * 图片列表
+     */
+    fileList: Array<any>;
+}
+
+/**
+ * 上传图片
+ */
+class UploadImg extends React.PureComponent<IComponentProps, IComponentState> {
+
+    constructor(props: IComponentProps) {
         super(props);
         this.state = {
-            dUrl: null,
-            previewVisible: false,
-            previewImage: ''
+            downloadUrl: props.downloadUrl,
+            isVisible: false,
+            previewImageUrl: null,
+            fileList: props.fileListArr,
         };
     }
 
-    // url转为base64
-    getBase64 = (file) => {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => resolve(reader.result);
-            reader.onerror = error => reject(error);
-        });
-    }
-
-    // 预览
+    /**
+     * 预览图片 - 操作
+     * @param file 
+     */
     handlePreview = async (file) => {
-        if (!file.url && !file.preview) {
-            file.preview = await this.getBase64(file.originFileObj);
+        let previewImageUrl = file?.thumbUrl;
+
+        if(!previewImageUrl) {
+            previewImageUrl = await commonFn.fileToBase64(file.originFileObj);
         }    
         this.setState({
-            previewImage: file.url || file.preview,
-            previewVisible: true,
+            previewImageUrl,
+            isVisible: true,
         });
     };
 
-    // 取消预览
-    handleCancel = () => this.setState({ previewVisible: false });
-  
-    // 上传过程中
-    handleChange = async ({ file={}, fileList=[] }) => {
-        const { type, size, status } = file as any;
-        const { setFileListArr, width, height, ifSize=true } = this.props;
-        
-        if( !setFileListArr ){
-            message.error('缺少setFileListArr方法！');
-            return;
-        }
-        if( width && Array.isArray(width) && !width.length ){
-            message.error('width是以数组形式传入值，而且数组不能为空！');
-            return;
-        }
-        if( height && Array.isArray(height) && !height.length ){
-            message.error('height是以数组形式传入值，而且数组不能为空！');
-            return;
-        }
+    /**
+     * 取消预览 - 操作
+     * @returns 
+     */
+    handleCancel = () => this.setState({ isVisible: false });
 
-        // 校验图片格式
-        if( type ){
-            const isJpgOrPng = imgFormat.includes( type );
-            if ( !isJpgOrPng ) {
-                message.error('上传的图片格式不对，请重新上传！');
-                return;
-            }
-        }
+    /**
+     * 上传之前 - 操作
+     * @param file 
+     * @returns 
+     */
+    beforeUpload = async (file) => {
+        const { onUploadCallBack, width, height } = this.props;
+        const { fileList } = this.state;
 
         // 校验图片大小
-        if( size ){
-            const isLt2M = size / 1024 / 1024 < 2;
-            if ( !isLt2M ) {
-                message.error('上传的图片大小超过2M，请重新上传！');
-                return;
-            }
+        const isLt2M = file?.size / 1024 / 1024 < 2;
+        if (!isLt2M) {
+            message.error('图片大小必须小于2MB！');
+            return false;
         }
 
         // 校验图片尺寸
-        if( !status ){
-            let isSize = await this.checkSize(file, width, height);
-            if( !isSize ) return;
+        const result = await commonFn.checkSize(file, width, height);
+        if(result) {
+            message.error(result);
+            return false;
         }
-        setFileListArr( fileList );
-    }
 
-    // 校验图片尺寸
-    checkSize = (file, width, height) => {
-        return new Promise((resolve, reject) => {
-            let _URL = window.URL || window.webkitURL;
-            let img = new Image();
-            if( file.originFileObj ){
-                img.src = _URL.createObjectURL(file.originFileObj);
-            }else{
-                img.src = _URL.createObjectURL(file);
-            }
-            img.onload = () => {
-                if( width && height ){
-                    if( !width.includes(img.width) || !height.includes(img.height) ){
-                        message.error(`图片尺寸不对，宽width高height为${ width.join(' 或 ') }！`);
-                        resolve(false);
-                    }else{
-                        resolve(true);
-                    }
-                }else if( width ){
-                    if( !width.includes(img.width) ){
-                        message.error(`图片尺寸不对，宽width为${ width.join(' 或 ') }！`);
-                        resolve(false);
-                    }else{
-                        resolve(true);
-                    }
-                }else if( height ){
-                    if( !height.includes(img.height) ){
-                        message.error(`图片尺寸不对，高height为${ height.join(' 或 ') }！`);
-                        resolve(false);
-                    }else{
-                        resolve(true);
-                    }
-                }else{
-                    resolve(true);
-                }
-            };
+        const thumbUrl = await commonFn.fileToBase64(file);
+        const new_fileList = [
+            ...fileList,
+            {
+                name: file.name,
+                status: 'done',
+                thumbUrl,
+                url: null,
+            },
+        ];
+        this.setState({ 
+            fileList: new_fileList,
+        }, () => {
+            onUploadCallBack?.(new_fileList);
         });
-    }
 
-    // 上传之前
-    beforeUpload = (file) => {
-        const { type, size } = file;
-        // 校验图片格式
-        const isJpgOrPng = imgFormat.includes( type );
-        if ( !isJpgOrPng ) {
-            message.error('只能上传jpg、jpeg、png格式图片！');
-        }
-
-        // 校验图片大小
-        const isLt2M = size / 1024 / 1024 < 2;
-        if ( !isLt2M ) {
-            message.error('图片大小必须小于2MB！');
-        }
         return false;
     };
 
-    // 删除
+    /**
+     * 删除 - 操作
+     */
     onRemove = () => {
-        const { setFileListArr } = this.props;
-        setFileListArr?.([]);
+        const { onUploadCallBack } = this.props;
+        this.setState({ 
+            fileList: [],
+        }, () => {
+            onUploadCallBack?.([]);
+        });
     }
 
-    // 下载
+    /**
+     * 下载 - 操作
+     * @param file 
+     * @returns 
+     */
     onDownload = (file) => {
-        let { url } = file || {};
-        url = url.slice(url.indexOf('api/') + 4);
         const { downloadUrl } = this.props;
-        if( !downloadUrl ){
-            message.error('缺少downloadUrl参数！');
-            return;
-        }
+        if(!downloadUrl) return;
+
+        let { url } = file || {};
+        url = url?.slice?.(url.indexOf('api/') + 4) || url;
         this.setState({
-            dUrl: `${PUBLIC_URL}${downloadUrl}?url=${url}&num=${Math.random()}`
+            downloadUrl: `${PUBLIC_URL}${downloadUrl}?url=${url}&num=${Math.random()}`
         });
     }
 
     render() {
-        const { previewVisible, previewImage, dUrl } = this.state;
-        let { disabled=false, fileNum=1, fileListArr=[], uploadText } = this.props;
-        
+        const { isVisible, previewImageUrl, downloadUrl, fileList } = this.state;
+        const { disabled, maxCount, fileListArr, uploadText } = this.props;
+
         return (
             <>
                 <Upload
                     listType="picture-card"
-                    fileList={ fileListArr }
+                    fileList={ fileList }
                     onPreview={ this.handlePreview }
-                    onChange={ this.handleChange }
                     beforeUpload={ this.beforeUpload }
                     onRemove={ this.onRemove }
                     onDownload={ this.onDownload }
                     disabled={ disabled }
-                    maxCount={ fileNum }
+                    maxCount={ maxCount }
+                    accept="image/png, image/jpeg"
                 >
                     {
-                        fileListArr.length < fileNum && (
+                        fileListArr.length < maxCount && (
                             <>
                                 <PlusOutlined />
                                 { uploadText ? ( <div className="ant_upload_text">{ uploadText }</div> ) : '' }
@@ -188,10 +192,12 @@ class UploadImg extends React.PureComponent<any, any> {
                         )
                     }
                 </Upload>
-                <Modal visible={ previewVisible } footer={ null } onCancel={ this.handleCancel }>
-                    <img alt="example" style={{ width: '100%' }} src={ previewImage } />
+
+                <Modal visible={ isVisible } footer={ null } onCancel={ this.handleCancel }>
+                    <img alt="example" style={{ width: '100%' }} src={ previewImageUrl } />
                 </Modal>
-                <iframe src={ dUrl } frameBorder={ 0 } style={{ display: 'none' }}></iframe>
+
+                <iframe src={ downloadUrl } frameBorder={ 0 } style={{ display: 'none' }}></iframe>
             </>
         );
     }

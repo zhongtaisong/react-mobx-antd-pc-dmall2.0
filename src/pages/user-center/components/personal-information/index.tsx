@@ -91,7 +91,7 @@ class PersonalInformation extends React.PureComponent<any, any> {
                 >
                     <UploadImg 
                         downloadUrl='products/download'
-                        fileNum={ 1 }
+                        maxCount={ 1 }
                         disabled={ false }
                         {...this.props}
                     />

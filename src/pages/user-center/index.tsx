@@ -80,7 +80,7 @@ class UserCenter extends React.PureComponent<RouteComponentProps, {
                                         menuKey === "personalInformation" && (
                                             <PersonalInformation 
                                                 fileListArr={ toJS(fileListArr) } 
-                                                setFileListArr={(val) => {
+                                                onUploadCallBack={(val) => {
                                                     if(!Array.isArray(val) || !val.length) {
                                                         this.formRef.current.resetFields(["avatar"]);
                                                     }else {

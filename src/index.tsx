@@ -12,10 +12,6 @@ import 'moment/locale/zh-cn';
 import './index.less';
 moment.locale('zh-cn');
 
-message.config({
-    top: 36
-});
-
 (window as any).$md5 = md5;
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);

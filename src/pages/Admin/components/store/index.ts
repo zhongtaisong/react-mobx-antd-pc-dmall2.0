@@ -1,8 +1,6 @@
 import { observable, action, toJS } from 'mobx';
 import { makeAutoObservable } from "mobx";
-
-// 一页展示多少条数据
-const SIZE = 6;
+import { PAGE_SIZE } from '@config';
 
 class State {
 
@@ -97,14 +95,14 @@ class State {
     }
 
     // 一页多少条数据
-    @observable pageSize = SIZE;
-    @action setPageSize = (data = SIZE) => {
+    @observable pageSize = PAGE_SIZE;
+    @action setPageSize = (data = PAGE_SIZE) => {
         this.pageSize = data;
     }
 
     // 数据总数
-    @observable total = SIZE;
-    @action setTotal = (data = SIZE) => {
+    @observable total = PAGE_SIZE;
+    @action setTotal = (data = PAGE_SIZE) => {
         this.total = data;
     }
 

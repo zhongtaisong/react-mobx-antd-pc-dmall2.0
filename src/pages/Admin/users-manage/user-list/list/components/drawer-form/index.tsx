@@ -133,12 +133,10 @@ class DrawerForm extends React.Component<any, any> {
                                 !isDisabled ? (
                                     <UploadImg 
                                         downloadUrl='products/download'
-                                        fileNum={ 1 }
-                                        setFileListArr={ setFileListArr }
+                                        maxCount={ 1 }
+                                        onUploadCallBack={ setFileListArr }
                                         fileListArr={ fileListArr }
                                         disabled={ isDisabled }
-                                        delList={ toJS( delList ) }
-                                        setDelList={ setDelList }
                                         uploadText='点击上传'
                                     />
                                 ) : '-'

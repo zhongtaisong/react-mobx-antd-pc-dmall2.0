@@ -41,6 +41,11 @@ export const WHITE_LIST_PATH = [
     '/views/products/detail'
 ];
 
+/**
+ * 表格 - 每页条数
+ */
+export const PAGE_SIZE = 6;
+
 export {
     indexState, 
     topMenuState, 

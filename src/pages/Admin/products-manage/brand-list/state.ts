@@ -1,11 +1,9 @@
 import { message } from 'antd';
 import { observable, action } from 'mobx';
 import { makeAutoObservable } from "mobx";
+import { PAGE_SIZE } from '@config';
 // 接口服务
 import service from './service';
-
-// 一页展示多少条数据
-const SIZE = 6;
 
 class State {
 
@@ -14,8 +12,8 @@ class State {
     }
 
     // 数据总数
-    @observable total = SIZE;
-    @action setTotal = (data = SIZE) => {
+    @observable total = PAGE_SIZE;
+    @action setTotal = (data = PAGE_SIZE) => {
         this.total = data;
     }
 
@@ -38,11 +36,10 @@ class State {
      * @param params 
      */
     selectBrandDataFn = async (params = {}) => {
-        if(!params || !Object.keys(params).length) return;
-
         const requestParams = {
+            ...this.requestParams,
+            pageSize: PAGE_SIZE,
             ...params,
-            pageSize: SIZE,
         };
         const res = await service.selectBrandData(requestParams);
 

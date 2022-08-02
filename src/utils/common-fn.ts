@@ -63,3 +63,46 @@ export const getUserInfo = (): {
 export const isLogin = (): boolean => {
     return Boolean(window?.token || getUserInfo?.()?.token);
 }
+
+/**
+ * file图片数据转为base64
+ * @param file 
+ * @returns 
+ */
+export const fileToBase64 = (file) => {
+    if(!file || !Object.keys(file).length) return Promise.resolve(null);
+
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
+}
+
+/**
+ * 校验图片尺寸 - 操作
+ * @param file 
+ * @returns 
+ */
+export const checkSize = (file, width: Array<number>, height: Array<number>): Promise<string | boolean> => {
+    if( !Array.isArray(width) || !width.length ) return Promise.resolve(false);
+    if( !Array.isArray(height) || !height.length ) return Promise.resolve(false);
+
+    return new Promise(resolve => {
+        const _URL = window?.URL || window?.webkitURL;
+        const img = new Image();
+        img.src = _URL.createObjectURL(file?.originFileObj || file);
+        img.onload = () => {
+            if(!width.includes(img.width)){
+                return resolve(`图片尺寸不对，宽度为${ width.join(' 或 ') }！`);
+            }
+
+            if(!height.includes(img.height)){
+                return resolve(`图片尺寸不对，高度为${ height.join(' 或 ') }！`);
+            }
+
+            resolve(false);
+        };
+    });
+}
