@@ -1,16 +1,7 @@
 import React from 'react';
 import { Popconfirm } from 'antd';
-import { toJS } from 'mobx';
-// 公共数据
-import { store } from '@pages/admin/components';
-// 数据
-import state from './state';
 // 全局公共方法
 import { session } from '@utils';
-// url前缀
-import { PUBLIC_URL } from '@config';
-// 全局数据
-import $state from '@store';
 const tableDic = session.getItem('tableDic');
    
 // 表头
@@ -103,62 +94,6 @@ export default ({ onUpdateClick, onDeleteClick, onPushClick, onDetailClick }: {
             align: 'center',
             fixed: 'right',
             render: (text, record, index) => {
-                // const pub = (rec) => {
-                //     state.setBasicInfoData( rec );
-                //     state.setProductAttributesData( rec );
-                //     state.setPushProductsData( rec );
-                //     store.setDrawerVisible( true );
-                //     let fileListArr = [{
-                //         uid: Date.now(),
-                //         name: 'img.png',
-                //         status: 'done',
-                //         url: PUBLIC_URL + record.mainPicture
-                //     }];
-                //     let pictures = record.pictures ? record.pictures.split('|') : [];
-                //     pictures.forEach((item, inx) => {
-                //         fileListArr.push({
-                //             uid: Date.now() + inx + 1,
-                //             name: 'img.png',
-                //             status: 'done',
-                //             url: PUBLIC_URL + item
-                //         });
-                //     });
-                //     state.setFileListArr( fileListArr );
-    
-                //     let fileListDetailsArr = [];
-                //     let detailsPic = record.detailsPic ? record.detailsPic.split('|') : [];
-                //     detailsPic.forEach((item, inx) => {
-                //         fileListDetailsArr.push({
-                //             uid: Date.now() + inx + 1,
-                //             name: 'img.png',
-                //             status: 'done',
-                //             url: PUBLIC_URL + item
-                //         });
-                //     });
-                //     state.setFileListDetailsArr( fileListDetailsArr );
-    
-                //     let bannerFileList = [];
-                //     let bannerPic = record.bannerPic ? record.bannerPic.split('|') : [];
-                //     bannerPic.forEach((item, inx) => {
-                //         bannerFileList.push({
-                //             uid: Date.now() + inx + 1,
-                //             name: 'img.png',
-                //             status: 'done',
-                //             url: PUBLIC_URL + item
-                //         });
-                //     });
-                //     state.setBannerFileList( bannerFileList );
-    
-                //     if( record.banner == 103 ){
-                //         state.setIsUpload(true);
-                //     }else if( record.banner == 13 ){
-                //         state.setIsUpload(false);
-                //     }
-    
-                //     store.setId( rec.id );
-                // };
-                // let { productBtn } = toJS($state.adminObj) || {} as any;
-                // productBtn = productBtn ? JSON.parse(productBtn) : [];
                 return (
                     <div className='operation-btn'>
                         <span onClick={() => onDetailClick?.(record)} >查看</span>

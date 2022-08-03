@@ -10,13 +10,20 @@ import state from './state';
 // less样式
 import './index.less';
 
-// 订单详情
+/**
+ * 订单详情
+ */
 @observer
-class Index extends React.Component<any, any> {
+class Index extends React.PureComponent<any, any> {
 
     componentDidMount() {
-        const { id } = this.props || {};
-        id && state.detailOrdersData({ id });
+        state.detailOrdersDataFn(this.props?.id);
+    }
+
+    componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<any>, snapshot?: any): void {
+        if(prevProps?.id !== this.props?.id) {
+            state.detailOrdersDataFn(this.props?.id);
+        }
     }
 
     render() {
@@ -27,7 +34,7 @@ class Index extends React.Component<any, any> {
         } = state;
         const { ordernum, submitTime, num, totalprice } = orderInfo as any;
         const { detail, name, phone, region } = consignees as any;
-        let scrollObj: Object = dataSource02 && dataSource02.length >= 3 ? { x: false, y: 220 } : { x: false, y: false };
+
         return (
             <div className={ `common_width dm_OrderDetails ${ className ? className : '' }` }>
                 {
@@ -45,37 +52,32 @@ class Index extends React.Component<any, any> {
                                 title: '图片',
                                 dataIndex: 'mainPicture',
                                 key: 'mainPicture',
-                                align: 'center',
-                                width: '10%',
+                                width: '14%',
                                 render: (text, record, index) => <img className='imgs_style' src={ `${ PUBLIC_URL }${ text }` } alt={ text } />
                             },
                             {
                                 title: '商品',
                                 dataIndex: 'description',
                                 key: 'description',
-                                width: '40%',
+                                width: '30%',
                                 render: (text, record, index) => <Link to={'/views/products/detail/' + record.id}>{ text }</Link>
                             },
                             {
                                 title: '规格',
                                 dataIndex: 'spec',
                                 key: 'spec',
-                                width: '30%'
+                                width: '20%',
                             },
                             {
                                 title: '单价',
                                 dataIndex: 'price',
                                 key: 'price',
-                                align: 'center',
-                                width: '10%',
                                 render: (text, record, index) => Number(text) ? `￥${Number(text).toFixed(2)}` : 0
                             },
                             {
                                 title: '数量',
                                 dataIndex: 'num',
                                 key: 'num',
-                                align: 'center',
-                                width: '10%',
                                 render: (text, record, index) => `x ${text}`
                             }
                         ]} 
@@ -83,7 +85,6 @@ class Index extends React.Component<any, any> {
                         showHeader={ false }
                         pagination={ false }
                         rowKey={ (record) => record.id }
-                        scroll={ scrollObj }
                     />
                 </Row>
                 <Row className='orider_details'>

@@ -33,18 +33,20 @@ class State {
         this.orderInfo = data;
     }
 
-    // 查询订单详情 - 发起请求
-    detailOrdersData = async (obj = {}) => {
-        const res: any = await service.detailOrdersData(obj);
-        try{
-            if( res.data.code === 200 ){
-                const { address, orderInfo, productsInfo } = res.data.data || {};
-                address && this.setConsignees(address);
-                orderInfo && this.setOrderInfo(orderInfo);
-                productsInfo && this.setDataSource02(productsInfo);
-            }
-        }catch(err) {
-            console.log(err);
+    /**
+     * 查询 - 订单详情 - 操作
+     * @param obj 
+     */
+    detailOrdersDataFn = async (id) => {
+        if(typeof id !== 'number') return;
+
+        const res = await service.detailOrdersData(id);
+        if(res?.data?.code === 200){
+            const { address, orderInfo, productsInfo } = res?.data?.data || {};
+
+            this.setConsignees(address);
+            this.setOrderInfo(orderInfo);
+            this.setDataSource02(productsInfo);
         }
     }
 
