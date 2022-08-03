@@ -136,8 +136,6 @@ class State {
      * @returns 
      */
     addProductsDataFn = async (params = {}) => {
-        // if(!params || !Object.keys(params).length) return;
-
         const res = await service.addProductsData(params);
         if( res.data.code === 200 ){
             message.success(res.data.msg);
@@ -151,8 +149,6 @@ class State {
      * @param params 
      */
     updateProductsDataFn = async (params = {}) => {
-        if(!params || !Object.keys(params).length) return;
-
         const res = await service.updateProductsData(params);
         if( res.data.code === 200 ){
             message.success(res.data.msg);

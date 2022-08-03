@@ -14,7 +14,7 @@ import $state from '@store';
 const tableDic = session.getItem('tableDic');
    
 // 表头
-export default ({ onUpdateClick, onDeleteClick, onPushClick }: {
+export default ({ onUpdateClick, onDeleteClick, onPushClick, onDetailClick }: {
     /**
      * 更新操作
      */
@@ -27,6 +27,10 @@ export default ({ onUpdateClick, onDeleteClick, onPushClick }: {
      * 操作商品
      */
     onPushClick: Function;
+    /**
+     * 查看商品
+     */
+    onDetailClick: Function;
 }) => {
     const columns = [
         {
@@ -157,17 +161,8 @@ export default ({ onUpdateClick, onDeleteClick, onPushClick }: {
                 // productBtn = productBtn ? JSON.parse(productBtn) : [];
                 return (
                     <div className='operation-btn'>
-                        <span onClick={ () => {
-                            // if(!productBtn.includes(4)) return;
-                            // pub( record );
-                            // store.setIsDisabled( true );
-                            // state.setTitle('查看商品');
-                        } } >查看</span>
-                        <span onClick={ () => {
-                            // if(!productBtn.includes(3)) return;
-                            // pub( record );
-                            // state.setTitle('修改商品');
-                        } }>修改</span>
+                        <span onClick={() => onDetailClick?.(record)} >查看</span>
+                        <span onClick={() => onUpdateClick?.(record)} >更新</span>
                         <Popconfirm title="你确定要删除？" 
                             onConfirm={ () => onDeleteClick?.(record?.id) }
                         >

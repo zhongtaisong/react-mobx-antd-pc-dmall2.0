@@ -36,6 +36,10 @@ class ProductList extends React.PureComponent<any, {
     productInfo: {
         [key: string]: any;
     };
+    /**
+     * 是否查看商品
+     */
+    isGoodsDetail: boolean;
 }> {
     formRef = React.createRef<FormInstance>();
 
@@ -44,6 +48,7 @@ class ProductList extends React.PureComponent<any, {
         this.state = {
             isVisible: false,
             productInfo: {},
+            isGoodsDetail: false,
         }
     }
 
@@ -154,7 +159,7 @@ class ProductList extends React.PureComponent<any, {
 
     render() {
         const { dataSource, total, } = state;
-        const { isVisible, productInfo } = this.state;
+        const { isVisible, productInfo, isGoodsDetail } = this.state;
 
         return (
             <div className='common_width admin_product_list'>
@@ -170,15 +175,24 @@ class ProductList extends React.PureComponent<any, {
                     columns={ 
                         columns({
                             onPushClick: (params) => state.pushDataFn(params),
-                            // onUpdateClick: (obj) => {
-                            //     this.setState({ 
-                            //         isVisible: true,
-                            //         productInfo: obj,
-                            //     }, () => {
-                            //         this.formRef.current.setFieldsValue({...obj});
-                            //     });
-                            // },
+                            onUpdateClick: (obj) => {
+                                this.setState({ 
+                                    isVisible: true,
+                                    productInfo: obj,
+                                }, () => {
+                                    this.formRef.current.setFieldsValue({...obj});
+                                });
+                            },
                             onDeleteClick: (id) => state.deleteProductsDataFn(id),
+                            onDetailClick: (obj) => {
+                                this.setState({ 
+                                    isVisible: true,
+                                    productInfo: obj,
+                                    isGoodsDetail: true,
+                                }, () => {
+                                    this.formRef.current.setFieldsValue({...obj});
+                                });
+                            },
                         }) as any
                     }
                     dataSource={ dataSource }
@@ -186,9 +200,10 @@ class ProductList extends React.PureComponent<any, {
                     scroll={{ x: 'max-content' }}
                     pagination={{
                         total,
-                        onChange(page) {
+                        onChange(current, pageSize) {
                             state.selectProductsDataFn({
-                                current: page,
+                                current,
+                                pageSize,
                             });
                         }
                     }}
@@ -207,6 +222,7 @@ class ProductList extends React.PureComponent<any, {
                         maxHeight: 400,
                         overflowY: "scroll",
                     }}
+                    {...isGoodsDetail ? { footer: null, } : {}}
                 >
                     <Form 
                         className='admin_product_list__modal--form'
@@ -216,6 +232,7 @@ class ProductList extends React.PureComponent<any, {
                         autoComplete="off"
                         labelWrap
                         ref={ this.formRef }
+                        disabled={ isGoodsDetail }
                     >
                         <BasicInfo />
                         <ProductAttributes />
@@ -249,28 +266,15 @@ class ProductList extends React.PureComponent<any, {
         const { productInfo } = this.state;
 
         this.formRef.current.validateFields().then(values => {
-            console.log('ddddddddddddd', values);
-
-            const formData = new FormData();
-
-            formData.append('inputData', JSON.stringify(values));
-            // if( !id ){
-            //     addProductsData(formData);
-            // }else{
-            //     formData.append('id', id);
-            //     formData.append('delList', JSON.stringify(delList));
-            //     formData.append('delDetailsList', JSON.stringify(delDetailsList));
-            //     formData.append('delBannerList', JSON.stringify(delBannerList));
-            //     updateProductsData(formData);
-            // }
             let res = null;
+            const formData = new FormData();
+            formData.append('inputData', JSON.stringify(values));
+
             if(!productInfo?.id) {
                 res = state.addProductsDataFn(formData);
             }else {
-                res = state.updateProductsDataFn({
-                    ...values,
-                    id: productInfo?.id,
-                });
+                formData.append('id', productInfo?.id);
+                res = state.updateProductsDataFn(formData);
             }
 
             if(!res) return;
@@ -285,7 +289,11 @@ class ProductList extends React.PureComponent<any, {
      * Modal - 取消 - 操作
      */
     onCancelClick = () => {
-        this.setState({ isVisible: false }, () => {
+        this.setState({ 
+            isVisible: false,
+            productInfo: {},
+            isGoodsDetail: false,
+        }, () => {
             this.formRef.current.resetFields();
         });
     }

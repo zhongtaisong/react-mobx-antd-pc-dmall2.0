@@ -44,7 +44,7 @@ export const WHITE_LIST_PATH = [
 /**
  * 表格 - 每页条数
  */
-export const PAGE_SIZE = 6;
+export const PAGE_SIZE = 10;
 
 export {
     indexState, 
