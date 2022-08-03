@@ -46,6 +46,11 @@ export const WHITE_LIST_PATH = [
  */
 export const PAGE_SIZE = 10;
 
+/**
+ * 初始密码
+ */
+export const INIT_PWD = Math.random().toString().slice(2, 8);
+
 export {
     indexState, 
     topMenuState, 

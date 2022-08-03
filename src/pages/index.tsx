@@ -24,10 +24,6 @@ class Index extends React.PureComponent<RouteComponentProps, any> {
         state.adminData();
     }
 
-    componentDidUpdate(prevProps: Readonly<RouteComponentProps<{}, StaticContext, unknown>>, prevState: Readonly<any>, snapshot?: any): void {
-        state.adminData();
-    }
-
     render() {
         const { isLoading } = $state;
         const isLogin = commonFn.isLogin();

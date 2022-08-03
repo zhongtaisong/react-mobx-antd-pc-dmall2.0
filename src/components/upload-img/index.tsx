@@ -70,7 +70,7 @@ class UploadImg extends React.PureComponent<IComponentProps, IComponentState> {
             downloadUrl: props.downloadUrl,
             isVisible: false,
             previewImageUrl: null,
-            fileList: props.fileListArr,
+            fileList: props.fileListArr || [],
         };
     }
 
@@ -168,7 +168,7 @@ class UploadImg extends React.PureComponent<IComponentProps, IComponentState> {
 
     render() {
         const { isVisible, previewImageUrl, downloadUrl, fileList } = this.state;
-        const { disabled, maxCount, fileListArr, uploadText } = this.props;
+        const { disabled, maxCount, uploadText } = this.props;
 
         return (
             <>
@@ -184,7 +184,7 @@ class UploadImg extends React.PureComponent<IComponentProps, IComponentState> {
                     accept="image/png, image/jpeg"
                 >
                     {
-                        fileListArr.length < maxCount && (
+                        fileList.length < maxCount && (
                             <>
                                 <PlusOutlined />
                                 { uploadText ? ( <div className="ant_upload_text">{ uploadText }</div> ) : '' }
