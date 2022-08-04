@@ -14,7 +14,7 @@ import BrandList from '@pages/admin/products-manage/brand-list';
 import ProductList from '@pages/admin/products-manage/product-list';
 import OrdersList from '@pages/admin/orders-manage/order-list';
 import UsersManageList from '@pages/admin/users-manage/user-list';
-import CommentsManageList from '@pages/admin/comments-manage/comment-list/list';
+import CommentsManageList from '@pages/admin/comments-manage/comment-list';
 import AdminList from '@pages/admin/admin-list';
 
 /**

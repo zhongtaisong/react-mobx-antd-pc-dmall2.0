@@ -1,11 +1,9 @@
 import React from 'react';
-import { Form, Button, Table, Modal, message, Input } from 'antd';
+import { Form, Button, Table, Modal } from 'antd';
 import { observer } from 'mobx-react';
-import moment from 'moment';
 import { FormInstance } from 'antd/es/form';
-// 设置
-import { PWD_KEY } from '@config';
-// 添加用户 - 表单
+import moment from 'moment';
+// 添加商品 - 表单
 import DrawerForm from './components/drawer-form';
 // 表头
 import columns from './data';
@@ -14,7 +12,7 @@ import state from './state';
 import './index.less';
 
 /**
- * 用户列表
+ * 商品评价列表
  */
 @observer
 class List extends React.PureComponent<any, {
@@ -45,7 +43,7 @@ class List extends React.PureComponent<any, {
     }
 
     componentDidMount() {
-        state.selectUsersDataFn({
+        state.selectCommentDataFn({
             current: 1,
         });
     }
@@ -55,15 +53,15 @@ class List extends React.PureComponent<any, {
         const { isVisible, formInfo, isDisabledForm } = this.state;
 
         return (
-            <div className='common_width admin_user_list'>
+            <div className='common_width admin_comment_list'>
                 <Button 
-                    className='admin_user_list__addBtn'
+                    className='admin_comment_list__addBtn'
                     type='primary'
                     onClick={() => {
                         this.setState({ isVisible: true });
                     }}
-                >添加用户</Button>
-
+                >添加商品评价</Button>
+                
                 <Table 
                     columns={ 
                         columns({
@@ -78,7 +76,7 @@ class List extends React.PureComponent<any, {
                                     });
                                 });
                             },
-                            onDeleteClick: (id) => state.deleteUsersDataFn(id),
+                            onDeleteClick: (id) => state.deleteCommentDataFn(id),
                             onDetailClick: (obj) => {
                                 this.setState({ 
                                     isVisible: true,
@@ -91,7 +89,6 @@ class List extends React.PureComponent<any, {
                                     });
                                 });
                             },
-                            onResetPwdClick: (params) => state.resetUpwdDataFn(params),
                         }) as any
                     }
                     dataSource={ dataSource }
@@ -100,7 +97,7 @@ class List extends React.PureComponent<any, {
                     pagination={{
                         total,
                         onChange(current, pageSize) {
-                            state.selectUsersDataFn({
+                            state.selectCommentDataFn({
                                 current,
                                 pageSize,
                             });
@@ -110,12 +107,12 @@ class List extends React.PureComponent<any, {
                 />
 
                 <Modal
-                    title={`${ formInfo?.id ? '更新' : '添加' }用户`}
+                    title={`${ formInfo?.id ? '更新' : '添加' }商品评价`}
                     visible={ isVisible }
                     okText="保存"
                     onCancel={ this.onCancelClick }
                     onOk={ this.onOkClick }
-                    wrapClassName='admin_user_list__modal'
+                    wrapClassName='admin_comment_list__modal'
                     bodyStyle={{ 
                         maxHeight: 400,
                         overflowY: "scroll",
@@ -123,37 +120,14 @@ class List extends React.PureComponent<any, {
                     {...isDisabledForm ? { footer: null, } : {}}
                 >
                     <Form 
-                        className='admin_user_list__modal--form'
+                        className='admin_comment_list__modal--form'
                         labelCol={{ span: 4 }}
                         wrapperCol={{ span: 20 }}
                         autoComplete="off"
                         ref={ this.formRef }
                         disabled={ isDisabledForm }
                     >
-                        <DrawerForm 
-                            fileListArr={ [] }
-                            onUploadCallBack={(val) => {
-                                this.formRef.current.setFieldsValue({
-                                    avatar: val,
-                                });
-                            }}
-                            isDisabledEditUname={ Boolean(formInfo?.id) }
-                            renderPasswordForm={
-                                !formInfo?.id ? (
-                                    <Form.Item 
-                                        label='密码'
-                                        name="upwd"
-                                        rules={[{ 
-                                            required: true, 
-                                            message: '必填', 
-                                            whitespace: true 
-                                        }]}
-                                    >
-                                        <Input type='password' placeholder='请输入' />
-                                    </Form.Item>
-                                ) : null
-                            }
-                        />
+                        <DrawerForm isDisabledEdit={ Boolean(formInfo?.id) } />
                     </Form>
                 </Modal>
             </div>
@@ -167,34 +141,14 @@ class List extends React.PureComponent<any, {
         const { formInfo } = this.state;
 
         this.formRef.current.validateFields().then(values => {
-            
             let res = null;
-            const formData = new FormData();
-            formData.append('userInfo', JSON.stringify({
-                ...values,
-                birthday: moment(values?.['birthday']).format('YYYY-MM-DD'),
-                upwd: (window as any).$md5(values.upwd + PWD_KEY),
-            }));
-            
-            const { avatar } = values || {};
-            if(!avatar) {
-                return message.error("请上传头像！");
-            }else if(Array.isArray(avatar)) {
-                if(!avatar.length) {
-                    return message.error("请上传头像！");
-                }else {
-                    const { originFileObj } = avatar?.[0] || {};
-                    formData.append('avatar', originFileObj || {});
-                }
-            }else if(typeof avatar === 'string') {
-                formData.append('avatar', avatar);
-            }
-
             if(!formInfo?.id) {
-                res = state.addUsersDataFn(formData);
+                res = state.addCommentDataFn(values);
             }else {
-                formData.append('id', formInfo?.id);
-                res = state.updateUsersDataFn(formData);
+                res = state.updateCommentDataFn({
+                    ...values,
+                    id: formInfo?.id,
+                });
             }
 
             if(!res) return;
@@ -217,6 +171,7 @@ class List extends React.PureComponent<any, {
             this.formRef.current.resetFields();
         });
     }
+    
 }
 
 export default List;
