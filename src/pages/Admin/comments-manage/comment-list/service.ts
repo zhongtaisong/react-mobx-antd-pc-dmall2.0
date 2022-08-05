@@ -4,7 +4,7 @@ import { IResponse } from '@types';
 class Service {
 
     /**
-     * 查询 - 商品评价列表
+     * 查询 - 评价列表
      * @param params 
      * @returns 
      */
@@ -19,7 +19,7 @@ class Service {
     }
 
     /**
-     * 添加 - 商品评价
+     * 添加 - 评价
      * @param params 
      * @returns 
      */
@@ -34,7 +34,7 @@ class Service {
     }
 
     /**
-     * 更新 - 商品评价
+     * 更新 - 评价
      * @param params 
      * @returns 
      */
@@ -49,7 +49,7 @@ class Service {
     }
 
     /**
-     * 删除 - 商品评价
+     * 删除 - 评价
      * @param id 
      * @returns 
      */

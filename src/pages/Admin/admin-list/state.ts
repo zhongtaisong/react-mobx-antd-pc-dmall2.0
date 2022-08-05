@@ -1,10 +1,10 @@
 import { message } from 'antd';
 import { observable, action } from 'mobx';
 import { makeAutoObservable } from "mobx";
+import { PAGE_SIZE } from '@config';
 // 接口服务
 import service from './service';
-// 公共数据
-import { store } from '@pages/admin/components';
+import { OPERATION_BTN } from './data';
 
 class State {
 
@@ -12,79 +12,107 @@ class State {
         makeAutoObservable(this);
     }
 
-    // 标题
-    @observable title = '';
-    @action setTitle = (data = '') => {
-        this.title = data;
+    // 数据总数
+    @observable total = PAGE_SIZE;
+    @action setTotal = (data = PAGE_SIZE) => {
+        this.total = data;
     }
 
-    // 查询所有权限用户 - 发起请求
-    selectData = async () => {
-        const res: any = await service.selectData({
-            current: store.current,
-            pageSize: store.pageSize
-        });
-        try{
-            if( res.data.code === 200 ){
-                let { data, current, pageSize, total } = res.data.data || {};
+    // 列表 - 数据
+    @observable dataSource = [];
+    @action setDataSource = (data = []) => {
+        this.dataSource = data;
+    }
+
+    /**
+     * 查询权限 - 接口入参
+     */
+    @observable requestParams = {};
+    @action setRequestParams = (data = {}) => {
+        this.requestParams = data;
+    }
+
+    /**
+     * 查询 - 权限列表
+     * @param params 
+     */
+    selectDataFn = async (params = {}) => {
+        const requestParams = {
+            ...this.requestParams,
+            pageSize: PAGE_SIZE,
+            ...params,
+        };
+        const res = await service.selectData(requestParams);
+
+        if(res?.data?.code === 200){
+            let { data, total } = res?.data?.data || {};
+            if(Array.isArray(data)) {
                 data.forEach(item => {
-                    item['brandMenu'] = item['brandMenu'] ? true : false;
-                    item['brandBtn'] = item['brandBtn'] ? JSON.parse(item['brandBtn']) : [];
-                    item['productMenu'] = item['productMenu'] ? true : false;
-                    item['productBtn'] = item['productBtn'] ? JSON.parse(item['productBtn']) : [];
-                    item['orderMenu'] = item['orderMenu'] ? true : false;
-                    item['orderBtn'] = item['orderBtn'] ? JSON.parse(item['orderBtn']) : [];
-                    item['userMenu'] = item['userMenu'] ? true : false;
-                    item['userBtn'] = item['userBtn'] ? JSON.parse(item['userBtn']) : [];
-                    item['commentMenu'] = item['commentMenu'] ? true : false;
-                    item['commentBtn'] = item['commentBtn'] ? JSON.parse(item['commentBtn']) : [];
-                    item['adminMenu'] = item['adminMenu'] ? true : false;
-                    item['adminBtn'] = item['adminBtn'] ? JSON.parse(item['adminBtn']) : [];
-                });
-                store.setDataList( data );
-                store.setCurrent( current );
-                store.setPageSize( pageSize );
-                store.setTotal( total );
-                // 清除抽屉内部数据
-                store.clearMobxData();
+                    Object.entries(item).forEach(([key, value]: Array<any>) => {
+                        if(key.includes("Menu")) {
+                            item[key] = { 0: "关", 1: "开", }[value];
+                        }
+
+                        if(key.includes("Btn") && Array.isArray(value)) {
+                            item[key] = value.reduce((str, val, index, arr) => {
+                                str += `${ OPERATION_BTN?.[val] }${ index < arr.length - 1 ? "、" : "" }`;
+                                return str;
+                            }, "");
+                        }
+                    });
+                })
             }
-        }catch(err) {
-            console.log(err);
+
+            this.setDataSource(data);
+            this.setTotal(total);
+            this.setRequestParams(requestParams);
         }
     }
 
-    // 添加 / 修改用户权限 - 发起请求
-    editData = async (values = {}) => {
-        const res: any = await service.editData(values);
-        try{
-            const { data, code, msg } = res.data || {};
-            if( code === 200 ){
-                message.success( res.data.msg );
-                this.selectData();
-            }else if( code === 201 ){
-                message.error(msg);
-            }
-        }catch(err) {
-            console.log(err);
+    /**
+     * 添加 - 权限 - 操作
+     * @param params 
+     * @returns 
+     */
+    addDataFn = async (params = {}) => {
+        if(!params || !Object.keys(params).length) return;
+        
+        const res = await service.addData(params);
+        if( res.data.code === 200 ){
+            message.success(res.data.msg);
+            this.selectDataFn();
+            return true;
         }
     }
 
-    // 删除用户权限 - 发起请求
-    deleteData = async (obj = {}) => {
-        const res: any = await service.deleteData(obj);
-        try{
-            if( res.data.code === 200 ){
-                message.success( res.data.msg );
-                this.selectData();     
-            }
-        }catch(err) {
-            console.log(err);
+    /**
+     * 更新 - 权限
+     * @param params 
+     */
+    updateDataFn = async (params = {}) => {
+        if(!params || !Object.keys(params).length) return;
+
+        const res = await service.updateData(params);
+        if( res.data.code === 200 ){
+            message.success(res.data.msg);
+            this.selectDataFn();
+            return true;
         }
     }
 
-    // 清除mobx数据
-    clearMobxData = () => {
-        this.setTitle();
+    /**
+     * 删除 - 权限
+     * @param id 
+     * @returns 
+     */
+    deleteDataFn = async (id) => {
+        if(!id || typeof id !== 'number') return;
+
+        const res = await service.deleteData(id);
+        if( res.data.code === 200 ){
+            message.success(res.data.msg);
+            this.selectDataFn();
+        }
     }
 
 }

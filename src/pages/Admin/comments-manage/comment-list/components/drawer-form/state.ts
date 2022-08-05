@@ -22,32 +22,22 @@ class State {
     }
 
     /**
-     * 查询 - 用户名、商品编号
+     * 查询 - 用户名
      */
-    getUnameAndPidFn = async () => {
-        const res = await service.getUnameAndPid();
+    getUnameFn = async () => {
+        const res = await service.getUname();
         if(res?.data?.code === 200){
-            let { data } = res.data || {};
-            if( data ){
-                if( data.uname ){
-                    let newData = data.uname.map((item, index) => {
-                        return ({
-                            value: item.uname,
-                            text: item.uname
-                        });
-                    });
-                    this.setUsersList( newData );
-                }
-                if( data.id ){
-                    let newData = data.id.map((item, index) => {
-                        return ({
-                            value: item.id,
-                            text: item.id
-                        });
-                    });
-                    this.setLidList( newData );
-                }
-            }
+            this.setUsersList(res?.data?.data || []);
+        }
+    }
+
+    /**
+     * 查询 - 商品pid
+     */
+    getPidFn = async () => {
+        const res = await service.getPid();
+        if(res?.data?.code === 200){
+            this.setLidList(res?.data?.data || []);
         }
     }
     

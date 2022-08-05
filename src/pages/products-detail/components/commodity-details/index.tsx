@@ -5,7 +5,7 @@ import { observer } from 'mobx-react';
 import Parameter from '../parameter';
 // 商品详情图片
 import Pictures from '../pictures';
-// 商品评价
+// 评价
 import CommodityEvaluation from '../commodity-evaluation';
 // less样式
 import './index.less';
@@ -39,7 +39,7 @@ class CommodityDetails extends React.Component<any, any> {
                         <Parameter params={ params } />
                         <Pictures detailsPic={ detailsPic } />
                     </TabPane>
-                    <TabPane tab={ <span className='tab_title'>商品评价</span> } key={ 2 } >
+                    <TabPane tab={ <span className='tab_title'>评价</span> } key={ 2 } >
                         {
                             key == 2 ? (
                                 <CommodityEvaluation pid={ params.id || '' } />

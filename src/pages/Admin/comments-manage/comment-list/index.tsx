@@ -12,7 +12,7 @@ import state from './state';
 import './index.less';
 
 /**
- * 商品评价列表
+ * 评价列表
  */
 @observer
 class List extends React.PureComponent<any, {
@@ -60,7 +60,7 @@ class List extends React.PureComponent<any, {
                     onClick={() => {
                         this.setState({ isVisible: true });
                     }}
-                >添加商品评价</Button>
+                >添加评价</Button>
                 
                 <Table 
                     columns={ 
@@ -70,10 +70,7 @@ class List extends React.PureComponent<any, {
                                     isVisible: true,
                                     formInfo: obj,
                                 }, () => {
-                                    this.formRef.current.setFieldsValue({
-                                        ...obj,
-                                        birthday: moment(obj?.birthday),
-                                    });
+                                    this.formRef.current.setFieldsValue({...obj});
                                 });
                             },
                             onDeleteClick: (id) => state.deleteCommentDataFn(id),
@@ -83,10 +80,7 @@ class List extends React.PureComponent<any, {
                                     formInfo: obj,
                                     isDisabledForm: true,
                                 }, () => {
-                                    this.formRef.current.setFieldsValue({
-                                        ...obj,
-                                        birthday: moment(obj?.birthday),
-                                    });
+                                    this.formRef.current.setFieldsValue({...obj});
                                 });
                             },
                         }) as any
@@ -107,7 +101,7 @@ class List extends React.PureComponent<any, {
                 />
 
                 <Modal
-                    title={`${ formInfo?.id ? '更新' : '添加' }商品评价`}
+                    title={`${ formInfo?.id ? '更新' : '添加' }评价`}
                     visible={ isVisible }
                     okText="保存"
                     onCancel={ this.onCancelClick }

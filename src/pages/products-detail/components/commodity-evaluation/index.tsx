@@ -22,7 +22,7 @@ interface IComponentState {
 }
 
 /**
- * 商品评价
+ * 评价
  */
 @observer
 class CommodityEvaluation extends React.Component<Partial<IComponentProps>, IComponentState> {

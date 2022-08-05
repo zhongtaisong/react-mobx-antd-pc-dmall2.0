@@ -9,7 +9,7 @@ class Service {
      */
     fetchSelectUserInfoData = (): Promise<IResponse> => {
         return new Promise((resolve, reject) => {
-            axios.get('users/select/uname').then(res => {
+            axios.get('users/select/user-info').then(res => {
                 resolve(res);
             }).catch(err => {
                 reject(err);

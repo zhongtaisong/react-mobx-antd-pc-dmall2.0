@@ -15,26 +15,20 @@ class State {
         this.usersList = data;
     }
 
-    // 查询用户名
-    getUname = async () => {
-        const res: any = await service.getUname();
-        try{
-            if( res.data.code === 200 ){
-                let { data } = res.data || {};
-                if( data ){
-                    if( data.uname ){
-                        let newData = data.uname.map((item, index) => {
-                            return ({
-                                value: item.uname,
-                                text: item.uname
-                            });
-                        });
-                        this.setUsersList( newData );
-                    }
-                }
-            }
-        }catch(err) {
-            console.log(err);
+    // 角色列表
+    @observable roleList = [];
+    @action setRoleList = (data = []) => {
+        this.roleList = data;
+    }
+
+    /**
+     * 查询 - 所有用户
+     */
+    getUnameFn = async () => {
+        const res = await service.getUname();
+        if(res?.data?.code === 200){
+            this.setUsersList(res?.data?.data?.uname_list || []);
+            this.setRoleList(res?.data?.data?.role_list || []);
         }
     }
 }

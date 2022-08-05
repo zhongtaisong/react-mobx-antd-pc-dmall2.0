@@ -1,5 +1,5 @@
 import axios from '@axios';
-// 查询当前商品评价
+// 查询当前评价
 const selcommentsUrl = 'comment/select/pid';
 // 喜欢 / 不喜欢 - 评价
 const agreecommentsUrl = 'comment/update/agree';

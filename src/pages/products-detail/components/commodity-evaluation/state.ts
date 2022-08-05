@@ -24,7 +24,7 @@ class State {
         this.commentList = data;
     }
 
-    // 商品评价 - 发起请求
+    // 评价 - 发起请求
     selcommentsData = async (params = {}) => {
         const res: any = await service.selcommentsData(params);
         try{

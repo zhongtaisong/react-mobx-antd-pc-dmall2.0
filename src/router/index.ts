@@ -175,7 +175,7 @@ export default [
     },
     {
         id: 20,
-        path: '/views/admin/adminList',
+        path: '/views/admin/admin',
         name: 'AdminList',
         component: AdminList,
         title: '管理员列表',

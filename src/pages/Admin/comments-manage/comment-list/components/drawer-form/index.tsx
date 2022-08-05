@@ -16,7 +16,8 @@ class DrawerForm extends React.PureComponent<{
 }, any> {
 
     componentDidMount() {
-        state.getUnameAndPidFn();
+        state.getUnameFn();
+        state.getPidFn();
     }
 
     render() {
@@ -43,7 +44,7 @@ class DrawerForm extends React.PureComponent<{
                     >
                         {
                             usersList.map(item => (
-                                <Select.Option key={item.value}>{item.text}</Select.Option>
+                                <Select.Option key={ item }>{ item }</Select.Option>
                             ))
                         }
                     </Select>
@@ -60,7 +61,7 @@ class DrawerForm extends React.PureComponent<{
                     <Select placeholder="请选择" disabled={ isDisabledEdit } >
                         {
                             lidList.map(item => (
-                                <Select.Option key={ item.value }>{ item.text }</Select.Option>
+                                <Select.Option key={ item }>{ item }</Select.Option>
                             ))
                         }
                     </Select>

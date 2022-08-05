@@ -1,5 +1,5 @@
 import axios from '@axios';
-// 查询当前商品评价
+// 查询当前评价
 const selmessagesUrl = 'message/select';
 // 喜欢 / 不喜欢 - 评价
 const agreemessagesUrl = 'message/update/agree';

@@ -24,7 +24,7 @@ class State {
     }
 
     /**
-     * 查询商品评价 - 接口入参
+     * 查询评价 - 接口入参
      */
     @observable requestParams = {};
     @action setRequestParams = (data = {}) => {
@@ -32,7 +32,7 @@ class State {
     }
 
     /**
-     * 查询 - 商品评价列表
+     * 查询 - 评价列表
      * @param params 
      */
     selectCommentDataFn = async (params = {}) => {
@@ -53,7 +53,7 @@ class State {
     }
 
     /**
-     * 添加 - 商品评价 - 操作
+     * 添加 - 评价 - 操作
      * @param params 
      * @returns 
      */
@@ -69,7 +69,7 @@ class State {
     }
 
     /**
-     * 更新 - 商品评价
+     * 更新 - 评价
      * @param params 
      */
     updateCommentDataFn = async (params = {}) => {
@@ -84,7 +84,7 @@ class State {
     }
 
     /**
-     * 删除 - 商品评价
+     * 删除 - 评价
      * @param id 
      * @returns 
      */

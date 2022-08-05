@@ -1,458 +1,298 @@
-import React, { Fragment } from 'react';
-import { Form, Row, Col, Select, Checkbox, Switch } from 'antd';
+import React from 'react';
+import { Form, Select, Checkbox, Switch, Divider } from 'antd';
 import { observer } from 'mobx-react';
-import { toJS } from 'mobx';
-// 全局公共方法
-import { formUtils } from '@utils';
 // 数据
 import state from './state';
-// 全局数据
-import $state from '@store';
+import { OPERATION_BTN, USER_ROLE } from './../../data';
+import { IFormProps } from '../../types';
 
-const mapPropsToFields = (props) => {
-    if( props.formData ){
-        return formUtils.mobxToForm({...props.formData});
-    }
-};
-
-// 抽屉内容
+/**
+ * 表单内容
+ */
 @observer
-class DrawerForm extends React.Component<any, any> {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            chk: {},
-            checkedRole: null
-        };
-    }
+class DrawerForm extends React.PureComponent<{
+    /**
+     * 是否禁止编辑
+     */
+    isDisabledEdit: boolean;
+    /**
+     * 外部传入属性
+     */
+    formProps: IFormProps;
+}, any> {
 
     componentDidMount() {
-        const { formData={} } = this.props || {};
-        this.props.setForm && this.props.setForm( this.props.form );
-        state.getUname();
-        formData && formData.role && this.setState({
-            checkedRole: formData.role
-        });
-    }
-
-    // 开关
-    handleSwitch = (that, value) => {
-        let { chk } = this.state;
-        let { formData, setFormData } = this.props;
-        chk[that] = value;
-        this.setState({
-            chk
-        });
-        if( !value ){
-            formData[`${that}Btn`] = [];
-            setFormData(formData);
-        }
-    }
-
-    // 监听角色变化
-    handleRole = (value, option) => {
-        this.setState({
-            checkedRole: value
-        });
+        state.getUnameFn();
     }
 
     render() {
-        let {
-            form: { getFieldDecorator },
-            isDisabled, id, formData, unameArr, setFormData,
-        } = this.props;
-        const { chk, checkedRole } = this.state;
-        let { usersList } = state;
-        usersList = toJS(usersList);
-        if( isDisabled ){
-            getFieldDecorator = (...rest) => {
-                return element => {
-                    let newElement = React.cloneElement(element, {
-                        disabled: true
-                    });
-                    return this.props.form.getFieldDecorator(...rest)(newElement);
-                };
-            };
-        }
-        const { role } = toJS($state.adminObj) || {} as any;
-        const userArr = usersList.filter(item => !unameArr.includes(item.value) );
-        return (
-            <Form layout='inline' className='drawer_form'
-                onFieldsChange={(changedFields, allFields) => {
-                    setFormData({...formData, ...formUtils.formToMobx(changedFields)});
-                }}
-            >
-                <Row>
-                    <Col span={ 24 }>
-                        <Form.Item label="用户名">
-                            {
-                                getFieldDecorator('uname', {
-                                    rules: [{ 
-                                        required: true,
-                                        message: '必填' 
-                                    }]
-                                }
-                                )(
-                                    <Select
-                                        placeholder="请选择"
-                                        disabled={ !!id }
-                                    >
-                                        {
-                                            userArr.map(item => (
-                                                <Select.Option key={ item.value }>{ item.text }</Select.Option>
-                                            ))
-                                        }
-                                    </Select>
-                                )
-                            }
-                        </Form.Item>
-                    </Col>
-                    <Col span={ 24 }>
-                        <Form.Item label="角色">
-                            {
-                                getFieldDecorator('role', {
-                                    rules: [{
-                                        required: true,
-                                        message: '必选'
-                                    }]
-                                })(
-                                    <Select placeholder='请选择' onChange={ this.handleRole }>
-                                        {
-                                            isDisabled ? (
-                                                <Select.Option value='100'>超级管理员</Select.Option>
-                                            ) : ''
-                                        }
-                                        {
-                                            role == 100 || isDisabled ? (
-                                                <Select.Option value='10'>管理员</Select.Option>
-                                            ) : ''
-                                        }
-                                        <Select.Option value='1'>访客</Select.Option>
-                                    </Select>
-                                )
-                            }
-                        </Form.Item>
-                    </Col> 
-                </Row>
-                <Row>                    
-                    <Col span={ 24 }>
-                        <Form.Item label="品牌管理">
-                            {
-                                getFieldDecorator('brandMenu', {
-                                    rules: [{
-                                        required: false,
-                                        message: '非必选'
-                                    }],
-                                    valuePropName: 'checked'
-                                })(
-                                    <Switch onChange={ this.handleSwitch.bind(this, 'brand') } />
-                                )
-                            }
-                        </Form.Item>
-                    </Col>
-                    <Col span={ 24 }>
-                        <Form.Item label="操作按钮">
-                            {
-                                getFieldDecorator('brandBtn', {
-                                    rules: [{ 
-                                        required: false,
-                                        message: '非必选' 
-                                    }]
-                                }
-                                )(
-                                    <Checkbox.Group style={{ width: '100%' }} disabled={ chk['brandMenu'] || formData['brandMenu'] == 1 ? false : true }>
-                                        <Row>
-                                            {/* <Col span={ 8 }>
-                                                <Checkbox value={ 4 }>查看</Checkbox>
-                                            </Col> */}
-                                            {
-                                                checkedRole && checkedRole != 1 ? (
-                                                    <Fragment>
-                                                        <Col span={ 8 }>
-                                                            <Checkbox value={ 1 }>添加</Checkbox>
-                                                        </Col>
-                                                        <Col span={ 8 }>
-                                                            <Checkbox value={ 2 }>删除</Checkbox>
-                                                        </Col>
-                                                        <Col span={ 8 }>
-                                                            <Checkbox value={ 3 }>修改</Checkbox>
-                                                        </Col>
-                                                    </Fragment>
-                                                ) : ''
-                                            }
-                                        </Row>
-                                    </Checkbox.Group>
-                                )
-                            }
-                        </Form.Item>
-                    </Col>
+        const { usersList, roleList } = state;
+        const { isDisabledEdit } = this.props;
 
-                    <Col span={ 24 }>
-                        <Form.Item label="商品管理">
-                            {
-                                getFieldDecorator('productMenu', {
-                                    rules: [{
-                                        required: false,
-                                        message: '非必选'
-                                    }],
-                                    valuePropName: 'checked'
-                                })(
-                                    <Switch onChange={ this.handleSwitch.bind(this, 'product') } />
-                                )
-                            }
-                        </Form.Item>
-                    </Col>
-                    <Col span={ 24 }>
-                        <Form.Item label="操作按钮">
-                            {
-                                getFieldDecorator('productBtn', {
-                                    rules: [{ 
-                                        required: false,
-                                        message: '非必选' 
-                                    }]
+        return (
+            <>
+                <Form.Item 
+                    label='用户名'
+                    name="uname"
+                    rules={[{ 
+                        required: true, 
+                        message: '必选', 
+                    }]}
+                >
+                    <Select
+                        placeholder="请选择"
+                        disabled={ isDisabledEdit }
+                    >
+                        {
+                            usersList.map(item => (
+                                <Select.Option key={ item }>{ item }</Select.Option>
+                            ))
+                        }
+                    </Select>
+                </Form.Item>
+
+                <Form.Item 
+                    label='角色'
+                    name="role"
+                    rules={[{ 
+                        required: true, 
+                        message: '必选', 
+                    }]}
+                >
+                    <Select placeholder='请选择'>
+                        {
+                            Object.entries(USER_ROLE).map(([value, name]) => (
+                                <Select.Option key={ Number(value) }>{ name || '-' }</Select.Option>
+                            ))
+                        }
+                    </Select>
+                </Form.Item>
+
+                {/* 渲染组件 - 菜单状态、操作权限 */}
+                { this.renderFunction() }
+            </>
+        );
+    }
+    
+    /**
+     * 渲染组件 - 菜单状态、操作权限
+     */
+    renderFunction = () => {
+        const { formProps } = this.props;
+        if(!formProps?.role) return;
+
+        return (
+            <>
+                <Divider orientation="left" >品牌管理</Divider>
+
+                <Form.Item 
+                    label='菜单状态'
+                    name="brandMenu"
+                    valuePropName='checked'
+                    initialValue={ false }
+                >
+                    <Switch />
+                </Form.Item>
+
+                {
+                    formProps?.brandMenu && formProps?.brandBtn?.length ? (
+                        <Form.Item 
+                            label='操作权限'
+                            name="brandBtn"
+                        >
+                            <Checkbox.Group>
+                                {
+                                    Object.entries(OPERATION_BTN).map(([value, name]) => {
+                                        if(!['1', '2', '3'].includes(value)) return null;
+                                        if(!formProps?.brandBtn?.includes?.(value)) return null;
+        
+                                        return (
+                                            <Checkbox key={ value } value={ value }>{ name }</Checkbox>
+                                        );
+                                    })
                                 }
-                                )(
-                                    <Checkbox.Group style={{ width: '100%' }} disabled={ chk['productMenu'] || formData['productMenu'] == 1 ? false : true }>
-                                        <Row>
-                                            <Col span={ 8 }>
-                                                <Checkbox value={ 4 }>查看</Checkbox>
-                                            </Col>
-                                            {
-                                                checkedRole && checkedRole != 1 ? (
-                                                    <Fragment>
-                                                        <Col span={ 8 }>
-                                                            <Checkbox value={ 1 }>添加</Checkbox>
-                                                        </Col>
-                                                        <Col span={ 8 }>
-                                                            <Checkbox value={ 2 }>删除</Checkbox>
-                                                        </Col>
-                                                        <Col span={ 8 }>
-                                                            <Checkbox value={ 3 }>修改</Checkbox>
-                                                        </Col>
-                                                        <Col span={ 8 }>
-                                                            <Checkbox value={ 5 }>上架</Checkbox>
-                                                        </Col>
-                                                        <Col span={ 8 }>
-                                                            <Checkbox value={ 6 }>下架</Checkbox>
-                                                        </Col>
-                                                    </Fragment>
-                                                ) : ''
-                                            }
-                                        </Row>
-                                    </Checkbox.Group>
-                                )
-                            }
+                            </Checkbox.Group>
                         </Form.Item>
-                    </Col>
+                    ) : null
+                }
+
+                <Divider orientation="left" >商品管理</Divider>
+
+                <Form.Item 
+                    label='菜单状态'
+                    name="productMenu"
+                    valuePropName='checked'
+                    initialValue={ false }
+                >
+                    <Switch />
+                </Form.Item>
+
+                {
+                    formProps?.productMenu && formProps?.productBtn?.length ? (
+                        <Form.Item 
+                            label='操作权限'
+                            name="productBtn"
+                        >
+                            <Checkbox.Group>
+                                {
+                                    Object.entries(OPERATION_BTN).map(([value, name]) => {
+                                        if(!['1', '2', '3', '5', '6'].includes(value)) return null;
+                                        if(!formProps?.productBtn?.includes?.(value)) return null;
+        
+                                        return (
+                                            <Checkbox key={ value } value={ value }>{ name }</Checkbox>
+                                        );
+                                    })
+                                }
+                            </Checkbox.Group>
+                        </Form.Item>
+                    ) : null
+                }
+
+                <Divider orientation="left" >订单管理</Divider>
+
+                <Form.Item 
+                    label='菜单状态'
+                    name="orderMenu"
+                    valuePropName='checked'
+                    initialValue={ false }
+                >
+                    <Switch />
+                </Form.Item>
+
+                {
+                    formProps?.orderMenu && formProps?.orderBtn?.length ? (
+                        <Form.Item 
+                            label='操作权限'
+                            name="orderBtn"
+                        >
+                            <Checkbox.Group>
+                                {
+                                    Object.entries(OPERATION_BTN).map(([value, name]) => {
+                                        if(!['2', '4'].includes(value)) return null;
+                                        if(!formProps?.orderBtn?.includes?.(value)) return null;
+        
+                                        return (
+                                            <Checkbox key={ value } value={ value }>{ name }</Checkbox>
+                                        );
+                                    })
+                                }
+                            </Checkbox.Group>
+                        </Form.Item>
+                    ) : null
+                }
                     
-                    <Col span={ 24 }>
-                        <Form.Item label="订单管理">
-                            {
-                                getFieldDecorator('orderMenu', {
-                                    rules: [{
-                                        required: false,
-                                        message: '非必选'
-                                    }],
-                                    valuePropName: 'checked'
-                                })(
-                                    <Switch onChange={ this.handleSwitch.bind(this, 'order') } />
-                                )
-                            }
-                        </Form.Item>
-                    </Col>
-                    <Col span={ 24 }>
-                        <Form.Item label="操作按钮">
-                            {
-                                getFieldDecorator('orderBtn', {
-                                    rules: [{ 
-                                        required: false,
-                                        message: '非必选' 
-                                    }]
+                <Divider orientation="left" >评价管理</Divider>
+
+                <Form.Item 
+                    label='菜单状态'
+                    name="commentMenu"
+                    valuePropName='checked'
+                    initialValue={ false }
+                >
+                    <Switch />
+                </Form.Item>
+
+                {
+                    formProps?.commentMenu && formProps?.commentBtn?.length ? (
+                        <Form.Item 
+                            label='操作权限'
+                            name="commentBtn"
+                        >
+                            <Checkbox.Group>
+                                {
+                                    Object.entries(OPERATION_BTN).map(([value, name]) => {
+                                        if(!['1', '2', '3'].includes(value)) return null;
+                                        if(!formProps?.commentBtn?.includes?.(value)) return null;
+        
+                                        return (
+                                            <Checkbox key={ value } value={ value }>{ name }</Checkbox>
+                                        );
+                                    })
                                 }
-                                )(
-                                    <Checkbox.Group style={{ width: '100%' }} disabled={ chk['orderMenu'] || formData['orderMenu'] == 1 ? false : true }>
-                                        <Row>
-                                            <Col span={ 8 }>
-                                                <Checkbox value={ 4 }>查看</Checkbox>
-                                            </Col>
-                                            {
-                                                checkedRole && checkedRole != 1 ? (
-                                                    <Col span={ 8 }>
-                                                        <Checkbox value={ 2 }>删除</Checkbox>
-                                                    </Col>
-                                                ) : ''
-                                            }
-                                        </Row>
-                                    </Checkbox.Group>
-                                )
-                            }
+                            </Checkbox.Group>
                         </Form.Item>
-                    </Col>
+                    ) : null
+                }
+
+                {
+                    formProps?.userMenu ? (
+                        <>
+                            <Divider orientation="left" >用户管理</Divider>
+            
+                            <Form.Item 
+                                label='菜单状态'
+                                name="userMenu"
+                                valuePropName='checked'
+                                initialValue={ false }
+                            >
+                                <Switch />
+                            </Form.Item>
+
+                            {
+                                formProps?.userBtn?.length ? (
+                                    <Form.Item 
+                                        label='操作权限'
+                                        name="userBtn"
+                                    >
+                                        <Checkbox.Group>
+                                            {
+                                                Object.entries(OPERATION_BTN).map(([value, name]) => {
+                                                    if(!['1', '2', '3', '4', '7'].includes(value)) return null;
+                                                    if(!formProps?.userBtn?.includes?.(value)) return null;
+
+                                                    return (
+                                                        <Checkbox key={ value } value={ value }>{ name }</Checkbox>
+                                                    );
+                                                })
+                                            }
+                                        </Checkbox.Group>
+                                    </Form.Item>
+                                ) : null
+                            }
+                        </>
+                    ) : null
+                }
+                
+                {
+                    formProps?.adminMenu ? (
+                        <>
+                            <Divider orientation="left" >权限管理</Divider>
+                                        
+                            <Form.Item 
+                                label='菜单状态'
+                                name="adminMenu"
+                                valuePropName='checked'
+                                initialValue={ false }
+                            >
+                                <Switch />
+                            </Form.Item>
+            
+                            {
+                                formProps?.adminBtn?.length ? (
+                                    <Form.Item 
+                                        label='操作权限'
+                                        name="adminBtn"
+                                    >
+                                        <Checkbox.Group>
+                                            {
+                                                Object.entries(OPERATION_BTN).map(([value, name]) => {
+                                                    if(!['1', '2', '3', '4'].includes(value)) return null;
+                                                    if(!formProps?.adminBtn?.includes?.(value)) return null;
                     
-                    <Col span={ 24 }>
-                        <Form.Item label="用户管理">
-                            {
-                                getFieldDecorator('userMenu', {
-                                    rules: [{
-                                        required: false,
-                                        message: '非必选'
-                                    }],
-                                    valuePropName: 'checked'
-                                })(
-                                    <Switch onChange={ this.handleSwitch.bind(this, 'user') } />
-                                )
-                            }
-                        </Form.Item>
-                    </Col>
-                    <Col span={ 24 }>
-                        <Form.Item label="操作按钮">
-                            {
-                                getFieldDecorator('userBtn', {
-                                    rules: [{ 
-                                        required: false,
-                                        message: '非必选' 
-                                    }]
-                                }
-                                )(
-                                    <Checkbox.Group style={{ width: '100%' }} disabled={ chk['userMenu'] || formData['userMenu'] == 1 ? false : true }>
-                                        <Row>
-                                            <Col span={ 8 }>
-                                                <Checkbox value={ 4 }>查看</Checkbox>
-                                            </Col>
-                                            {
-                                                checkedRole && checkedRole != 1 ? (
-                                                    <Fragment>
-                                                        <Col span={ 8 }>
-                                                            <Checkbox value={ 1 }>添加</Checkbox>
-                                                        </Col>
-                                                        <Col span={ 8 }>
-                                                            <Checkbox value={ 2 }>删除</Checkbox>
-                                                        </Col>
-                                                        <Col span={ 8 }>
-                                                            <Checkbox value={ 3 }>修改</Checkbox>
-                                                        </Col>
-                                                        <Col span={ 8 }>
-                                                            <Checkbox value={ 5 }>重置密码</Checkbox>
-                                                        </Col>
-                                                    </Fragment>
-                                                ) : ''
+                                                    return (
+                                                        <Checkbox key={ value } value={ value }>{ name }</Checkbox>
+                                                    );
+                                                })
                                             }
-                                        </Row>
-                                    </Checkbox.Group>
-                                )
+                                        </Checkbox.Group>
+                                    </Form.Item>
+                                ) : null
                             }
-                        </Form.Item>
-                    </Col>
-                    
-                    <Col span={ 24 }>
-                        <Form.Item label="评论管理">
-                            {
-                                getFieldDecorator('commentMenu', {
-                                    rules: [{
-                                        required: false,
-                                        message: '非必选'
-                                    }],
-                                    valuePropName: 'checked'
-                                })(
-                                    <Switch onChange={ this.handleSwitch.bind(this, 'comment') } />
-                                )
-                            }
-                        </Form.Item>
-                    </Col>
-                    <Col span={ 24 }>
-                        <Form.Item label="操作按钮">
-                            {
-                                getFieldDecorator('commentBtn', {
-                                    rules: [{ 
-                                        required: false,
-                                        message: '非必选' 
-                                    }]
-                                }
-                                )(
-                                    <Checkbox.Group style={{ width: '100%' }} disabled={ chk['commentMenu'] || formData['commentMenu'] == 1 ? false : true }>
-                                        <Row>
-                                            <Col span={ 8 }>
-                                                <Checkbox value={ 4 }>查看</Checkbox>
-                                            </Col>
-                                            {
-                                                checkedRole && checkedRole != 1 ? (
-                                                    <Fragment>
-                                                        <Col span={ 8 }>
-                                                            <Checkbox value={ 1 }>添加</Checkbox>
-                                                        </Col>
-                                                        <Col span={ 8 }>
-                                                            <Checkbox value={ 2 }>删除</Checkbox>
-                                                        </Col>
-                                                        <Col span={ 8 }>
-                                                            <Checkbox value={ 3 }>修改</Checkbox>
-                                                        </Col>
-                                                    </Fragment>
-                                                ) : ''
-                                            }
-                                        </Row>
-                                    </Checkbox.Group>
-                                )
-                            }
-                        </Form.Item>
-                    </Col>                                
-                    <Col span={ 24 }>
-                        <Form.Item label="权限管理">
-                            {
-                                getFieldDecorator('adminMenu', {
-                                    rules: [{
-                                        required: false,
-                                        message: '非必选'
-                                    }],
-                                    valuePropName: 'checked'
-                                })(
-                                    <Switch onChange={ this.handleSwitch.bind(this, 'admin') } />
-                                )
-                            }
-                        </Form.Item>
-                    </Col>
-                    <Col span={ 24 }>
-                        <Form.Item label="操作按钮">
-                            {
-                                getFieldDecorator('adminBtn', {
-                                    rules: [{ 
-                                        required: false,
-                                        message: '非必选' 
-                                    }]
-                                }
-                                )(
-                                    <Checkbox.Group style={{ width: '100%' }} disabled={ chk['adminMenu'] || formData['adminMenu'] == 1 ? false : true }>
-                                        <Row>
-                                            <Col span={ 8 }>
-                                                <Checkbox value={ 4 }>查看</Checkbox>
-                                            </Col>
-                                            {
-                                                checkedRole && checkedRole != 1 ? (
-                                                    <Fragment>
-                                                        <Col span={ 8 }>
-                                                            <Checkbox value={ 1 }>添加</Checkbox>
-                                                        </Col>
-                                                        {
-                                                            checkedRole == 100 ? (
-                                                                <Col span={ 8 }>
-                                                                    <Checkbox value={ 2 }>删除</Checkbox>
-                                                                </Col>
-                                                            ) : ''
-                                                        }
-                                                        <Col span={ 8 }>
-                                                            <Checkbox value={ 3 }>修改</Checkbox>
-                                                        </Col>
-                                                    </Fragment>
-                                                ) : ''
-                                            }
-                                        </Row>
-                                    </Checkbox.Group>
-                                )
-                            }
-                        </Form.Item>
-                    </Col>
-                </Row>
-            </Form>
+                        </>
+                    ) : null
+                }
+            </>
         );
     }
 }

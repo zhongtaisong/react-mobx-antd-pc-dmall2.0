@@ -1,43 +1,64 @@
 import axios from '@axios';
-// 查询列表
-const selectUrl = 'admin/select';
-// 添加 / 修改
-const editUrl = 'admin/edit';
-// 删除
-const deleteUrl = 'admin/delete';
+import { IResponse } from '@types';
 
 class Service {
 
-    selectData = (req = {}) => {
+    /**
+     * 查询 - 权限列表
+     * @param params 
+     * @returns 
+     */
+    selectData = (params = {}): Promise<IResponse> => {
         return new Promise((resolve, reject) => {
-            axios.get(selectUrl, {
-                params: req
-            }).then(res => {
+            axios.post("admin/select", params).then(res => {
                 resolve(res);
             }).catch(err => {
-                console.log(err);
+                reject(err);
             });
         });
     }
 
-    editData = (req = {}) => {
+    /**
+     * 添加 - 权限
+     * @param params 
+     * @returns 
+     */
+    addData = (params = {}): Promise<IResponse> => {
         return new Promise((resolve, reject) => {
-            axios.post(editUrl, req).then(res => {
+            axios.post("admin/add", params).then(res => {
                 resolve(res);
             }).catch(err => {
-                console.log(err);
+                reject(err);
             });
         });
     }
 
-    deleteData = (req = {}) => {
+    /**
+     * 更新 - 权限
+     * @param params 
+     * @returns 
+     */
+    updateData = (params = {}): Promise<IResponse> => {
         return new Promise((resolve, reject) => {
-            axios.get(deleteUrl, {
-                params: req
-            }).then(res => {
+            axios.put("admin/update", params).then(res => {
                 resolve(res);
             }).catch(err => {
-                console.log(err);
+                reject(err);
+            });
+        });
+    }
+
+    /**
+     * 删除 - 权限
+     * @param id 
+     * @returns 
+     */
+    deleteData = (id: number): Promise<IResponse> => {
+        return new Promise((resolve, reject) => {
+            axios.delete(`admin/delete/${ id }`).then(res => {
+                resolve(res);
+            }).catch(err => {
+                reject(err);
             });
         });
     }

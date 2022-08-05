@@ -1,19 +1,22 @@
 import axios from '@axios';
-// 查询用户名
-const getUname = 'comment/select/getUnameAndPid';
+import { IResponse } from '@types';
 
 class Service {
-    getUname = (req = {}) => {
+
+    /**
+     * 查询 - 所有用户
+     * @returns 
+     */
+    getUname = (): Promise<IResponse> => {
         return new Promise((resolve, reject) => {
-            axios.get(getUname, {
-                params: req
-            }).then(res => {
+            axios.get("admin/select/role/uname").then(res => {
                 resolve(res);
             }).catch(err => {
-                console.log(err);
+                reject(err);
             });
         });
     }
+
 }
 
 export default new Service();
