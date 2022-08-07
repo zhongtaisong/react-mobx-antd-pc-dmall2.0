@@ -10,7 +10,7 @@ export const columns = [
         key: 'mainPicture',
         align: 'center',
         width: '10%',
-        render: (text, record, index) => <img className='imgs_style' src={ `${ PUBLIC_URL }${ text }` } alt={ text } />
+        render: (text) => <img style={{ width: '100%', }} src={ `${ PUBLIC_URL }${ text }` } alt={ text } />
     },
     {
         title: '商品详情',
@@ -18,11 +18,14 @@ export const columns = [
         key: 'description',
         align: 'center',
         width: '34%',
-        render: (text, record, index) => {
+        render: (text, record) => {
             return (
-                <Link className='title_style' to={'/views/products/detail/' + record.id}>
-                    <span title={ text }>{ text }</span>
-                    <span className='ellipsis'>规格：{ record.spec }</span>
+                <Link 
+                    className='dm_MyOrder__columns--description' 
+                    to={ `/views/products/detail/${ record?.id }` }
+                >
+                    <span className='two_line_ellipsis' title={ text }>{ text }</span>
+                    <span className='single_line_ellipsis'>规格：{ record?.spec }</span>
                 </Link>
             );
         }
@@ -33,15 +36,15 @@ export const columns = [
         key: 'price',
         align: 'center',
         width: '16%',
-        render: (text, record, index) => Number(text) ? `￥${Number(text).toFixed(2)}` : 0
+        render: (text) => `￥${ Number(text || 0)?.toFixed?.(2) || "0.00" }`,
     },
     {
         title: '数量',
-        dataIndex: 'num',
-        key: 'num',
+        dataIndex: 'buyCount',
+        key: 'buyCount',
         align: 'center',
         width: '14%',
-        render: (text, record, index) => `x${text}`
+        render: (text) => `x ${text}`
     },
     {
         title: '小计',
@@ -49,24 +52,29 @@ export const columns = [
         key: 'totalprice',
         align: 'center',
         width: '16%',
-        render: (text, record, index) => text ? `￥${parseFloat( text ).toFixed(2)}` : 0
+        render: (text) => `￥${ Number(text || 0)?.toFixed?.(2) || "0.00" }`,
     },
     {
         title: '操作',
         dataIndex: 'operation',
         key: 'operation',
         align: 'center',
-        // fixed: 'right',
         width: '148px',
-        render: (text, record, index) => {
+        render: (text, record) => {
             return (              
-                <div className='operation'>
-                    <Link to={{ pathname: '/views/products/cart/evaluate', state: {
-                        id: record.id
-                    } }}>评价</Link>
-                    <Link to={{ pathname: '/views/products/cart/orderDetails', state: {
-                        id: record.orderId
-                    } }}>详情</Link>
+                <div className='operation-btn'>
+                    <Link 
+                        to={{ 
+                            pathname: '/views/products/cart/evaluate', 
+                            state: { id: record?.id },
+                        }}
+                    >评价</Link>
+                    <Link 
+                        to={{ 
+                            pathname: '/views/products/cart/orderDetails', 
+                            state: { id: record?.orderId },
+                        }}
+                    >详情</Link>
                 </div>
             );
         }

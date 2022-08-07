@@ -4,9 +4,14 @@
     background: #fff;
     &__dots {
         z-index: 9 !important;
-        >li.slick-active {
+        >li {
             >button {
-                background: var(--dm-main-color) !important;
+                opacity: 1 !important;
+            }
+            &.slick-active {
+                >button {   
+                    background: var(--dm-main-color) !important;
+                }
             }
         }
     }

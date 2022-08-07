@@ -31,7 +31,7 @@ class Index extends React.PureComponent<RouteComponentProps, any> {
         return (
             <div className='pages_index'>
                 <BackTop className='pages_index__backTop' />
-                {/* <HeaderBar {...this.props} /> */}
+                <HeaderBar {...this.props} />
                 <Spin spinning={ isLoading } tip="加载中...">
                     <div className='pages_index__content'>
                         <Switch>
@@ -72,7 +72,7 @@ class Index extends React.PureComponent<RouteComponentProps, any> {
                         </Switch>
                     </div>
                 </Spin>
-                {/* <FooterCopyright {...this.props} /> */}
+                <FooterCopyright {...this.props} />
             </div>
         );
     }

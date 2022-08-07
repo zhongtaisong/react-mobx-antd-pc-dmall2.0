@@ -1,31 +1,34 @@
 import axios from '@axios';
-// 查询
-const selOrdersUrl = 'order/select';
-// 删除
-const deleteOrderUrl = 'order/delete';
+import { IResponse } from '@types';
 
 class Service {
 
-    selOrdersData = (req = {}) => {
+    /**
+     * 查询 - 订单列表
+     * @param params 
+     * @returns 
+     */
+    selOrdersData = (params = {}): Promise<IResponse> => {
         return new Promise((resolve, reject) => {
-            axios.get(selOrdersUrl, {
-                params: req
-            }).then(res => {
+            axios.post("order/select", params).then(res => {
                 resolve(res);
             }).catch(err => {
-                console.log(err);
+                reject(err);
             });
         });
     }
 
-    deleteOrderData = (req = {}) => {
+    /**
+     * 删除 - 订单
+     * @param id 
+     * @returns 
+     */
+    deleteOrderData = (id: number): Promise<IResponse> => {
         return new Promise((resolve, reject) => {
-            axios.get(deleteOrderUrl, {
-                params: req
-            }).then(res => {
+            axios.delete(`order/delete/${ id }`).then(res => {
                 resolve(res);
             }).catch(err => {
-                console.log(err);
+                reject(err);
             });
         });
     }

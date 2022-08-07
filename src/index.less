@@ -75,17 +75,27 @@ table {
         margin: 0 auto;
     }
 
-    // 单行不换行溢出显示省略号
-    .ellipsis {
+    // 一行展示 - 溢出显示省略号
+    .single_line_ellipsis {
         width: auto;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
     }
 
+    // 两行展示 - 溢出显示省略号
+    .two_line_ellipsis {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
+
     // Table操作栏 - 按钮样式
     .operation-btn {
-        >span {
+        >span, >a {
             color: var(--ant-primary-color);
             cursor: pointer;
             &:not(:last-child) {

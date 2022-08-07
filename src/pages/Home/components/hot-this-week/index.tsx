@@ -43,7 +43,7 @@ class HotThisWeek extends React.Component<any, any> {
                                     <div className='dm_HotThisWeek__content--item__text'>
                                         <div className='dm_HotThisWeek__content--item__text--title'>
                                             <Link to={`/views/products/detail/${ item?.id }`}>{ item.productName }</Link>
-                                            <div>{ item.description }</div>
+                                            <div className='two_line_ellipsis'>{ item.description }</div>
                                         </div>
                                         <div className='dm_HotThisWeek__content--item__text--price'>
                                             <span>￥</span>

@@ -26,7 +26,7 @@ export const columns = [
             return (
                 <Link className='title_style' to={'/views/products/detail/' + record.pid}>
                     <span title={ text }>{ text }</span>
-                    <span className='ellipsis'>规格：{ record.spec }</span>
+                    <span className='single_line_ellipsis'>规格：{ record.spec }</span>
                 </Link>
             );
         }

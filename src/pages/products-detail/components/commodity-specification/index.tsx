@@ -109,7 +109,7 @@ class CommoditySpecification extends React.Component<any, any> {
                     </Col>
                     <Col span={ 16 }>
                         <Title level={ 4 } title={ basicInfo.description ? basicInfo.description : '敬请期待~~~' }>{ basicInfo.description ? basicInfo.description : '敬请期待~~~' }</Title>
-                        <h3 className='ellipsis' title={ basicInfo.copywriting ? basicInfo.copywriting : '敬请期待~~~' }>{ basicInfo.copywriting ? basicInfo.copywriting : '敬请期待~~~' }</h3>
+                        <h3 className='single_line_ellipsis' title={ basicInfo.copywriting ? basicInfo.copywriting : '敬请期待~~~' }>{ basicInfo.copywriting ? basicInfo.copywriting : '敬请期待~~~' }</h3>
                         <div className='price'>售价：
                             <Title level={ 3 }><span className='unit'>￥</span>{ basicInfo.price ? Number(basicInfo.price).toFixed(2) : 0 }</Title>
                         </div>
